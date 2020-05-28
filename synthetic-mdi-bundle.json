@@ -1,0 +1,909 @@
+{
+  "resourceType": "Bundle",
+  "id": "6256ce51-8aba-47ec-a903-6091fc04d7a5",
+  "type": "searchset",
+  "total": 35,
+  "link": [{
+    "relation": "self",
+    "url": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Patient/1/$everything"
+  }],
+  "entry": [
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Patient/1",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "1",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">FIRSTNAME:${name[use='official'].given[0]},MIDNAME:${name[use='official'].given[1]},LASTNAME:${name[use='official'].family},RACE:${extension[url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-race'].valueCoding.display,GENDER:${gender},ETHNICITY:${extension[url='http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity'].valueCoding.display},BIRTHDATE:${birthDate},SSNUMBER:${identifier[system='SSN'].value},MARITAL:${maritalStatus.text},POSSIBLEID:${name[1].given[0]} ${name[use='nickname'].last}, RESSTREET:${address[0].extension[url='http://www.hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator'].valueBoolean},RESCITY:${address[0].district},RESCOUNTY:${address[0].district},RESSTATE:${address[0].state},RESZIP:${address[0].postalCode},RESNAME:${extension[url='urn:oid:2.16.840.1.113883.11.20.9.49'].extension[url='text'].valueString},LKAWHERE:${extension[url='urn:mdi:temporary:code:last-known-to-be-alive-or-okay-place].valueString},HOSPNAME:${extension[url='urn:mdi:temporary:code:hospital-name-decedent-was-first-taken].valueString}</div>"
+        },
+        "meta": {
+          "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+          ]
+        },
+        "extension": [{
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+            "extension": [{
+                "url": "ombCategory",
+                "valueCoding": {
+                  "system": "urn:oid:2.16.840.1.113883.6.238",
+                  "code": "2054-5",
+                  "display": "Black or African American"
+                }
+              },
+              {
+                "url": "text",
+                "valueString": "Black or African American"
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity",
+            "extension": [{
+                "url": "ombCategory",
+                "valueCoding": {
+                  "system": "urn:oid:2.16.840.1.113883.6.238",
+                  "code": "2135-2",
+                  "display": "Hispanic or Latino"
+                }
+              },
+              {
+                "url": "text",
+                "value": "Hispanic or Latino"
+              }
+            ]
+          },
+          {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-birthsex",
+            "valueCode": "M"
+          },
+          {
+            "url": "urn:oid:2.16.840.1.113883.11.20.9.49",
+            "extension": [{
+                "url": "http://snomed.info/sct",
+                "valueCode": "113456"
+              },
+              {
+                "url": "text",
+                "valueString": "Two Story Housing Complex"
+              }
+            ]
+          },
+          {
+            "url": "urn:mdi:temporary:code:last-known-to-be-alive-or-okay-place",
+            "valueString": "Gracie Hospital"
+          },
+          {
+            "url": "urn:mdi:temporary:code:hospital-name-decedent-was-first-taken",
+            "valueString": "Gracie Hospital"
+          }
+        ],
+        "identifier": [{
+          "system": "SSN",
+          "value": "111-222-3333"
+        }],
+        "active": true,
+        "name": [{
+          "family": "Test1",
+          "given": [
+            "Byron",
+            "Byronson"
+          ],
+          "use": "official"
+        }, {
+          "family": "Jack",
+          "given": [
+            "Ticky-Tack"
+          ],
+          "use": "nickname"
+        }],
+        "gender": "male",
+        "birthDate": "1984-12-09",
+        "maritalStatus": {
+          "coding": [{
+            "system": "http://hl7.org/fhir/ValueSet/marital-status",
+            "code": "S",
+            "display": "Never Married"
+          }],
+          "text": "Never Married"
+        },
+        "address": [{
+          "extension": [{
+            "url": "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/Within-City-Limits-Indicator",
+            "valueBoolean": true
+          }],
+          "use": "home",
+          "line": [
+            "886 Fox Valley Dr."
+          ],
+          "city": "Stone Mountain",
+          "state": "GA",
+          "postalCode": "30088"
+        }]
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Observation/2",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "2",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">AGE:${valueQuantity.value}</div>"
+        },
+        "identifier": [{
+          "value": "6768-6"
+        }],
+        "status": "final",
+        "code": {
+          "coding": [{
+            "system": "urn:oid:2.16.840.1.113883.6.1",
+            "code": "30525-0",
+            "display": "AGE"
+          }]
+        },
+        "subject": {
+          "reference": "Patient/1",
+          "display": "Byron Test1"
+        },
+        "effectiveDateTime": "2014-06-15T00:00:00+00:00",
+        "valueQuantity": {
+          "value": "56",
+          "unit": "years",
+          "system": "http://unitsofmeasure.org"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Observation/3",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "3",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">JOBTITLE:${component[1].valueCodeableConcept.display}</div>"
+        },
+        "identifier": [{
+          "value": "6768-6"
+        }],
+        "status": "final",
+        "code": {
+          "coding": [{
+            "system": "http://loinc.org",
+            "code": "74165-2",
+            "display": "History of employment status NIOSH"
+          }]
+        },
+        "subject": {
+          "reference": "Patient/1",
+          "display": "Byron Test1"
+        },
+        "component": [{
+            "code": {
+              "coding": [{
+                "system": "http://loinc.org",
+                "code": "55280-2",
+                "display": "Military service Narrative"
+              }]
+            },
+            "valueCodeableConcept": {
+              "coding": {
+                "system": "http://hl7.org/fhir/ValueSet/v2-0532",
+                "code": "Y",
+                "display": "Yes"
+              },
+              "text": "yes"
+            }
+          },
+          {
+            "code": {
+              "coding": [{
+                "system": "http://loinc.org",
+                "code": "21844-6",
+                "display": "History of Usual Industry"
+              }]
+            },
+            "valueCodeableConcept": {
+              "coding": {
+                "system": "http://hl7.org/fhir/ValueSet/Industry-cdc-census-2010",
+                "code": "6180",
+                "display": "Bus service and urban transit"
+              },
+              "text": "Bus service and urban transit"
+            }
+          },
+          {
+            "code": {
+              "coding": [{
+                "system": "http://loinc.org",
+                "code": "21847-9",
+                "display": "Usual Occupation Narrative"
+              }]
+            },
+            "valueCodeableConcept": {
+              "coding": {
+                "system": "http://hl7.org/fhir/ValueSet/Usual-occupation",
+                "code": "7210",
+                "display": "Bus and truck mechanics and diesel engine specialists"
+              },
+              "text": "Bus and truck mechanics and diesel engine specialists"
+            }
+          }
+        ],
+        "effectiveDateTime": "2014-06-15T00:00:00+00:00",
+        "valueQuantity": {
+          "value": "56",
+          "unit": "years",
+          "system": "http://unitsofmeasure.org"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Condition/4",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "4",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">CAUSEA: ${code.coding[0].display},DURATIONA:${onsetDateTime}</div>"
+        },
+        "code": {
+          "coding": [{
+            "system": "http://www.hl7.org/fhir/ValueSet/Condition-code",
+            "code": "775008",
+            "display": "Open wound of head with complication"
+          }]
+        },
+        "subject": {
+          "reference": "Patient/1",
+          "display": "Byron Test1"
+        },
+        "onsetDateTime": "2014-06-15T00:00:00+00:00",
+        "abatementDateTime": "2014-06-15T00:00:00+00:00"
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Condition/5",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "5",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">CAUSEB: ${code.coding[0].display},DURATIONB:${onsetDateTime}</div>"
+        },
+        "code": {
+          "coding": [{
+            "system": "http://www.hl7.org/fhir/ValueSet/Condition-code",
+            "code": "781000",
+            "display": "Cestrum diurnum poisoning"
+          }]
+        },
+        "subject": {
+          "reference": "Patient/1",
+          "display": "Byron Test1"
+        },
+        "onsetDateTime": "2014-06-15T00:00:00+00:00",
+        "abatementDateTime": "2014-06-15T00:00:00+00:00"
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Condition/6",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "6",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">CAUSEC: ${code.coding[0].display},DURATIONC:${onsetAge.value}</div>"
+        },
+        "code": {
+          "coding": [{
+            "system": "http://www.hl7.org/fhir/ValueSet/Condition-code",
+            "code": "799008",
+            "display": "Sigmoid colon ulcer"
+          }]
+        },
+        "subject": {
+          "reference": "Patient/1",
+          "display": "Byron Test1"
+        },
+        "onsetAge": {
+          "value": "35",
+          "units": "a",
+          "system": "http://unitsofmeasure.org"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Condition/7",
+      "resource": {
+        "resourceType": "Condition",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">CAUSED: ${code.coding[0].display},DURATIOND:${onsetAge.value}</div>"
+        },
+        "id": "7",
+        "code": {
+          "coding": [{
+            "system": "http://www.hl7.org/fhir/ValueSet/Condition-code",
+            "code": "813001",
+            "display": "Ankle Instability"
+          }]
+        },
+        "subject": {
+          "reference": "Patient/1",
+          "display": "Byron Test1"
+        },
+        "onsetAge": {
+          "value": "38",
+          "units": "a",
+          "system": "http://unitsofmeasure.org"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Observation/8",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "8",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">MANNER: ${valueCodeableConcept.coding[0].display}</div>"
+        },
+        "status": "final",
+        "code": {
+          "coding": [{
+            "system": "http://loinc.org",
+            "code": "69449-7",
+            "display": "Manner Of Death"
+          }]
+        },
+        "valueCodeableConcept": {
+          "coding": [{
+            "system": "urn:mdi:temporary:code-MannerTypeVS",
+            "code": "H",
+            "display": "Homicide"
+          }]
+        },
+        "subject": {
+          "reference": "Patient/1",
+          "display": "Byron Test1"
+        },
+        "onsetAge": {
+          "value": "38",
+          "units": "a",
+          "system": "http://unitsofmeasure.org"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Observation/9",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "9",
+        "valueString": "Decedent jumped off a car",
+        "subject": {
+          "reference": "Patient/1",
+          "display": "Byron Test1"
+        }
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Observation/10",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "11",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">CHOWNINJURY: ${valueString},ATWORK:${component[2].valueCodeableConcept.coding[0].display},JOBRELATED:${comoponent[2].modifierExtension[0].valueBoolean},EVENTDATE:${effectiveDateTime},EVENTTIME:${effectiveDateTime},CINJDATE:${effectiveDateTime},CINJTIME:${effectiveDateTime},CIDATEFLAG:${extension[url='urn:mdi:temporary:code:qualification-of-injury-date'].valueString}</div>"
+        },
+        "status": "final",
+        "code": {
+          "coding": [{
+            "system": "urn:oid:2.16.840.1.113883.3.290.2.1.19",
+            "code": "11374-6",
+            "display": "Injury incident description"
+          }]
+        },
+        "extension": [{
+            "url": "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location",
+            "valueReference": "Location/19"
+          },
+          {
+            "url": "urn:mdi:temporary:code:qualification-of-injury-date",
+            "valueString": "Decedent was not found for a few hours after injury occured so time is estimated."
+          }
+        ],
+        "valueString": "Decedent found fallen from ladder.",
+        "subject": {
+          "reference": "Patient/1",
+          "display": "Byron Test1"
+        },
+        "component": [{
+            "code": {
+              "coding": [{
+                "system": "urn:oid:2.16.840.1.113883.6.1",
+                "code": "69450-5",
+                "display": "Place of injury"
+              }]
+            },
+            "valueString": "Working Hard Factories"
+          },
+          {
+            "code": {
+              "coding": [{
+                "system": "urn:oid:2.16.840.1.113883.6.1",
+                "code": "69448-9",
+                "display": "Injury leading to death associated with transportation event"
+              }]
+            },
+            "valueCodeableConcept": {
+              "coding": [{
+                "system": "http://www.hl7.org/fhir/ValueSet/v2-0532",
+                "code": "Y",
+                "display": "Yes"
+              }]
+            }
+          },
+          {
+            "code": {
+              "coding": [{
+                "system": "urn:oid:2.16.840.1.113883.6.1",
+                "code": "69444-8",
+                "display": "Did death result from injury at work"
+              }]
+            },
+            "modifierExtension": [{
+              "url": "urn:mdi:temporary:code:constitute-osha-injury-at-work",
+              "valueBoolean": true
+            }],
+            "valueCodeableConcept": {
+              "coding": [{
+                "system": "http://www.hl7.org/fhir/v2-0532",
+                "code": "Y",
+                "display": "Yes"
+              }]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Observation/11",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "11",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">REPORTDATE: ${component[0].valueDateTime}</div>"
+        },
+        "status": "final",
+        "code": {
+          "coding": [{
+            "system": "urn:oid:2.16.840.1.113883.6.1",
+            "code": "74497-9",
+            "display": "Medical examiner or coroner was contacted"
+          }]
+        },
+        "subject": {
+          "reference": "Patient/1",
+          "display": "Byron Test1"
+        },
+        "valueBoolean": true,
+        "effectiveDateTime": "2014-05-15T11:34:55+00:00",
+        "component": [{
+          "code": {
+            "coding": [{
+              "system": "urn:oid:2.16.840.1.113883.6.96",
+              "code": "399651003",
+              "display": "Date of report"
+            }]
+          },
+          "valueDateTime": "2014-06-15T00:00:00+00:00"
+        }]
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Observation/12",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "12",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">FOUNDDATE: ${valueDateTime}</div>"
+        },
+        "status": "final",
+        "code": {
+          "coding": [{
+            "system": "urn:mdi:temporary:code",
+            "code": "1000001",
+            "display": "Date and time found dead, unconscious and in distress"
+          }]
+        },
+        "subject": {
+          "reference": "Patient/1",
+          "display": "Byron Test1"
+        },
+        "valueDateTime": "2014-05-15T11:34:55+00:00"
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Observation/13",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "13",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">PRNDATE: ${component[0].valueDateTime},CDEATHFLAG:${extension[url='urn:mdi:temporary:code:qualification-of-death-date'].valueString},CDEATHTIME:${component[0].valueDateTime}</div>"
+        },
+        "meta": {
+          "profile": [
+            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date"
+          ]
+        },
+        "extension": [{
+            "url": "urn:mdi:temporary:code:qualification-of-death-date",
+            "valueReference": "It was late so it could've been the next day"
+          },
+          {
+            "url": "urn:mdi:temporary:code:is-certified",
+            "valueBoolean": true
+          },
+          {
+            "url": "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/Patient-Location",
+            "valueReference": "Location/19"
+          }
+        ],
+        "status": "final",
+        "code": {
+          "coding": [{
+            "system": "urn:oid:2.16.840.1.113883.6.1",
+            "code": "81956-5",
+            "display": "Date and time of death"
+          }]
+        },
+        "subject": {
+          "reference": "Patient/1",
+          "display": "Byron Test1"
+        },
+        "effectiveDateTime": "2019-08-28T14:10:03-04:00",
+        "performer": {
+          "reference": "Practitioner/21",
+          "display": "Harold Hippocrates"
+        },
+        "method": {
+          "coding": [{
+            "system": "urn:oid:2.16.840.1.113883.6.96",
+            "code": "414135002",
+            "display": "Estimated"
+          }]
+        },
+        "component": [{
+          "code": {
+            "coding": [{
+              "system": "urn:oid:2.16.840.1.113883.6.1",
+              "code": "80616-6",
+              "display": "Date and time pronounced dead"
+            }]
+          },
+          "valueDateTime": "2014-06-15T00:00:00+00:00"
+        }]
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Observation/14",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "14",
+        "status": "final",
+        "code": {
+          "coding": [{
+            "system": "urn:mdi:temporary:code",
+            "code": "1000003",
+            "display": "Date of examination or case review"
+          }]
+        },
+        "subject": {
+          "reference": "Patient/1",
+          "display": "Byron Test1"
+        },
+        "valueDateTime": "2019-08-26T14:10:03-04:00"
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Observation/15",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "15",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">LKADATE: ${valueDateTime},LKATIME${valueDateTime}</div>"
+        },
+        "status": "final",
+        "code": {
+          "coding": [{
+            "system": "urn:mdi:temporary:code",
+            "code": "1000004",
+            "display": "Date and time of last known alive or alert"
+          }]
+        },
+        "subject": {
+          "reference": "Patient/1",
+          "display": "Byron Test1"
+        },
+        "valueDateTime": "2019-08-26T14:10:03-04:00"
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Observation/16",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "16",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">CASEYEAR:${valueDateTime}</div>"
+        },
+        "status": "final",
+        "code": {
+          "coding": [{
+            "system": "urn:mdi:temporary:code",
+            "code": "1000005",
+            "display": "Year by which case is categorized"
+          }]
+        },
+        "subject": {
+          "reference": "Patient/1",
+          "display": "Byron Test1"
+        },
+        "valueDateTime": "2019-01-01T00:00:00-00:00"
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Observation/17",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "17",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">ATHOSPDATE: ${valueDateTime}</div>"
+        },
+        "status": "final",
+        "code": {
+          "coding": [{
+            "system": "urn:mdi:temporary:code",
+            "code": "1000006",
+            "display": "Date and time decedent arrived at hospital"
+          }]
+        },
+        "subject": {
+          "reference": "Patient/1",
+          "display": "Byron Test1"
+        },
+        "valueDateTime": "2014-02-12T11:00:00-00:00"
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Location/18",
+      "resource": {
+        "resourceType": "Location",
+        "id": "18",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">DEATHPLACE: ${extension[url='urn:mdi:temporary:code:categorization-of-death-place'].valueString},EVENTPLACE${physicalType.coding[0].text},FOUNDADDR-STREET:${extension[url='urn:mdi:temporary:code:address-where-found-dead-unconscious-or-in-distress'].valueAddress.line[0]},FOUNDADDR-CITY:${extension[url='urn:mdi:temporary:code:address-where-found-dead-unconscious-or-in-distress'].valueAddress.city},FOUNDADDR-COUNTY:${extension[url='urn:mdi:temporary:code:address-where-found-dead-unconscious-or-in-distress'].valueAddress.district},FOUNDADDR-STATE:${extension[url='urn:mdi:temporary:code:address-where-found-dead-unconscious-or-in-distress'].valueAddress.state},FOUNDADDR-ZIP:${extension[url='urn:mdi:temporary:code:address-where-found-dead-unconscious-or-in-distress'].valueAddress.postalCode},PRNPLACE:${extension[url='urn:mdi:temporary:code:address-which-scene-investigation-was-conducted'].valueString},PRNSTREET:${extension[url='urn:mdi:temporary:code:address-which-scene-investigation-was-conducted'].valueAddress.line[0]},PRNCITY:${extension[url='urn:mdi:temporary:code:address-which-scene-investigation-was-conducted'].valueAddress.city},PRNCOUNTY:${extension[url='urn:mdi:temporary:code:address-which-scene-investigation-was-conducted'].valueAddress.district},PRNSTATE:${extension[url='urn:mdi:temporary:code:address-which-scene-investigation-was-conducted'].valueAddress.state},PRNZIP:${extension[url='urn:mdi:temporary:code:address-which-scene-investigation-was-conducted'].valueAddress.postalCode},SCENEADDR-STREET:${extension[url='urn:mdi:temporary:code:address-which-scene-investigation-was-conducted'].valueAddress.line[0]},SCENEADDR-CITY:${extension[url='urn:mdi:temporary:code:address-which-scene-investigation-was-conducted'].valueAddress.city},SCENEADDR-COUNTY:${extension[url='urn:mdi:temporary:code:address-which-scene-investigation-was-conducted'].valueAddress.district},SCENEADDR-STATE:${extension[url='urn:mdi:temporary:code:address-which-scene-investigation-was-conducted'].valueAddress.state},SCENEADDR-ZIP:${extension[url='urn:mdi:temporary:code:address-which-scene-investigation-was-conducted'].valueAddress.postalCode}</div>"
+        },
+        "meta": {
+          "profile": [
+            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location"
+          ]
+        },
+        "name": "Hospital",
+        "description": "Gracie Hospital",
+        "extension": [{
+            "url": "urn:mdi:temporary:code:categorization-of-death-place",
+            "valueString": "Gracie Hospital"
+          },
+          {
+            "url": "urn:mdi:temporary:code:address-where-found-dead-unconscious-or-in-distress",
+            "valueAddress": {
+              "line": [
+                "1808 Stroop Hill Road"
+              ],
+              "city": "Atlanta",
+              "state": "GA",
+              "postalCode": "30303",
+              "country": "USA"
+            }
+          },
+          {
+            "url": "urn:mdi:temporary:code:pronounced-dead-place",
+            "valueAddress": {
+              "line": [
+                "1765 Tree Hill"
+              ],
+              "city": "Decatur",
+              "state": "GA",
+              "postalCode": "30033",
+              "country": "USA"
+            }
+          },
+          {
+            "url": "urn:mdi:temporary:code:address-which-scene-investigation-was-conducted",
+            "valueAddress": {
+              "line": [
+                "1808 Stroop Hill Road"
+              ],
+              "city": "Atlanta",
+              "state": "GA",
+              "postalCode": "30303",
+              "country": "USA"
+            }
+          }
+        ],
+        "type": {
+          "coding": [{
+            "system": "http://hl7.org/fhir/ValueSet/v3-ServiceDeliveryLocationRoleType",
+            "code": "HOSP"
+          }]
+        },
+        "address": {
+          "use": "home",
+          "line": [
+            "1808 Stroop Hill Road"
+          ],
+          "city": "Atlanta",
+          "state": "GA",
+          "postalCode": "30303",
+          "country": "USA"
+        },
+        "physicalType": {
+          "coding": [{
+            "system": "http://hl7.org/fhir/ValueSet/location-physical-type",
+            "code": "ro"
+          }]
+        }
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Location/19",
+      "resource": {
+        "resourceType": "Location",
+        "id": "19",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">EVENTADDR-STREET: ${address.line[0]},EVENTADDR-CITY${address.city},EVENTADDR-COUNTY:${address.district},EVENTADDR-STATE:${address.state},EVENTADDR-ZIP:${address.postalCode},CINJPLACE:${component[0].valueString},CINJSTREET:${address.line[0]},CINJCITY:${address.city},CINJCOUNTY:${address.county},CINJSTATE:${address.state},CINJZIP:${address.zip}</div>"
+        },
+        "meta": {
+          "profile": [
+            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Location"
+          ]
+        },
+        "extension": [{
+          "url": "urn:mdi:temporary:code:is-certified",
+          "valueBoolean": true
+        }],
+        "name": "Hospital",
+        "description": "Gracie Hospital",
+        "type": {
+          "coding": [{
+            "system": "http://hl7.org/fhir/ValueSet/v3-ServiceDeliveryLocationRoleType",
+            "code": "HOSP"
+          }]
+        },
+        "address": {
+          "use": "home",
+          "line": [
+            "1808 Stroop Hill Road"
+          ],
+          "city": "Atlanta",
+          "state": "GA",
+          "postalCode": "30303",
+          "country": "USA"
+        },
+        "physicalType": {
+          "coding": [{
+            "system": "http://hl7.org/fhir/ValueSet/location-physical-type",
+            "code": "ro"
+          }]
+        },
+        "component": [{
+          "code": {
+            "coding": [{
+              "system": "http://loinc.org",
+              "code": "69450-5",
+              "display": "Place of injury Facility"
+            }]
+          },
+          "valueString": "The Working Factory"
+        }]
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Procedure/20",
+      "resource": {
+        "resourceType": "Procedure",
+        "id": "20",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">SURGERY:${code.coding[0].display},SURGDATE:${performedDateTime}</div>"
+        },
+        "status": "completed",
+        "category": {
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "387713003",
+            "display": "Surgical procedure"
+          }],
+          "text": "Surgical procedure"
+        },
+        "code": {
+          "coding": [{
+            "system": "http://snomed.info/sct",
+            "code": "90105005",
+            "display": "Biopsy of soft tissue of forearm (Procedure)"
+          }],
+          "text": "Biopsy of suspected melanoma L) arm"
+        },
+        "subject": {
+          "reference": "Patient/1",
+          "display": "Byron Test1"
+        },
+        "performedDateTime": "2014-02-03T11:34:45+00:00"
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Practitioner/21",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "18",
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">HCPROVIDER-FAMILY${name[0].family},HCPROVIDER-GIVEN${name[0].given[0]}</div>"
+        },
+        "name": [{
+          "family": "Hippocrates",
+          "given": [
+            "Harold"
+          ],
+          "suffix": [
+            "MD"
+          ]
+        }]
+      }
+    },
+    {
+      "fullUrl": "https://apps.hdap.gatech.edu/gt-fhir-smart/fhir/Observation/22",
+      "resource": {
+        "resourceType": "Observation",
+        "id": 22,
+        "text": {
+          "status": "extensions",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">CAUTOPSY:${valueCodeableConcept.coding[0].code}</div>"
+        },
+        "meta": {
+          "profile": [
+            "http://www.hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator"
+          ]
+        },
+        "status": "final",
+        "code": {
+          "coding": [{
+            "system":"http://loinc.org",
+            "code": "85699-7",
+            "display": "Autopsy was performed"
+          }]
+        },
+        "subject": {
+          "reference": "Patient/1",
+          "display": "Byron Test1"
+        },
+        "valueCodeableConcept": {
+          "coding": [{
+            "system":"http://terminology.www.hl7.org/CodeSystem/v2-0532",
+            "code": "Y",
+            "display": "Yes"
+          }]
+        }
+      }
+    }
+]
+}

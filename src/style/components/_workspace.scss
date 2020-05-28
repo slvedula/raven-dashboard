@@ -1,0 +1,19 @@
+.workspace {
+  background-color: #F1F2F6;
+  flex: 1;
+  position: relative;
+  .left {
+    display: flex;
+    height: 100%;
+    transition: margin 100ms linear;
+    input.is-small {
+      height: 2.1em;
+    }
+    &.explorer-visible {
+      margin-right: 445px;
+    }
+  }
+  .right {
+
+  }
+}

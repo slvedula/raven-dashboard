@@ -1,0 +1,64 @@
+.nav-bottom {
+  background-color: $primary-very-light;
+  display: flex;
+  // justify-content: space-between;
+  padding: 6px 25px;
+  align-items: stretch;
+  border-bottom: 1px solid $primary-light;
+  .nav-bottom-start {
+    justify-content: flex-start;
+    // margin-right: auto;
+    align-items: stretch;
+    display: flex;
+    flex: 2;
+    .field {
+      align-items: center;
+      .field-label {
+        flex: unset;
+        margin-right: 6px;
+        padding-top: 0px;
+        label {
+          color: $primary-very-dark;
+          font-weight: 500;
+          // font-size: 10px;
+        }
+      }
+      .field-body {
+        .field {
+          .control {
+            input {
+              border: 1px solid $primary;
+            }
+          }
+        }
+      }
+      &.explorable.is-explore {
+        .field-label {
+          label {
+            color: $explore;
+          }
+        }
+        .field-body {
+          .field {
+            .control {
+              input {
+                border: 1px solid $explore;
+              }
+            }
+          }
+        }
+      }
+      &:not(:last-child) {
+        margin-bottom: 0;
+        margin-right: 10px;
+      }
+    }
+  }
+  .nav-bottom-end {
+    flex: 1;
+    justify-content: flex-end;
+    // margin-left: auto;
+    align-items: stretch;
+    display: flex;
+  }
+}
