@@ -6,16 +6,22 @@ import {
   Redirect,
   BrowserRouter as Router
 } from 'react-router-dom';
-import NavTop from './components/nav-top';
-import NavBottom from './components/nav-bottom';
-import FhirExplorer from './components/fhir-explorer';
-import Case from './components/case/index';
-import Investigation from './components/investigation/index';
-import Morgue from './components/morgue/index';
+import configureStore from './store';
+import { createBrowserHistory } from 'history'
+import { Provider } from 'react-redux';
+import CasePicker from './containers/case_picker_container';
+import Case from './containers/case_container';
+
+const history = createBrowserHistory({
+  basename: process.env.PUBLIC_URL
+});
+const initialState = {}
+const store = configureStore(initialState);
 
 export default class App extends Component {
   state = {
-    isExplorerVisible: true
+    isExplorerVisible: false,
+    exploreFieldId: 'decedent'
   }
 
   handleSwitchChange = () => {
@@ -24,32 +30,30 @@ export default class App extends Component {
     });
   }
 
-  render() {
-    const { isExplorerVisible } = this.state;
-    return (
-      <Router>
-        {/* Make navs dynamic with all pages... */}
-        <NavTop
-          isExplorerVisible={isExplorerVisible}
-          handleSwitchChange={() => this.handleSwitchChange()}/>
-        <NavBottom/>
-        <div className="workspace">
-          <div className={`left ${isExplorerVisible ? 'explorer-visible' : ''}`}>
-            <Switch>
-              {/* use redux or context to avoid prop dripping as seen below... */}
-              <Route
-                path="/case"
-                render={() => <Case explore={isExplorerVisible}/>}
-              />
+  handleFieldClick = (id) => {
+    this.setState({
+      exploreFieldId: id
+    })
+  }
 
-              <Route path="/investigation" component={Investigation}/>
-              <Route path="/morgue" component={Morgue}/>
-              <Redirect to="/case"/>
-            </Switch>
-          </div>
-          <FhirExplorer visible={isExplorerVisible}/>
-        </div>
-      </Router>
+  render() {
+    const { isExplorerVisible, exploreFieldId } = this.state;
+    return (
+      <Provider store={store}>
+        <Router>
+          <Route
+            path={[
+              "/app/cases",
+              "/app/c/:caseId"
+            ]}
+            children={(props) => <CasePicker {...props}/>}
+          />
+          <Route
+            path="/app/c/:caseId"
+            component={Case}
+          />
+        </Router>
+      </Provider>
     );
   }
 }

@@ -3,34 +3,17 @@
 
 $teal: #00897b;
 $primary: $teal;
-
 $white: #ffffff;
 $light-grey: #f5f5f5;
 $very-light-grey: #fafafa;
-
 $primary-very-light: lighten($primary, 72%);
 $primary-dark: darken($primary, 50%);
 $primary-very-dark: #004d40;
-
 $primary-light: #b2dfdb;
-
-$explore: #f50057;
-
-
-// $light-orange: #f7e9e7;
-// $very-light-orange: #fcf6f6;
-// $dark-orange: #fb7f5d;
-// $tabs-toggle-link-border-color: $dark-orange;
-// $tabs-toggle-link-border-width: 2px;
+$explore: #ffb300;
+$danger: $explore;
 $tabs-toggle-link-active-background-color: $primary;
 $tabs-toggle-link-active-border-color: $primary;
-// $tabs-toggle-link-active-color: $light-orange;
-// $tabs-link-color: $dark-orange;
-// $tabs-toggle-link-hover-background-color: darken($light-orange, 2%);
-// $tabs-toggle-link-hover-border-color: $dark-orange;
-// $tabs-link-hover-color: $dark-orange;
-// $notification-background-color: $very-light-orange;
-// $primary: $dark-orange;
 $navbar-background-color: $primary;
 $navbar-item-color: $very-light-grey;
 $navbar-item-hover-color: $primary-very-dark;
@@ -38,7 +21,6 @@ $navbar-item-hover-background-color: $primary-very-light;
 $navbar-dropdown-background-color: $primary-very-light;
 $navbar-dropdown-arrow: $very-light-grey;
 $navbar-dropdown-item-hover-color: $primary-very-dark;
-// $navbar-dropdown-item-hover-background-color
 
 @import 'bulma';
 @import '~bulma-switch';
@@ -50,5 +32,6 @@ $navbar-dropdown-item-hover-color: $primary-very-dark;
 @import "components/nav-bottom";
 @import "components/nav-top";
 @import "components/case/summary";
+@import "components/case-picker";
 
 @import "main";

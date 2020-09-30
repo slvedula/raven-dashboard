@@ -28,7 +28,7 @@
     .i1-b {
       background-color: $primary-very-light;
       border: 1px solid $primary-light;
-      flex: 7;
+      flex: 10;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -61,7 +61,7 @@
       }
     }
     .i1-c {
-      flex: 2;
+      flex: 3;
       .field {
         // align-items: center;
         .field-label {
@@ -97,20 +97,36 @@
       }
     }
     .i2-b {
-      flex: 5;
-      margin: 0px 10px;
-      padding: 0px 6px;
+      flex: 15;
+      // margin: 0px 10px;
+      // padding: 0px 6px;
       display: flex;
       .i2-ba {
-        flex: 2;
+        flex: 14;
         .field {
           // align-items: center;
           .field-label {
-            flex: 5;
+            flex: 9;
             margin-right: 5px;
           }
           .field-body {
-            flex: 2;
+            flex: 4;
+          }
+          &.explorable.is-explore {
+            .field-label {
+              label {
+                color: $explore;
+              }
+            }
+            .field-body {
+              .field {
+                .control {
+                  input {
+                    border: 1px solid $explore;
+                  }
+                }
+              }
+            }
           }
           &:not(:last-child) {
             margin-bottom: 5px;
@@ -118,15 +134,31 @@
         }
       }
       .i2-bb {
-        flex: 3;
+        flex: 15;
         .field {
           // align-items: center;
           .field-label {
-            flex: 5;
+            flex: 7;
             margin-right: 5px;
           }
           .field-body {
-            flex: 2;
+            flex: 3;
+          }
+          &.explorable.is-explore {
+            .field-label {
+              label {
+                color: $explore;
+              }
+            }
+            .field-body {
+              .field {
+                .control {
+                  input {
+                    border: 1px solid $explore;
+                  }
+                }
+              }
+            }
           }
           &:not(:last-child) {
             margin-bottom: 5px;
@@ -134,15 +166,31 @@
         }
       }
       .i2-bc {
-        flex: 2;
+        flex: 17;
         .field {
           // align-items: center;
           .field-label {
-            flex: 5;
+            flex: 7;
             margin-right: 5px;
           }
           .field-body {
-            flex: 2;
+            flex: 3;
+          }
+          &.explorable.is-explore {
+            .field-label {
+              label {
+                color: $explore;
+              }
+            }
+            .field-body {
+              .field {
+                .control {
+                  input {
+                    border: 1px solid $explore;
+                  }
+                }
+              }
+            }
           }
           &:not(:last-child) {
             margin-bottom: 5px;
@@ -151,7 +199,7 @@
       }
     }
     .i2-c {
-      flex: 2;
+      flex: 5;
       .field {
         // align-items: center;
         .field-label {
@@ -160,6 +208,22 @@
         }
         .field-body {
           flex: 2;
+        }
+        &.explorable.is-explore {
+          .field-label {
+            label {
+              color: $explore;
+            }
+          }
+          .field-body {
+            .field {
+              .control {
+                input {
+                  border: 1px solid $explore;
+                }
+              }
+            }
+          }
         }
         &:not(:last-child) {
           margin-bottom: 5px;
@@ -217,7 +281,23 @@
             .control {
               textarea {
                 padding: 3px;
-                font-size: 10px;
+                font-size: 12px;
+              }
+            }
+          }
+        }
+        &.explorable.is-explore {
+          .field-label {
+            label {
+              color: $explore;
+            }
+          }
+          .field-body {
+            .field {
+              .control {
+                textarea {
+                  border: 1px solid $explore;
+                }
               }
             }
           }
@@ -282,7 +362,7 @@
             .control {
               textarea {
                 padding: 3px;
-                font-size: 10px;
+                font-size: 12px;
               }
             }
           }
@@ -298,6 +378,207 @@
               .control {
                 textarea {
                   border: 1px solid $explore;
+                }
+              }
+            }
+          }
+        }
+        &:not(:last-child) {
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+  .i5 {
+    display: flex;
+    margin-top: 5px;
+    flex-direction: column;
+    .i5-a {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      background-color: $primary-very-light;
+      border: 1px solid $primary-light;
+      border-radius: 3px;
+      .i5-aa {
+        flex: 1;
+        border-right: 1px solid $primary-light;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-bottom: 8px;
+        .i5-aa-1 {
+          text-align: center;
+          text-transform: uppercase;
+          font-size: 12px;
+          font-weight: 600;
+          height: 26px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .i5-aa-2 {
+          padding: 0px 10px;
+          .field {
+            .field-label {
+              flex: 0;
+              margin-right: 5px;
+              display: flex;
+              align-items: center;
+              padding-top: 0px;
+              label {
+                font-size: 10px;
+                color: $primary-very-dark;
+              }
+            }
+            .field-body {
+              .field {
+                .control {
+                  input {
+                    border-bottom: 1px solid $primary;
+                    background-color: $primary-very-light;
+                    border-top: none;
+                    border-left: none;
+                    border-right: none;
+                    border-radius: 0px;
+                    box-shadow: none;
+                  }
+                }
+              }
+            }
+            &.explorable.is-explore {
+              .field-label {
+                label {
+                  color: $explore;
+                }
+              }
+              .field-body {
+                .field {
+                  .control {
+                    input {
+                      border-bottom: 1px solid $explore;
+                    }
+                  }
+                }
+              }
+            }
+            &:not(:last-child) {
+              margin-bottom: 5px;
+            }
+          }
+        }
+      }
+      .i5-ab {
+        flex: 0 0 104px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-bottom: 8px;
+        .i5-ab-1 {
+          text-align: center;
+          font-size: 10px;
+          font-weight: 500;
+          height: 26px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .i5-ab-2 {
+          padding: 0px 10px;
+          .field {
+            .field-label {
+              flex: 0;
+              margin-right: 5px;
+              display: flex;
+              align-items: center;
+              padding-top: 0px;
+              label {
+                font-size: 10px;
+                color: $primary-very-dark;
+              }
+            }
+            .field-body {
+              .field {
+                .control {
+                  input {
+                    border-bottom: 1px solid $primary;
+                    background-color: $primary-very-light;
+                    border-top: none;
+                    border-left: none;
+                    border-right: none;
+                    border-radius: 0px;
+                    box-shadow: none;
+                  }
+                }
+              }
+            }
+            &.explorable.is-explore {
+              .field-label {
+                label {
+                  color: $explore;
+                }
+              }
+              .field-body {
+                .field {
+                  .control {
+                    input {
+                      border-bottom: 1px solid $explore;
+                    }
+                  }
+                }
+              }
+            }
+            &:not(:last-child) {
+              margin-bottom: 5px;
+            }
+          }
+        }
+      }
+    }
+    .i5-b {
+      padding: 5px 10px;
+      background-color: $primary-very-light;
+      border: 1px solid $primary-light;
+      border-radius: 3px;
+      margin-top: 8px;
+      .field {
+        .field-label {
+          flex: unset;
+          margin-right: 5px;
+          display: flex;
+          align-items: center;
+          padding-top: 0px;
+          label {
+            font-size: 10px;
+            color: $primary-very-dark;
+          }
+        }
+        .field-body {
+          .field {
+            .control {
+              input {
+                border-bottom: 1px solid $primary;
+                background-color: $primary-very-light;
+                border-top: none;
+                border-left: none;
+                border-right: none;
+                border-radius: 0px;
+                box-shadow: none;
+              }
+            }
+          }
+        }
+        &.explorable.is-explore {
+          .field-label {
+            label {
+              color: $explore;
+            }
+          }
+          .field-body {
+            .field {
+              .control {
+                input {
+                  border-bottom: 1px solid $explore;
                 }
               }
             }

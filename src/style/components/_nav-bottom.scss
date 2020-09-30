@@ -4,7 +4,7 @@
   // justify-content: space-between;
   padding: 6px 25px;
   align-items: stretch;
-  border-bottom: 1px solid $primary-light;
+  border-bottom: 1px solid lighten(grey, 38%);
   .nav-bottom-start {
     justify-content: flex-start;
     // margin-right: auto;

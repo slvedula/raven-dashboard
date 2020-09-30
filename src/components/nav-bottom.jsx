@@ -2,78 +2,99 @@ import React, { Component } from 'react';
 
 export default class NavBottom extends Component {
   render() {
+    const { explore, handleFieldClick } = this.props;
+    const { case:
+            { form:
+              { navBottom: {
+                caseNumber,
+                firstName,
+                middleName,
+                lastName,
+                dateOfDeath,
+                timeOfDeath
+              }}}} = this.props;
     return (
       <div className="nav-bottom">
         <div className="nav-bottom-start">
-          <div class="field explore is-horizontal">
-            <div class="field-label is-small">
-              <label class="label">Case #</label>
+        <div
+          className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+          onClick={() => handleFieldClick('case-num')}
+        >
+            <div className="field-label is-small">
+              <label className="label">Case #</label>
             </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
+            <div className="field-body">
+              <div className="field">
+                <div className="control">
                   <input
-                    class="input is-small"
+                    className="input is-small"
                     type="text"
-                    value="2017-4089"
+                    value={caseNumber || '...'}
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-small">
-              <label class="label">Decedent</label>
+          <div
+            className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+            onClick={() => handleFieldClick('decedent')}
+          >
+            <div className="field-label is-small">
+              <label className="label">Decedent</label>
             </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
+            <div className="field-body">
+              <div className="field">
+                <div className="control">
                   <input
-                    class="input is-small"
+                    className="input is-small"
                     type="text"
-                    value="Jane"
+                    value={firstName || '...'}
                   />
                 </div>
               </div>
-              <div class="field">
-                <div class="control">
+              <div className="field">
+                <div className="control">
                   <input
-                    class="input is-small"
+                    className="input is-small"
                     type="text"
+                    value={middleName}
                   />
                 </div>
               </div>
-              <div class="field">
-                <div class="control">
+              <div className="field">
+                <div className="control">
                   <input
-                    class="input is-small"
+                    className="input is-small"
                     type="text"
-                    value="Doe"
+                    value={lastName || '...'}
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div class="field is-horizontal">
-            <div class="field-label is-small">
-              <label class="label">Date/Time of Death</label>
+          <div
+            className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+            onClick={() => handleFieldClick('time-of-death')}
+          >
+            <div className="field-label is-small">
+              <label className="label">Date/Time of Death</label>
             </div>
-            <div class="field-body">
-              <div class="field">
-                <div class="control">
+            <div className="field-body">
+              <div className="field">
+                <div className="control">
                   <input
-                    class="input is-small"
+                    className="input is-small"
                     type="text"
-                    value="2/5/2019"
+                    value={dateOfDeath}
                   />
                 </div>
               </div>
-              <div class="field">
-                <div class="control">
+              <div className="field">
+                <div className="control">
                   <input
-                    class="input is-small"
+                    className="input is-small"
                     type="text"
-                    value="1400"
+                    value={timeOfDeath}
                   />
                 </div>
               </div>
@@ -81,15 +102,15 @@ export default class NavBottom extends Component {
           </div>
         </div>
         <div className="nav-bottom-end">
-          <div class="field is-grouped">
-            <p class="control">
-              <a class="button is-small is-light is-link">
+          <div className="field is-grouped">
+            <p className="control">
+              <a className="button is-small is-outlined is-primary">
                 Investigation
               </a>
             </p>
-            <p class="control">
-              <a class="button is-small is-light is-danger">
-                Morgue
+            <p className="control">
+              <a className="button is-small is-outlined is-primary">
+                Certification
               </a>
             </p>
           </div>

@@ -1,4 +1,5 @@
 .nav-top {
+  padding: 0px 13px;
   .navbar-start {
     flex: 1;
   }
@@ -23,6 +24,9 @@
     flex: 1;
     .switch[type=checkbox].is-link:checked + label::before, .switch[type=checkbox].is-link:checked + label:before {
       background: $explore;
+    }
+    .switch[type=checkbox].is-link + label::before, .switch[type=checkbox].is-link + label:before {
+      background: darken($teal, 6%);
     }
   }
 }

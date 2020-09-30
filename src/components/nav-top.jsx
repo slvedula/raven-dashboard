@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 
 export default class NavTop extends Component {
   render() {
@@ -11,50 +12,24 @@ export default class NavTop extends Component {
       <nav className="navbar nav-top" role="navigation" aria-label="main navigation">
         <div className="navbar-menu">
           <div className="navbar-start">
-            <a className="navbar-item">
-              Main Menu
-            </a>
-
-            <a className="navbar-item">
-              Master File
-            </a>
+            <Link to={`${window.location.pathname}?showPicker=true`} className="navbar-item">
+              Browse Cases
+            </Link>
           </div>
 
           <div className="navbar-middle">
             <h1>CASE FILE</h1>
-            <h2>JEFFERSON COUNTY CORONER / MEDICAL EXAMINER'S OFFICE</h2>
+            <h2>MEDICOLEGAL DEATH INVESTIGATION (MDI) REFERENCE IMPLEMENTATION</h2>
           </div>
 
           <div className="navbar-end">
-            {/*<div className="navbar-item has-dropdown is-hoverable">
-              <a className="navbar-link">
-                More
-              </a>
-
-              <div className="navbar-dropdown is-right">
-                <a className="navbar-item">
-                  About
-                </a>
-                <a className="navbar-item">
-                  Jobs
-                </a>
-                <a className="navbar-item">
-                  Contact
-                </a>
-                <hr className="navbar-divider"/>
-                <a className="navbar-item">
-                  Report an issue
-                </a>
-              </div>
-            </div>
-            */}
             <div className="navbar-item">
-              <div class="field">
+              <div className="field">
                 <input
                   id="switchExample"
                   type="checkbox"
                   name="switchExample"
-                  class="switch is-link is-rounded"
+                  className="switch is-link is-rounded"
                   checked={isExplorerVisible}
                   onChange={() => handleSwitchChange()}
                 />
