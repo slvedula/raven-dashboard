@@ -117,8 +117,6 @@ export function caseReducer(state = initialState, action = {}) {
       const decedent = parseDecedent(entry);
       const timeOfDeath = parseTimeOfDeath(entry);
       const causesOfDeath = parseCausesOfDeath(entry);
-      console.log('causesOfDeath: ',causesOfDeath);
-      // console.log('ENTRIES: ',entry);
       return {
         ...state,
         isLoading: false,
