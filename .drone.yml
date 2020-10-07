@@ -1,0 +1,31 @@
+kind: pipeline
+name: default
+
+steps:
+# Create Docker image from WAR file and push to HDAP Docker registry
+- name: deploy_helmcharts_image_fortefhirserver
+  image: plugins/docker
+  settings:
+    repo: gt-build.hdap.gatech.edu/raven-dashboard
+    context: .
+    dockerfile: ./Dockerfile-prod
+#    tags:
+#      - latest
+
+services:
+  - name: docker
+    image: docker:dind
+    privileged: true
+    volumes:
+    - name: dockersock
+      path: /var/run
+
+volumes:
+- name: dockersock
+  temp: {}
+      
+trigger:
+  branch:
+  - master
+  event:
+  - push
