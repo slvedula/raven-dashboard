@@ -60,7 +60,7 @@ export default class CaseSummary extends Component {
                       className="input is-small"
                       type="text"
                       placeholder="Name"
-                      value=""
+                      defaultValue=""
                     />
                   </p>
                 </div>
@@ -77,7 +77,7 @@ export default class CaseSummary extends Component {
                       className="input is-small"
                       type="text"
                       placeholder="Name"
-                      value=""
+                      defaultValue=""
                     />
                   </p>
                 </div>
@@ -95,7 +95,7 @@ export default class CaseSummary extends Component {
                     <input
                       class="input is-small"
                       type="text"
-                      value=""
+                      defaultValue=""
                     />
                   </div>
                 </div>
@@ -111,7 +111,7 @@ export default class CaseSummary extends Component {
                     <input
                       class="input is-small"
                       type="text"
-                      value=""
+                      defaultValue=""
                     />
                   </div>
                 </div>
@@ -171,7 +171,7 @@ export default class CaseSummary extends Component {
                       <input
                         class="input is-small"
                         type="text"
-                        value=""
+                        defaultValue=""
                       />
                     </div>
                   </div>
@@ -190,7 +190,7 @@ export default class CaseSummary extends Component {
                       <input
                         class="input is-small"
                         type="text"
-                        value=""
+                        defaultValue=""
                       />
                     </div>
                   </div>
@@ -209,7 +209,7 @@ export default class CaseSummary extends Component {
                       <input
                         class="input is-small"
                         type="text"
-                        value=""
+                        defaultValue=""
                       />
                     </div>
                   </div>
@@ -228,7 +228,7 @@ export default class CaseSummary extends Component {
                       <input
                         class="input is-small"
                         type="text"
-                        value=""
+                        defaultValue=""
                       />
                     </div>
                   </div>
@@ -247,7 +247,7 @@ export default class CaseSummary extends Component {
                       <input
                         class="input is-small"
                         type="text"
-                        value=""
+                        defaultValue=""
                       />
                     </div>
                   </div>
@@ -286,7 +286,7 @@ export default class CaseSummary extends Component {
                       <input
                         class="input is-small"
                         type="text"
-                        value=""
+                        defaultValue=""
                       />
                     </div>
                   </div>
@@ -305,7 +305,7 @@ export default class CaseSummary extends Component {
                       <input
                         class="input is-small"
                         type="text"
-                        value=""
+                        defaultValue=""
                       />
                     </div>
                   </div>
@@ -362,7 +362,7 @@ export default class CaseSummary extends Component {
                       <input
                         class="input is-small"
                         type="text"
-                        value=""
+                        defaultValue=""
                       />
                     </div>
                   </div>
@@ -381,7 +381,7 @@ export default class CaseSummary extends Component {
                       <input
                         class="input is-small"
                         type="text"
-                        value=""
+                        defaultValue=""
                       />
                     </div>
                   </div>
@@ -400,7 +400,7 @@ export default class CaseSummary extends Component {
                       <input
                         class="input is-small"
                         type="text"
-                        value=""
+                        defaultValue=""
                       />
                     </div>
                   </div>
@@ -437,7 +437,7 @@ export default class CaseSummary extends Component {
                       <input
                         class="input is-small"
                         type="text"
-                        value=""
+                        defaultValue=""
                       />
                     </div>
                   </div>
@@ -459,7 +459,7 @@ export default class CaseSummary extends Component {
                     <input
                       class="input is-small"
                       type="text"
-                      value=""
+                      defaultValue=""
                     />
                   </div>
                 </div>
@@ -478,7 +478,7 @@ export default class CaseSummary extends Component {
                     <input
                       class="input is-small"
                       type="text"
-                      value=""
+                      defaultValue=""
                     />
                   </div>
                 </div>
@@ -497,7 +497,7 @@ export default class CaseSummary extends Component {
                     <input
                       class="input is-small"
                       type="text"
-                      value=""
+                      defaultValue=""
                     />
                   </div>
                 </div>
@@ -516,7 +516,7 @@ export default class CaseSummary extends Component {
                     <input
                       class="input is-small"
                       type="text"
-                      value=""
+                      defaultValue=""
                     />
                   </div>
                 </div>
@@ -535,7 +535,7 @@ export default class CaseSummary extends Component {
                     <input
                       class="input is-small"
                       type="text"
-                      value=""
+                      defaultValue=""
                     />
                   </div>
                 </div>
@@ -659,7 +659,7 @@ export default class CaseSummary extends Component {
                         <input
                           class="input is-small"
                           type="text"
-                          value={causeA.text}
+                          defaultValue={causeA.text}
                         />
                       </div>
                     </div>
@@ -678,7 +678,7 @@ export default class CaseSummary extends Component {
                         <input
                           class="input is-small"
                           type="text"
-                          value={causeB.text}
+                          defaultValue={causeB.text}
                         />
                       </div>
                     </div>
@@ -697,7 +697,7 @@ export default class CaseSummary extends Component {
                         <input
                           class="input is-small"
                           type="text"
-                          value={causeC.text}
+                          defaultValue={causeC.text}
                         />
                       </div>
                     </div>
@@ -716,7 +716,7 @@ export default class CaseSummary extends Component {
                         <input
                           class="input is-small"
                           type="text"
-                          value={causeD.text}
+                          defaultValue={causeD.text}
                         />
                       </div>
                     </div>
@@ -739,7 +739,7 @@ export default class CaseSummary extends Component {
                         <input
                           class="input is-small"
                           type="text"
-                          value={causeA.onsetAge}
+                          defaultValue={causeA.onsetAge}
                         />
                       </div>
                     </div>
@@ -755,7 +755,7 @@ export default class CaseSummary extends Component {
                         <input
                           class="input is-small"
                           type="text"
-                          value={causeB.onsetAge}
+                          defaultValue={causeB.onsetAge}
                         />
                       </div>
                     </div>
@@ -771,7 +771,7 @@ export default class CaseSummary extends Component {
                         <input
                           class="input is-small"
                           type="text"
-                          value={causeC.onsetAge}
+                          defaultValue={causeC.onsetAge}
                         />
                       </div>
                     </div>
@@ -787,7 +787,7 @@ export default class CaseSummary extends Component {
                         <input
                           class="input is-small"
                           type="text"
-                          value={causeD.onsetAge}
+                          defaultValue={causeD.onsetAge}
                         />
                       </div>
                     </div>
@@ -810,7 +810,7 @@ export default class CaseSummary extends Component {
                     <input
                       class="input is-small"
                       type="text"
-                      value=""
+                      defaultValue=""
                     />
                   </div>
                 </div>

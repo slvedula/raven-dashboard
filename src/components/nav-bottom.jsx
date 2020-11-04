@@ -29,7 +29,7 @@ export default class NavBottom extends Component {
                   <input
                     className="input is-small"
                     type="text"
-                    value={caseNumber || '...'}
+                    defaultValue={caseNumber || '...'}
                   />
                 </div>
               </div>
@@ -48,7 +48,7 @@ export default class NavBottom extends Component {
                   <input
                     className="input is-small"
                     type="text"
-                    value={firstName || '...'}
+                    defaultValue={firstName || '...'}
                   />
                 </div>
               </div>
@@ -57,7 +57,7 @@ export default class NavBottom extends Component {
                   <input
                     className="input is-small"
                     type="text"
-                    value={middleName}
+                    defaultValue={middleName || ''}
                   />
                 </div>
               </div>
@@ -66,7 +66,7 @@ export default class NavBottom extends Component {
                   <input
                     className="input is-small"
                     type="text"
-                    value={lastName || '...'}
+                    defaultValue={lastName || '...'}
                   />
                 </div>
               </div>
@@ -104,12 +104,12 @@ export default class NavBottom extends Component {
         <div className="nav-bottom-end">
           <div className="field is-grouped">
             <p className="control">
-              <a className="button is-small is-outlined is-primary">
+              <a href="#" className="button is-small is-outlined is-primary">
                 Investigation
               </a>
             </p>
             <p className="control">
-              <a className="button is-small is-outlined is-primary">
+              <a href="#" className="button is-small is-outlined is-primary">
                 Certification
               </a>
             </p>

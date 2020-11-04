@@ -98,7 +98,7 @@ class CasePicker extends Component {
     const caseIdFromUrl = idx(this.props, _ => _.match.params.caseId);
     const {
       isLoading,
-      isLoaded,
+     // isLoaded,
       isLoadError,
       filteredCases: cases,
       systemOptions,

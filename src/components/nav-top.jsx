@@ -3,10 +3,7 @@ import { Link } from "react-router-dom";
 
 export default class NavTop extends Component {
   render() {
-    const {
-      isExplorerVisible,
-      handleSwitchChange
-    } = this.props;
+    const { isExplorerVisible, handleSwitchChange } = this.props;
 
     return (
       <nav className="navbar nav-top" role="navigation" aria-label="main navigation">
@@ -31,9 +28,9 @@ export default class NavTop extends Component {
                   name="switchExample"
                   className="switch is-link is-rounded"
                   checked={isExplorerVisible}
-                  onChange={() => handleSwitchChange()}
+                  onChange={handleSwitchChange}
                 />
-                <label for="switchExample">FHIR Explorer</label>
+                <label htmlFor="switchExample">FHIR Explorer</label>
               </div>
             </div>
           </div>

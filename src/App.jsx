@@ -19,6 +19,12 @@ const initialState = {}
 const store = configureStore(initialState);
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.handleFieldClick = this.handleFieldClick.bind(this);
+    this.handleSwitchChange = this.handleSwitchChange.bind(this);
+  }
+  
   state = {
     isExplorerVisible: false,
     exploreFieldId: 'decedent'
