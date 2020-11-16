@@ -23,13 +23,17 @@ class Case extends Component {
 
   render() {
     const patientId = idx(this.props, _ => _.match.params.caseId)
+    const {
+      isExplorerVisible,
+      handleSwitchChange
+    } = this.props;
     return (
       <>
-        <NavTop/>
-        <NavBottom/>
+        <NavTop handleSwitchChange={this.props.handleSwitchChange} isExplorerVisible={this.props.isExplorerVisible}/>
+        <NavBottom handleFieldClick={this.props.handleFieldClick} explore={this.props.explore}/>
         <div className="workspace">
           <div className={`left ${false ? 'explorer-visible' : ''}`}>
-            <CasePanel caseId={patientId}/>
+            <CasePanel caseId={patientId} handleFieldClick={this.props.handleFieldClick}/>
           </div>
           <FhirExplorer
             fieldId={null}

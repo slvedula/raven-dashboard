@@ -21,7 +21,7 @@ export default class Index extends Component {
           <ul>
             <li className="is-active">
               <Link className="is-primary" to="/case/summary">
-                <span>Case Summary</span>
+                <span>Case Summary Explore: {explore}</span>
               </Link>
             </li>
             <li>

@@ -31,9 +31,11 @@ export default class NavTop extends Component {
                   name="switchExample"
                   className="switch is-link is-rounded"
                   checked={isExplorerVisible}
-                  onChange={() => handleSwitchChange()}
+                  onChange={() => {
+                    console.log("This was clicked: ", this.props.handleSwitchChange);
+                    handleSwitchChange()}}
                 />
-                <label for="switchExample">FHIR Explorer</label>
+                <label htmlFor="switchExample">FHIR Explorer</label>
               </div>
             </div>
           </div>

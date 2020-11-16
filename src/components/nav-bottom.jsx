@@ -18,7 +18,10 @@ export default class NavBottom extends Component {
         <div className="nav-bottom-start">
         <div
           className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
-          onClick={() => handleFieldClick('case-num')}
+          onClick={() => {
+            console.log("This was clicked: ", this.props.handleFieldClick, this.props.explore);
+            handleFieldClick('case-num')}
+          }
         >
             <div className="field-label is-small">
               <label className="label">Case #</label>
@@ -29,7 +32,7 @@ export default class NavBottom extends Component {
                   <input
                     className="input is-small"
                     type="text"
-                    value={caseNumber || '...'}
+                    value={caseNumber}
                   />
                 </div>
               </div>
@@ -48,7 +51,7 @@ export default class NavBottom extends Component {
                   <input
                     className="input is-small"
                     type="text"
-                    value={firstName || '...'}
+                    value={firstName || ''}
                   />
                 </div>
               </div>
@@ -57,7 +60,7 @@ export default class NavBottom extends Component {
                   <input
                     className="input is-small"
                     type="text"
-                    value={middleName}
+                    value={middleName || ''}
                   />
                 </div>
               </div>
@@ -66,7 +69,7 @@ export default class NavBottom extends Component {
                   <input
                     className="input is-small"
                     type="text"
-                    value={lastName || '...'}
+                    value={lastName || ''}
                   />
                 </div>
               </div>
@@ -85,7 +88,7 @@ export default class NavBottom extends Component {
                   <input
                     className="input is-small"
                     type="text"
-                    value={dateOfDeath}
+                    value={dateOfDeath || ''}
                   />
                 </div>
               </div>
@@ -94,7 +97,7 @@ export default class NavBottom extends Component {
                   <input
                     className="input is-small"
                     type="text"
-                    value={timeOfDeath}
+                    value={timeOfDeath || ''}
                   />
                 </div>
               </div>

@@ -50,7 +50,14 @@ export default class App extends Component {
           />
           <Route
             path="/app/c/:caseId"
-            component={Case}
+            render={(props) => (
+              <Case {...props}
+                handleFieldClick={this.handleFieldClick}
+                handleSwitchChange={this.handleSwitchChange}
+                isExplorerVisible={this.state.isExplorerVisible}
+                explore={this.state.exploreFieldId}
+                />
+            )}
           />
         </Router>
       </Provider>
