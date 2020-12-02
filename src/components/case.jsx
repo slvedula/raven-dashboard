@@ -33,11 +33,11 @@ class Case extends Component {
         <NavBottom handleFieldClick={this.props.handleFieldClick} explore={this.props.explore}/>
         <div className="workspace">
           <div className={`left ${false ? 'explorer-visible' : ''}`}>
-            <CasePanel caseId={patientId} handleFieldClick={this.props.handleFieldClick}/>
+            <CasePanel caseId={patientId} handleFieldClick={this.props.handleFieldClick} explore={this.props.explore}/>
           </div>
           <FhirExplorer
-            fieldId={null}
-            visible={null}
+            fieldId={this.props.explore}
+            visible={this.props.isExplorerVisible}
           />
         </div>
       </>
