@@ -544,16 +544,16 @@ const fields = {
 }
 
 function retrieveJson(bundle, fieldId) {
-  if (fieldId === 'cause-a') {
+  if (fieldId === 'cause-a' || fieldId === 'cause-a-onset') {
     return parseList(bundle, 0);
   }
-  else if (fieldId === 'cause-b') {
+  else if (fieldId === 'cause-b' || fieldId === 'cause-b-onset') {
     return parseList(bundle, 1);
   }
-  else if (fieldId === 'cause-c') {
+  else if (fieldId === 'cause-c' || fieldId === 'cause-c-onset') {
     return parseList(bundle, 2);
   }
-  else if (fieldId === 'cause-d') {
+  else if (fieldId === 'cause-d' || fieldId === 'cause-d-onset') {
     return parseList(bundle, 3);
   }
   else if (fieldId === 'decedent') {
