@@ -18,10 +18,7 @@ export default class NavBottom extends Component {
         <div className="nav-bottom-start">
         <div
           className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
-          onClick={() => {
-            console.log("This was clicked: ", this.props.handleFieldClick, this.props.explore);
-            handleFieldClick('case-num')}
-          }
+          onClick={() => handleFieldClick('case-num')}
         >
             <div className="field-label is-small">
               <label className="label">Case #</label>

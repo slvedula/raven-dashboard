@@ -16,6 +16,9 @@ const initialState = {
       causeB: {},
       causeC: {},
       causeD: {}
+    },
+    fhirExplorer: {
+      patientJson: null
     }
   }
 };
@@ -117,6 +120,7 @@ export function caseReducer(state = initialState, action = {}) {
       const decedent = parseDecedent(entry);
       const timeOfDeath = parseTimeOfDeath(entry);
       const causesOfDeath = parseCausesOfDeath(entry);
+      const patientJson = entry
       return {
         ...state,
         isLoading: false,
@@ -130,6 +134,9 @@ export function caseReducer(state = initialState, action = {}) {
           },
           summary: {
             ...causesOfDeath
+          },
+          fhirExplorer: {
+            patientJson: patientJson
           }
         }
       }

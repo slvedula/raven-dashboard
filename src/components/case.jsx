@@ -5,7 +5,7 @@ import queryString from 'query-string';
 import NavTop from './nav-top';
 import NavBottom from '../containers/nav_bottom_container';
 import CasePanel from './case/index';
-import FhirExplorer from './fhir-explorer';
+import FhirExplorer from '../containers/fhir_explorer_container';
 
 class Case extends Component {
   componentDidMount() {

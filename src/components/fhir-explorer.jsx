@@ -543,9 +543,22 @@ const fields = {
 	}
 }
 
+function parseList(bundle) {
+  try {
+
+  } catch (e) {
+    
+  }
+}
+
 export default class FhirExplorer extends Component {
   render() {
     const { visible, fieldId } = this.props;
+    const { case:
+            { form:
+              { fhirExplorer: {
+                patientJson
+      }}}} = this.props;
     return (
       <div className={`fhir-explorer ${visible ? 'is-visible' : ''}`}>
       <pre>{JSON.stringify(fields[fieldId], null, 2)}</pre>
