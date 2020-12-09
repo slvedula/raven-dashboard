@@ -543,11 +543,49 @@ const fields = {
 	}
 }
 
-function parseList(bundle) {
-  try {
+function retrieveJson(bundle, fieldId) {
+  if (fieldId === 'cause-a') {
+    return parseList(bundle, 0);
+  }
+  else if (fieldId === 'cause-b') {
+    return parseList(bundle, 1);
+  }
+  else if (fieldId === 'cause-c') {
+    return parseList(bundle, 2);
+  }
+  else if (fieldId === 'cause-d') {
+    return parseList(bundle, 3);
+  }
+  else if (fieldId === 'decedent') {
+    try {
+      return bundle.filter(resource => resource.resource.resourceType === 'Patient')[0];
+    } catch (e) {
+      return {}
+    }
+  }
+  else if (fieldId === 'time-of-death') {
+    try {
+      return bundle.filter(resource => resource.resource.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date'))[0]
+    } catch (e) {
+      return {}
+    }
+  }
+}
 
+function parseList(bundle, causeNum) {
+  try {
+    const listEntry = bundle.filter(resource => resource.resource.resourceType === 'List');
+    const entryList = listEntry[0].resource.entry;
+    if (causeNum >= entryList.length) {
+      return {}
+    } else {
+      const reference = entryList[causeNum].item.reference;
+      const referenceUUID = reference.substring(reference.search('/')+1, reference.length);
+      const causeEntry = bundle.filter(resource => resource.resource.id === referenceUUID);
+      return causeEntry[0]
+    }
   } catch (e) {
-    
+    return {}
   }
 }
 
@@ -561,7 +599,7 @@ export default class FhirExplorer extends Component {
       }}}} = this.props;
     return (
       <div className={`fhir-explorer ${visible ? 'is-visible' : ''}`}>
-      <pre>{JSON.stringify(fields[fieldId], null, 2)}</pre>
+      <pre>{JSON.stringify(retrieveJson(patientJson, fieldId), null, 2)}</pre>
       </div>
     );
   }
