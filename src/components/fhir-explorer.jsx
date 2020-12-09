@@ -581,8 +581,7 @@ function parseList(bundle, causeNum) {
     } else {
       const reference = entryList[causeNum].item.reference;
       const referenceUUID = reference.substring(reference.search('/')+1, reference.length);
-      const causeEntry = bundle.filter(resource => resource.resource.id === referenceUUID);
-      return causeEntry[0]
+      return bundle.filter(resource => resource.resource.id === referenceUUID)[0];
     }
   } catch (e) {
     return {}

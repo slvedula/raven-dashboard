@@ -80,17 +80,25 @@ function parseCausesOfDeath(bundle) {
   try {
     const conditions = bundle.filter(resource => resource.resource.resourceType === 'Condition');
     const causeList = conditions.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition')));
+    const entryList = bundle.filter(resource => resource.resource.resourceType === 'List')[0].resource.entry;
+    var uuids = [];
+    for (var ii = 0; ii < entryList.length; ii++) {
+      const reference = entryList[ii].item.reference;
+      const referenceUUID = reference.substring(reference.search('/')+1, reference.length);
+      uuids.push(referenceUUID);
+    }
     const causeListCleaned = causeList.map(cause => {
       return {
+        id: cause.resource.id,
         text: cause.resource.code.text,
         onsetAge: `${cause.resource.onsetAge.value} ${cause.resource.onsetAge.unit}`
       }
     });
     return {
-      causeA: causeListCleaned[0] || {},
-      causeB: causeListCleaned[1] || {},
-      causeC: causeListCleaned[2] || {},
-      causeD: causeListCleaned[3] || {},
+      causeA: causeListCleaned.find(cause => cause.id === uuids[0]) || {},
+      causeB: causeListCleaned.find(cause => cause.id === uuids[1]) || {},
+      causeC: causeListCleaned.find(cause => cause.id === uuids[2]) || {},
+      causeD: causeListCleaned.find(cause => cause.id === uuids[3]) || {},
     }
   } catch(e) {
     console.error('e: ',e);
