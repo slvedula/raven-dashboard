@@ -90,7 +90,7 @@ class CasePicker extends Component {
 
   handlePatientClick = caseNum => {
     const { history: { push } } = this.props;
-    push(`/app/c/${caseNum}/summary`);
+    push(`/app/c/${caseNum}`);
   }
 
   render() {

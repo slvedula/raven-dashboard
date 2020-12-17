@@ -55,6 +55,14 @@ export default class Index extends Component {
       });
     }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.caseId !== prevProps.caseId) {
+      this.setState({
+        activeTabIndex: 0
+      });
+    }
+  }
+
   render() {
     const { activeTabIndex } = this.state;
     const { explore, handleFieldClick, caseId } = this.props;
@@ -66,7 +74,7 @@ export default class Index extends Component {
               className={activeTabIndex === 0 ? 'is-active' : ''}
               onClick={this.changeTab.bind(this, 0)}>
               <Link className="is-primary" to={`/app/c/${caseId}/summary`}>
-                <span>Case Summary Explore: {explore}</span>
+                <span>Case Summary</span>
               </Link>
             </li>
             <li
