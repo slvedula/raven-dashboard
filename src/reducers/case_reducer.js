@@ -43,9 +43,13 @@ function parseCaseNumber(bundle) {
 function parseDecedent(bundle) {
   try {
     const { resource: { name } } = bundle.find(resource => resource.resource.resourceType === 'Patient');
+    var middle = '';
+    if (name[0].given.length > 1) {
+      middle = name[0].given[1];
+    }
     return {
       firstName: name[0].given[0],
-      middleName: null,
+      middleName: middle,
       lastName: name[0].family
     }
   } catch(e) {
@@ -88,17 +92,23 @@ function parseCausesOfDeath(bundle) {
       uuids.push(referenceUUID);
     }
     const causeListCleaned = causeList.map(cause => {
+      var onsetTime = ''
+      if (cause.resource.hasOwnProperty('onsetAge')) {
+        onsetTime = `${cause.resource.onsetAge.value} ${cause.resource.onsetAge.unit}`
+      } else if (cause.resource.hasOwnProperty('onsetString')) {
+        onsetTime = `${cause.resource.onsetString}`
+      }
       return {
         id: cause.resource.id,
         text: cause.resource.code.text,
-        onsetAge: `${cause.resource.onsetAge.value} ${cause.resource.onsetAge.unit}`
+        onsetAge: onsetTime
       }
     });
     return {
       causeA: causeListCleaned.find(cause => cause.id === uuids[0]) || {},
       causeB: causeListCleaned.find(cause => cause.id === uuids[1]) || {},
       causeC: causeListCleaned.find(cause => cause.id === uuids[2]) || {},
-      causeD: causeListCleaned.find(cause => cause.id === uuids[3]) || {},
+      causeD: causeListCleaned.find(cause => cause.id === uuids[3]) || {}
     }
   } catch(e) {
     console.error('e: ',e);

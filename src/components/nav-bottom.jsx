@@ -105,12 +105,7 @@ export default class NavBottom extends Component {
           <div className="field is-grouped">
             <p className="control">
               <a className="button is-small is-outlined is-primary">
-                Investigation
-              </a>
-            </p>
-            <p className="control">
-              <a className="button is-small is-outlined is-primary">
-                Certification
+                Export
               </a>
             </p>
           </div>

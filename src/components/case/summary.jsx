@@ -659,7 +659,7 @@ export default class CaseSummary extends Component {
                         <input
                           className="input is-small"
                           type="text"
-                          value={causeA.text}
+                          value={causeA.text || '' }
                         />
                       </div>
                     </div>
@@ -678,7 +678,7 @@ export default class CaseSummary extends Component {
                         <input
                           className="input is-small"
                           type="text"
-                          value={causeB.text}
+                          value={causeB.text || ''}
                         />
                       </div>
                     </div>
@@ -697,7 +697,7 @@ export default class CaseSummary extends Component {
                         <input
                           className="input is-small"
                           type="text"
-                          value={causeC.text}
+                          value={causeC.text || ''}
                         />
                       </div>
                     </div>
@@ -716,7 +716,7 @@ export default class CaseSummary extends Component {
                         <input
                           className="input is-small"
                           type="text"
-                          value={causeD.text}
+                          value={causeD.text || ''}
                         />
                       </div>
                     </div>
@@ -739,7 +739,7 @@ export default class CaseSummary extends Component {
                         <input
                           className="input is-small"
                           type="text"
-                          value={causeA.onsetAge}
+                          value={causeA.onsetAge || ''}
                         />
                       </div>
                     </div>
@@ -755,7 +755,7 @@ export default class CaseSummary extends Component {
                         <input
                           className="input is-small"
                           type="text"
-                          value={causeB.onsetAge}
+                          value={causeB.onsetAge || ''}
                         />
                       </div>
                     </div>
@@ -771,7 +771,7 @@ export default class CaseSummary extends Component {
                         <input
                           className="input is-small"
                           type="text"
-                          value={causeC.onsetAge}
+                          value={causeC.onsetAge || ''}
                         />
                       </div>
                     </div>
@@ -787,7 +787,7 @@ export default class CaseSummary extends Component {
                         <input
                           className="input is-small"
                           type="text"
-                          value={causeD.onsetAge}
+                          value={causeD.onsetAge || ''}
                         />
                       </div>
                     </div>
