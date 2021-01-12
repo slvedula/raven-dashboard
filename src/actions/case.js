@@ -24,9 +24,15 @@ export function getCase(patientId) {
       });
       try {
         const allPatientResources = await API.get(`Patient/${patientId}/$everything`);
+        const compositionId = parseCompositionId(allPatientResources.data.entry);
+        const compositionDocument = await API.get(`Composition/${compositionId}/$document`);
+        const returnData = {
+          patientResources: allPatientResources,
+          documentResources: compositionDocument
+        };
         dispatch({
           type: 'GET_CASE_FULFILLED',
-          data: allPatientResources
+          data: returnData
         });
         resolve('Finished retrieving all patient resources');
       } catch(e) {
@@ -38,4 +44,25 @@ export function getCase(patientId) {
       }
     })
   }
+}
+
+function parseCompositionId(bundle) {
+  try {
+    const compositions = bundle.filter(resource => resource.resource.resourceType === 'Composition');
+    return compositions[0].resource.id;
+  } catch (e) {
+    console.error('e: ',e);
+    return {};
+  }
+}
+
+export function getDocument(compositionId) {
+  return new Promise(async function(resolve, reject) {
+    try {
+      const compDocument = await API.get(`Composition/${compositionId}/$document`);
+      return resolve(compDocument)
+    } catch(e) {
+      return reject(e);
+    }
+  });
 }

@@ -1,4 +1,5 @@
 import moment from 'moment';
+import API from '../api';
 import idx from 'idx';
 
 const initialState = {
@@ -42,17 +43,41 @@ function parseCaseNumber(bundle) {
 
 function parseDecedent(bundle) {
   try {
-    const { resource: { name } } = bundle.find(resource => resource.resource.resourceType === 'Patient');
+    const patient = bundle.filter(resource => resource.resource.resourceType === 'Patient')[0].resource;
+    const name = patient.name;
     var middle = '';
     if (name[0].given.length > 1) {
       middle = name[0].given[1];
     }
+    const address = patient.address[0].line[0] + ", " + patient.address[0].city + ", " + patient.address[0].state;
+    const extensions = patient.extension;
+    var race = "";
+    var ethnicity = "";
+    if (extensions) {
+      const raceExtension = extensions.filter(url => url.url.includes('http://hl7.org/fhir/us/core/StructureDefinition/us-core-race'));
+      if (raceExtension[0]) race = raceExtension[0].extension.filter(url => url.url === 'text')[0].valueString;
+      const ethnicityExtension = extensions.filter(url => url.url.includes('http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity'));
+      if (ethnicityExtension[0]) ethnicity = ethnicityExtension[0].extension.filter(url => url.url === 'text')[0].valueString;
+    }
+    const ageResource = bundle.filter(resource => resource.resource.resourceType === 'Observation');
+    const ageList = bundle.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Decedent-Age')));
+    var age = "";
+    if (ageList[0]) age = ageList[0].resource.valueQuantity.value + " " + ageList[0].resource.valueQuantity.unit;
     return {
       firstName: name[0].given[0],
       middleName: middle,
-      lastName: name[0].family
+      lastName: name[0].family,
+      gender: patient.gender,
+      birthDate: patient.birthDate,
+      address: address,
+      city: patient.address[0].city,
+      usState: patient.address[0].state,
+      race: race,
+      ethnicity: ethnicity,
+      age: age
     }
   } catch(e) {
+    console.log('e: ',e);
     return {
       firstName: 'ERROR',
       middleName: 'ERROR',
@@ -84,13 +109,6 @@ function parseCausesOfDeath(bundle) {
   try {
     const conditions = bundle.filter(resource => resource.resource.resourceType === 'Condition');
     const causeList = conditions.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Cause-Of-Death-Condition')));
-    const entryList = bundle.filter(resource => resource.resource.resourceType === 'List')[0].resource.entry;
-    var uuids = [];
-    for (var ii = 0; ii < entryList.length; ii++) {
-      const reference = entryList[ii].item.reference;
-      const referenceUUID = reference.substring(reference.search('/')+1, reference.length);
-      uuids.push(referenceUUID);
-    }
     const causeListCleaned = causeList.map(cause => {
       var onsetTime = ''
       if (cause.resource.hasOwnProperty('onsetAge')) {
@@ -104,6 +122,22 @@ function parseCausesOfDeath(bundle) {
         onsetAge: onsetTime
       }
     });
+    const entries = bundle.filter(resource => resource.resource.resourceType === 'List');
+    if (!entries[0]) {
+      return {
+        causeA: causeListCleaned[0] || {},
+        causeB: causeListCleaned[1] || {},
+        causeC: causeListCleaned[2] || {},
+        causeD: causeListCleaned[3] || {}
+      }
+    }
+    const entryList = bundle.filter(resource => resource.resource.resourceType === 'List')[0].resource.entry;
+    var uuids = [];
+    for (var ii = 0; ii < entryList.length; ii++) {
+      const reference = entryList[ii].item.reference;
+      const referenceUUID = reference.substring(reference.search('/')+1, reference.length);
+      uuids.push(referenceUUID);
+    }
     return {
       causeA: causeListCleaned.find(cause => cause.id === uuids[0]) || {},
       causeB: causeListCleaned.find(cause => cause.id === uuids[1]) || {},
@@ -121,6 +155,59 @@ function parseCausesOfDeath(bundle) {
   }
 }
 
+function parseCertifier(bundle) {
+  try {
+    const practitioner = bundle.filter(resource => resource.resource.resourceType === 'Practitioner');
+    const practitionerList = practitioner.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')));
+    const firstName = practitionerList[0].resource.name[0].given[0];
+    const familyName = practitionerList[0].resource.name[0].family;
+    return firstName + " " + familyName;
+  } catch(e) {
+    console.error('e: ',e);
+    return "";
+  }
+}
+
+function parsePlaceOfDeath(bundle) {
+  try {
+    const locations = bundle.filter(resource => resource.resource.resourceType === 'Location');
+    const locationList = locations.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')));
+    return {
+      deathLocation: locationList[0].resource.name,
+      typeOfDeathLocation: locationList[0].resource.type[0].coding[0].display
+    };
+  } catch(e) {
+    console.error('e: ',e);
+    return {};
+  }
+}
+
+function parseWorkInjury(bundle) {
+  try {
+    const injuryIncedent = bundle.filter(resource => resource.resource.resourceType === 'Observation');
+    const injuryIncedentList = injuryIncedent.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident')));
+    if (!injuryIncedentList[0]) return "N/A";
+    const components = injuryIncedentList[0].resource.component;
+    const deathFromWorkComponent = components.filter(resource => resource.code.coding[0].display === 'Did death result from injury at work')[0];
+    return deathFromWorkComponent.valueCodeableConcept.coding[0].display;
+  } catch(e) {
+    console.error('e: ',e);
+    return "";
+  }
+}
+
+function parseAutopsy(bundle) {
+  try {
+    const autopsyPerformed = bundle.filter(resource => resource.resource.resourceType === 'Observation');
+    const autopsyPerformedList = autopsyPerformed.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator')));
+    if (!autopsyPerformedList[0]) return "N/A";
+    return autopsyPerformedList[0].resource.valueCodeableConcept.coding[0].display;
+  } catch(e) {
+    console.error('e: ',e);
+    return "";
+  }
+}
+
 export function caseReducer(state = initialState, action = {}) {
   switch(action.type) {
     case 'GET_CASE_REQUESTED': {
@@ -133,12 +220,18 @@ export function caseReducer(state = initialState, action = {}) {
       }
     }
     case 'GET_CASE_FULFILLED': {
-      const { data: { data : { entry } } } = action;
+      const { data: { patientResources: { data : { entry } } } } = action;
       const caseNumber = parseCaseNumber(entry);
       const decedent = parseDecedent(entry);
       const timeOfDeath = parseTimeOfDeath(entry);
       const causesOfDeath = parseCausesOfDeath(entry);
-      const patientJson = entry
+      const patientJson = entry;
+      const { data: { documentResources: { data } } } = action;
+      const documentJson = data.entry;
+      const certifier = parseCertifier(documentJson);
+      const deathLocationInfo = parsePlaceOfDeath(documentJson);
+      const deathFromWork = parseWorkInjury(documentJson);
+      const autopsyPerformed = parseAutopsy(documentJson);
       return {
         ...state,
         isLoading: false,
@@ -151,10 +244,15 @@ export function caseReducer(state = initialState, action = {}) {
             ...timeOfDeath
           },
           summary: {
-            ...causesOfDeath
+            ...causesOfDeath,
+            certifier: certifier,
+            ...deathLocationInfo,
+            deathFromWork: deathFromWork,
+            autopsyPerformed: autopsyPerformed
           },
           fhirExplorer: {
-            patientJson: patientJson
+            patientJson: patientJson,
+            documentJson: documentJson
           }
         }
       }

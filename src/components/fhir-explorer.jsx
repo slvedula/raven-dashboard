@@ -543,32 +543,56 @@ const fields = {
 	}
 }
 
-function retrieveJson(bundle, fieldId) {
+function retrieveJson(patientBundle, documentBundle, fieldId) {
   if (fieldId === 'cause-a' || fieldId === 'cause-a-onset') {
-    return parseList(bundle, 0);
+    return parseList(patientBundle, 0);
   }
   else if (fieldId === 'cause-b' || fieldId === 'cause-b-onset') {
-    return parseList(bundle, 1);
+    return parseList(patientBundle, 1);
   }
   else if (fieldId === 'cause-c' || fieldId === 'cause-c-onset') {
-    return parseList(bundle, 2);
+    return parseList(patientBundle, 2);
   }
   else if (fieldId === 'cause-d' || fieldId === 'cause-d-onset') {
-    return parseList(bundle, 3);
+    return parseList(patientBundle, 3);
   }
   else if (fieldId === 'decedent') {
     try {
-      return bundle.filter(resource => resource.resource.resourceType === 'Patient')[0];
+      return patientBundle.filter(resource => resource.resource.resourceType === 'Patient')[0];
     } catch (e) {
       return {}
     }
   }
   else if (fieldId === 'time-of-death') {
     try {
-      return bundle.filter(resource => resource.resource.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date'))[0]
+      return patientBundle.filter(resource => resource.resource.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date'))[0];
     } catch (e) {
       return {}
     }
+  }
+  else if (fieldId === 'place-of-death' || fieldId === 'type-of-place') {
+    try {
+      return documentBundle.filter(resource => resource.resource.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location'))[0];
+    } catch(e) {
+      return {};
+    }
+  }
+  else if (fieldId === 'related-to-job') {
+    try {
+      return documentBundle.filter(resource => resource.resource.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident'))[0];
+    } catch(e) {
+      return {};
+    }
+  }
+  else if (fieldId === 'autopsy-performed') {
+    try {
+      return documentBundle.filter(resource => resource.resource.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator'))[0];
+    } catch(e) {
+      return {};
+    }
+  }
+  else {
+    return {}
   }
 }
 
@@ -594,11 +618,12 @@ export default class FhirExplorer extends Component {
     const { case:
             { form:
               { fhirExplorer: {
-                patientJson
+                patientJson,
+                documentJson
       }}}} = this.props;
     return (
       <div className={`fhir-explorer ${visible ? 'is-visible' : ''}`}>
-      <pre>{JSON.stringify(retrieveJson(patientJson, fieldId), null, 2)}</pre>
+      <pre>{JSON.stringify(retrieveJson(patientJson, documentJson, fieldId), null, 2)}</pre>
       </div>
     );
   }

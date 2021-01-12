@@ -8,7 +8,7 @@ import {
 import CaseSummary from '../../containers/case_summary';
 import Documents from './documents';
 import CaseNotes from './notes';
-import ReleaseInfo from './release-info';
+import ReleaseInfo from '../../containers/case_release_info';
 import Toxicology from './toxicology';
 
 
@@ -127,7 +127,10 @@ export default class Index extends Component {
             <Route
               path={`/app/c/${caseId}/release`}
               render={() =>
-                <ReleaseInfo/>
+                <ReleaseInfo
+                  explore={explore}
+                  handleFieldClick={handleFieldClick}
+                />
               }
             />
             <Route

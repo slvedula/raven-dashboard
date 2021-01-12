@@ -1,4 +1,37 @@
 import React, { Component } from 'react';
+import Tooltip from 'react-simple-tooltip';
+import {css} from 'styled-components';
+
+
+function InputField(props) {
+  if (props.value.length > 6) {
+    return (
+      <Tooltip content={props.value || ""}
+        fontSize='small'
+        background='#fefdcf'
+        color='#000'
+        customCss={css`
+          text-align: center;
+        `}>
+        <input
+          className="input is-small"
+          type="text"
+          size="small"
+          value={props.value || ""}
+          />
+      </Tooltip>
+    );
+  } else {
+    return (
+      <input
+        className="input is-small"
+        type="text"
+        size="small"
+        value={props.value || ""}
+        />
+    )
+  }
+}
 
 export default class CaseSummary extends Component {
   render() {
@@ -9,8 +42,14 @@ export default class CaseSummary extends Component {
                 causeA,
                 causeB,
                 causeC,
-                causeD
-              }}}} = this.props;
+                causeD,
+                certifier,
+                deathLocation,
+                typeOfDeathLocation,
+                deathFromWork,
+                autopsyPerformed
+              }
+          }}} = this.props;
     return (
       <div className="summary">
         <div className="i1">
@@ -60,7 +99,7 @@ export default class CaseSummary extends Component {
                       className="input is-small"
                       type="text"
                       placeholder="Name"
-                      value=""
+                      value= {certifier || ""}
                     />
                   </p>
                 </div>
@@ -187,11 +226,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <input
-                        className="input is-small"
-                        type="text"
-                        value=""
-                      />
+                      <InputField value={deathFromWork || ""}/>
                     </div>
                   </div>
                 </div>
@@ -265,10 +300,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <input
-                        className="input is-small"
-                        type="text"
-                      />
+                      <InputField value={deathLocation || ""}/>
                     </div>
                   </div>
                 </div>
@@ -283,11 +315,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <input
-                        className="input is-small"
-                        type="text"
-                        value=""
-                      />
+                      <InputField value={typeOfDeathLocation || ""}/>
                     </div>
                   </div>
                 </div>
@@ -456,11 +484,7 @@ export default class CaseSummary extends Component {
               <div className="field-body">
                 <div className="field is-expanded">
                   <div className="control">
-                    <input
-                      className="input is-small"
-                      type="text"
-                      value=""
-                    />
+                    <InputField value={autopsyPerformed || ""}/>
                   </div>
                 </div>
               </div>
