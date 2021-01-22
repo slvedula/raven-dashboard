@@ -591,6 +591,9 @@ function retrieveJson(patientBundle, documentBundle, fieldId) {
       return {};
     }
   }
+  else if (fieldId === 'composition-document') {
+    return documentBundle;
+  }
   else {
     return {}
   }

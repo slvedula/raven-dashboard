@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Tooltip from 'react-simple-tooltip';
 import {css} from 'styled-components';
 
-
 function InputField(props) {
   if (props.value.length > 6) {
     return (
@@ -47,7 +46,10 @@ export default class CaseSummary extends Component {
                 deathLocation,
                 typeOfDeathLocation,
                 deathFromWork,
-                autopsyPerformed
+                autopsyPerformed,
+                surgeryPerformed,
+                datePerformed,
+                physicianName
               }
           }}} = this.props;
     return (
@@ -198,7 +200,7 @@ export default class CaseSummary extends Component {
           <div className="i2-b">
             <div className="i2-ba">
               <div
-                className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                className={`field is-horizontal explorable ${explore === 'at-work' ? 'is-explore' : ''}`}
                 onClick={() => handleFieldClick('at-work')}
               >
                 <div className="field-label is-small">
@@ -217,7 +219,7 @@ export default class CaseSummary extends Component {
                 </div>
               </div>
               <div
-                className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                className={`field is-horizontal explorable ${explore === 'related-to-job' ? 'is-explore' : ''}`}
                 onClick={() => handleFieldClick('related-to-job')}
               >
                 <div className="field-label is-small">
@@ -232,7 +234,7 @@ export default class CaseSummary extends Component {
                 </div>
               </div>
               <div
-                className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                className={`field is-horizontal explorable ${explore === 'reported-date' ? 'is-explore' : ''}`}
                 onClick={() => handleFieldClick('reported-date')}
               >
                 <div className="field-label is-small">
@@ -251,7 +253,7 @@ export default class CaseSummary extends Component {
                 </div>
               </div>
               <div
-                className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                className={`field is-horizontal explorable ${explore === 'found-date' ? 'is-explore' : ''}`}
                 onClick={() => handleFieldClick('found-date')}
               >
                 <div className="field-label is-small">
@@ -270,7 +272,7 @@ export default class CaseSummary extends Component {
                 </div>
               </div>
               <div
-                className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                className={`field is-horizontal explorable ${explore === 'injury-event-date' ? 'is-explore' : ''}`}
                 onClick={() => handleFieldClick('injury-event-date')}
               >
                 <div className="field-label is-small">
@@ -291,7 +293,7 @@ export default class CaseSummary extends Component {
             </div>
             <div className="i2-bb">
             <div
-              className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+              className={`field is-horizontal explorable ${explore === 'place-of-death' ? 'is-explore' : ''}`}
               onClick={() => handleFieldClick('place-of-death')}
             >
                 <div className="field-label is-small">
@@ -306,7 +308,7 @@ export default class CaseSummary extends Component {
                 </div>
               </div>
               <div
-                className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                className={`field is-horizontal explorable ${explore === 'type-of-place' ? 'is-explore' : ''}`}
                 onClick={() => handleFieldClick('type-of-place')}
               >
                 <div className="field-label is-small">
@@ -321,7 +323,7 @@ export default class CaseSummary extends Component {
                 </div>
               </div>
               <div
-                className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                className={`field is-horizontal explorable ${explore === 'date-last-known-alive' ? 'is-explore' : ''}`}
                 onClick={() => handleFieldClick('date-last-known-alive')}
               >
                 <div className="field-label is-small">
@@ -340,7 +342,7 @@ export default class CaseSummary extends Component {
                 </div>
               </div>
               <div
-                className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                className={`field is-horizontal explorable ${explore === 'place-last-known-alive' ? 'is-explore' : ''}`}
                 onClick={() => handleFieldClick('place-last-known-alive')}
               >
                 <div className="field-label is-small">
@@ -358,7 +360,7 @@ export default class CaseSummary extends Component {
                 </div>
               </div>
               <div
-                className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                className={`field is-horizontal explorable ${explore === 'date-case-reviewed' ? 'is-explore' : ''}`}
                 onClick={() => handleFieldClick('date-case-reviewed')}
               >
                 <div className="field-label is-small">
@@ -378,7 +380,7 @@ export default class CaseSummary extends Component {
             </div>
             <div className="i2-bc">
               <div
-                className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                className={`field is-horizontal explorable ${explore === 'date-arrived-at-hospital' ? 'is-explore' : ''}`}
                 onClick={() => handleFieldClick('date-arrived-at-hospital')}
               >
                 <div className="field-label is-small">
@@ -397,7 +399,7 @@ export default class CaseSummary extends Component {
                 </div>
               </div>
               <div
-                className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                className={`field is-horizontal explorable ${explore === 'hospital-where-first-taken' ? 'is-explore' : ''}`}
                 onClick={() => handleFieldClick('hospital-where-first-taken')}
               >
                 <div className="field-label is-small">
@@ -416,7 +418,7 @@ export default class CaseSummary extends Component {
                 </div>
               </div>
               <div
-                className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                className={`field is-horizontal explorable ${explore === 'surgery-performed' ? 'is-explore' : ''}`}
                 onClick={() => handleFieldClick('surgery-performed')}
               >
                 <div className="field-label is-small">
@@ -425,17 +427,13 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <input
-                        className="input is-small"
-                        type="text"
-                        value=""
-                      />
+                      <InputField value={surgeryPerformed || ""}/>
                     </div>
                   </div>
                 </div>
               </div>
               <div
-                className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                className={`field is-horizontal explorable ${explore === 'date-of-surgery' ? 'is-explore' : ''}`}
                 onClick={() => handleFieldClick('date-of-surgery')}
               >
                 <div className="field-label is-small">
@@ -444,16 +442,13 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <input
-                        className="input is-small"
-                        type="text"
-                      />
+                      <InputField value={datePerformed || ""}/>
                     </div>
                   </div>
                 </div>
               </div>
               <div
-                className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                className={`field is-horizontal explorable ${explore === 'physician-name' ? 'is-explore' : ''}`}
                 onClick={() => handleFieldClick('physician-name')}
               >
                 <div className="field-label is-small">
@@ -462,11 +457,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <input
-                        className="input is-small"
-                        type="text"
-                        value=""
-                      />
+                      <InputField value={physicianName || ""}/>
                     </div>
                   </div>
                 </div>
@@ -475,7 +466,7 @@ export default class CaseSummary extends Component {
           </div>
           <div className="i2-c">
             <div
-              className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+              className={`field is-horizontal explorable ${explore === 'autopsy-performed' ? 'is-explore' : ''}`}
               onClick={() => handleFieldClick('autopsy-performed')}
             >
               <div className="field-label is-small">
@@ -490,7 +481,7 @@ export default class CaseSummary extends Component {
               </div>
             </div>
             <div
-              className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+              className={`field is-horizontal explorable ${explore === 'autopsy-findings-used' ? 'is-explore' : ''}`}
               onClick={() => handleFieldClick('autopsy-findings-used')}
             >
               <div className="field-label is-small">
@@ -509,7 +500,7 @@ export default class CaseSummary extends Component {
               </div>
             </div>
             <div
-              className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+              className={`field is-horizontal explorable ${explore === 'disposition-of-body' ? 'is-explore' : ''}`}
               onClick={() => handleFieldClick('disposition-of-body')}
             >
               <div className="field-label is-small">
@@ -528,7 +519,7 @@ export default class CaseSummary extends Component {
               </div>
             </div>
             <div
-              className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+              className={`field is-horizontal explorable ${explore === 'year-case-categorized' ? 'is-explore' : ''}`}
               onClick={() => handleFieldClick('year-case-categorized')}
             >
               <div className="field-label is-small">
@@ -547,7 +538,7 @@ export default class CaseSummary extends Component {
               </div>
             </div>
             <div
-              className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+              className={`field is-horizontal explorable ${explore === 'type-of-residence' ? 'is-explore' : ''}`}
               onClick={() => handleFieldClick('type-of-residence')}
             >
               <div className="field-label is-small">
@@ -671,7 +662,7 @@ export default class CaseSummary extends Component {
               </div>
               <div className="i5-aa-2">
                 <div
-                  className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                  className={`field is-horizontal explorable ${explore === 'cause-a' ? 'is-explore' : ''}`}
                   onClick={() => handleFieldClick('cause-a')}
                 >
                   <div className="field-label is-small">
@@ -690,7 +681,7 @@ export default class CaseSummary extends Component {
                   </div>
                 </div>
                 <div
-                  className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                  className={`field is-horizontal explorable ${explore === 'cause-b' ? 'is-explore' : ''}`}
                   onClick={() => handleFieldClick('cause-b')}
                 >
                   <div className="field-label is-small">
@@ -709,7 +700,7 @@ export default class CaseSummary extends Component {
                   </div>
                 </div>
                 <div
-                  className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                  className={`field is-horizontal explorable ${explore === 'cause-c' ? 'is-explore' : ''}`}
                   onClick={() => handleFieldClick('cause-c')}
                 >
                   <div className="field-label is-small">
@@ -728,7 +719,7 @@ export default class CaseSummary extends Component {
                   </div>
                 </div>
                 <div
-                  className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                  className={`field is-horizontal explorable ${explore === 'cause-d' ? 'is-explore' : ''}`}
                   onClick={() => handleFieldClick('cause-d')}
                 >
                   <div className="field-label is-small">
@@ -754,7 +745,7 @@ export default class CaseSummary extends Component {
               </div>
               <div className="i5-ab-2">
                 <div
-                  className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                  className={`field is-horizontal explorable ${explore === 'cause-a-onset' ? 'is-explore' : ''}`}
                   onClick={() => handleFieldClick('cause-a-onset')}
                 >
                   <div className="field-body">
@@ -770,7 +761,7 @@ export default class CaseSummary extends Component {
                   </div>
                 </div>
                 <div
-                  className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                  className={`field is-horizontal explorable ${explore === 'cause-b-onset' ? 'is-explore' : ''}`}
                   onClick={() => handleFieldClick('cause-b-onset')}
                 >
                   <div className="field-body">
@@ -786,7 +777,7 @@ export default class CaseSummary extends Component {
                   </div>
                 </div>
                 <div
-                  className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                  className={`field is-horizontal explorable ${explore === 'cause-c-onset' ? 'is-explore' : ''}`}
                   onClick={() => handleFieldClick('cause-c-onset')}
                 >
                   <div className="field-body">
@@ -802,7 +793,7 @@ export default class CaseSummary extends Component {
                   </div>
                 </div>
                 <div
-                  className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+                  className={`field is-horizontal explorable ${explore === 'cause-d-onset' ? 'is-explore' : ''}`}
                   onClick={() => handleFieldClick('cause-d-onset')}
                 >
                   <div className="field-body">
@@ -822,7 +813,7 @@ export default class CaseSummary extends Component {
           </div>
           <div className="i5-b">
             <div
-              className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
+              className={`field is-horizontal explorable ${explore === 'contributing-factors' ? 'is-explore' : ''}`}
               onClick={() => handleFieldClick('contributing-factors')}
             >
               <div className="field-label is-small">

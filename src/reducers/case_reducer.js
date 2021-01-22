@@ -27,17 +27,20 @@ const initialState = {
 function parseCaseNumber(bundle) {
   try {
     const { resource: { identifier } } = bundle.find(resource => resource.resource.resourceType === 'Patient');
-    return identifier.reduce((caseNum, identifier) => {
-      if (!identifier.type) {
-        return caseNum;
-      }
-      if (identifier.type.coding[0].code === "1000007") {
-        caseNum = identifier.value;
-      }
-      return caseNum;
-    }, null)
+    const caseIdentifier = identifier.filter(identifier => identifier.type.coding[0].code === '1000007');
+    if (caseIdentifier[0]) return {
+      caseNumber: caseIdentifier[0].value,
+      caseSystem: caseIdentifier[0].system
+    };
+    return {
+      caseNumber: 'ERROR',
+      caseSystem: 'ERROR'
+    }
   } catch(e) {
-    return 'ERROR';
+    return {
+      caseNumber: 'ERROR',
+      caseSystem: 'ERROR'
+    };
   }
 }
 
@@ -49,7 +52,9 @@ function parseDecedent(bundle) {
     if (name[0].given.length > 1) {
       middle = name[0].given[1];
     }
-    const address = patient.address[0].line[0] + ", " + patient.address[0].city + ", " + patient.address[0].state;
+    var address = ''
+    if (patient.address[0] && patient.address[0].line && patient.address[0].city && patient.address[0].state)
+      address = patient.address[0].line[0] + ", " + patient.address[0].city + ", " + patient.address[0].state;
     const extensions = patient.extension;
     var race = "";
     var ethnicity = "";
@@ -186,7 +191,7 @@ function parseWorkInjury(bundle) {
   try {
     const injuryIncedent = bundle.filter(resource => resource.resource.resourceType === 'Observation');
     const injuryIncedentList = injuryIncedent.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident')));
-    if (!injuryIncedentList[0]) return "N/A";
+    if (!injuryIncedentList[0]) return "";
     const components = injuryIncedentList[0].resource.component;
     const deathFromWorkComponent = components.filter(resource => resource.code.coding[0].display === 'Did death result from injury at work')[0];
     return deathFromWorkComponent.valueCodeableConcept.coding[0].display;
@@ -200,11 +205,44 @@ function parseAutopsy(bundle) {
   try {
     const autopsyPerformed = bundle.filter(resource => resource.resource.resourceType === 'Observation');
     const autopsyPerformedList = autopsyPerformed.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator')));
-    if (!autopsyPerformedList[0]) return "N/A";
+    if (!autopsyPerformedList[0]) return "";
     return autopsyPerformedList[0].resource.valueCodeableConcept.coding[0].display;
   } catch(e) {
     console.error('e: ',e);
     return "";
+  }
+}
+
+function parseSurgery(bundle) {
+  try {
+    const procedures = bundle.filter(resource => resource.resource.resourceType === 'Procedure');
+    if (procedures[0]) {
+      const surgicals = procedures.filter(resource => resource.resource.category.coding[0].display.includes('Surgical procedure'));
+      if (surgicals[0]) {
+        if (surgicals[0].resource.status === 'completed') {
+          const surgDate = moment(surgicals[0].resource.performedDateTime).format('YYYY-MM-DD');
+          return {
+            surgeryPerformed: "Yes",
+            datePerformed: surgDate,
+            physicianName: ""
+          }
+        } else {
+          return {
+            surgeryPerformed: "No",
+            datePerformed: "",
+            physicianName: ""
+          }
+        }
+      }
+    }
+
+  } catch(e) {
+    console.error('e: ',e);
+    return {
+      surgeryPerformed: "",
+      datePerformed: "",
+      physicianName: ""
+    };
   }
 }
 
@@ -221,7 +259,7 @@ export function caseReducer(state = initialState, action = {}) {
     }
     case 'GET_CASE_FULFILLED': {
       const { data: { patientResources: { data : { entry } } } } = action;
-      const caseNumber = parseCaseNumber(entry);
+      const caseInfo = parseCaseNumber(entry);
       const decedent = parseDecedent(entry);
       const timeOfDeath = parseTimeOfDeath(entry);
       const causesOfDeath = parseCausesOfDeath(entry);
@@ -232,6 +270,7 @@ export function caseReducer(state = initialState, action = {}) {
       const deathLocationInfo = parsePlaceOfDeath(documentJson);
       const deathFromWork = parseWorkInjury(documentJson);
       const autopsyPerformed = parseAutopsy(documentJson);
+      const surgInfo = parseSurgery(documentJson);
       return {
         ...state,
         isLoading: false,
@@ -239,7 +278,7 @@ export function caseReducer(state = initialState, action = {}) {
         isLoadError: false,
         form: {
           navBottom: {
-            caseNumber: caseNumber,
+            ...caseInfo,
             ...decedent,
             ...timeOfDeath
           },
@@ -248,7 +287,8 @@ export function caseReducer(state = initialState, action = {}) {
             certifier: certifier,
             ...deathLocationInfo,
             deathFromWork: deathFromWork,
-            autopsyPerformed: autopsyPerformed
+            autopsyPerformed: autopsyPerformed,
+            ...surgInfo
           },
           fhirExplorer: {
             patientJson: patientJson,

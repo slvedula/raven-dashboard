@@ -11,6 +11,7 @@ import { createBrowserHistory } from 'history'
 import { Provider } from 'react-redux';
 import CasePicker from './containers/case_picker_container';
 import Case from './containers/case_container';
+import CsvIngest from './components/csv_ingest/csv-ingest'
 
 const history = createBrowserHistory({
   basename: process.env.PUBLIC_URL
@@ -57,6 +58,12 @@ export default class App extends Component {
                 isExplorerVisible={this.state.isExplorerVisible}
                 explore={this.state.exploreFieldId}
                 />
+            )}
+          />
+          <Route
+            path="/app/csv"
+            render={(props) => (
+              <CsvIngest {...props}/>
             )}
           />
         </Router>

@@ -15,6 +15,10 @@ export default class NavTop extends Component {
             <Link to={`${window.location.pathname}?showPicker=true`} className="navbar-item">
               Browse Cases
             </Link>
+            <Link to='/app/csv' className="navbar-item">
+              Submit CSV
+            </Link>
+
           </div>
 
           <div className="navbar-middle">
@@ -32,7 +36,6 @@ export default class NavTop extends Component {
                   className="switch is-link is-rounded"
                   checked={isExplorerVisible}
                   onChange={() => {
-                    console.log("This was clicked: ", this.props.isExplorerVisible);
                     handleSwitchChange()}}
                 />
                 <label htmlFor="switchExample">FHIR Explorer</label>

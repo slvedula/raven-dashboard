@@ -4,7 +4,7 @@ export default class CaseNotes extends Component {
   render() {
     return (
       <div className="">
-      Case Notes
+      Stay Tuned for Raven 2.0
       </div>
     );
   }
