@@ -1,8 +1,14 @@
-import React, { Component } from 'react';
+import React, { useState, Component } from 'react';
 import ReactDOM from 'react-dom';
 import CSVReader from 'react-csv-reader';
 import { convertArrayToCSV } from 'convert-array-to-csv';
 import axios from 'axios';
+import { DataGrid, RowsProp, ColDef, CellParams } from '@material-ui/data-grid';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import { makeStyles } from '@material-ui/core/styles';
 
 function csvToMdiMapper(systemId,caseId,firstName,lastName,midName,age,ageUnit,race,gender,ethnicity,                             //10 variables
                         birthDate,mrnNumber,jobTitle,industry,language,marital,possibleId,certifierName,certifierType,causeA,     //10 variables
@@ -202,6 +208,18 @@ function parseCertifier(data) {
   }
 }
 
+function cleanupPatientData(data, csvMaps) {
+  var values = [];
+  for (var ii=0;ii<100;ii++) {
+    if (csvMaps[ii].length > 0) {
+      values[ii] = data[csvMaps[ii]] === "null" ? '' : data[csvMaps[ii]];
+    } else {
+      values[ii] = '';
+    }
+  }
+  return values;
+}
+
 const papaparseOptions = {
   header: true,
   skipEmptyLines: true,
@@ -211,32 +229,188 @@ const papaparseOptions = {
       .replace('-','')
 }
 
-const numbers = [1,2,3,4,5];
+const useStyles = makeStyles({
+  root: {
+    maxHeight: "none !important",
+    position: "relative !important",
+    height: "auto !important"
+  },
+  row: {
+      maxHeight: "none !important"
+  },
+  cell: {
+    maxHeight: "none !important"
+  },
+  window: {
+    position: "relative !important"
+  },
+  viewport: {
+    maxHeight: "none !important"
+  }
+});
 
-function NumberList(props) {
-  const numbers = props.numbers;
-  const listItems = numbers.map((number) =>
-    <li>{number}</li>
+const formStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
+
+function mapCsvToSelectFields(data) {
+  return ([
+    <MenuItem value=''>Not mapped</MenuItem>,
+    Object.entries(data).map(([key, val]) =>
+      <MenuItem value={key}>{key}</MenuItem>
+    )]
   );
-  return (
-    <ul>{listItems}</ul>
-  )
 }
 
-function MDIEntry(props) {
-  
+function emptyArray() {
+  var arr = [];
+  for (var ii=0;ii<100;ii++){
+    arr.push('');
+  }
+  return arr;
 }
+
+const rows: RowsProp = [
+  { id: 1, col1: 'SYSTEMID', col2: {desc: 'A system identifier to the external datasource'}},
+  { id: 2, col1: 'CASEID', col2: {desc: 'A case id from the original datasource'}},
+  { id: 3, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 4, col1: 'LASTNAME', col2: {desc: 'Last Name of Patient'}},
+  { id: 5, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 6, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 7, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 8, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 9, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 10, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 11, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 12, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 13, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 14, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 15, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 16, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 17, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 18, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 19, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 20, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 21, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 22, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 23, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 24, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 25, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 26, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 27, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 28, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 29, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 30, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 31, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 32, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 33, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 34, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 35, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 36, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 37, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 38, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 39, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 40, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 41, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 42, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 43, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 44, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 45, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 46, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 47, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 48, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 49, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 50, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 51, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 52, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 53, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 54, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 55, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 56, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 57, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 58, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 59, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 60, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 61, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 62, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 63, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 64, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 65, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 66, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 67, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 68, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 69, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 70, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 71, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 72, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 73, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 74, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 75, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 76, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 77, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 78, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 79, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 80, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 81, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 82, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 83, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 84, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 85, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 86, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 87, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 88, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 89, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 90, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 91, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 92, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 93, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 94, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 95, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 96, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 97, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 98, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 99, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 100, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+]
 
 export default class CsvSubmission extends Component {
-
 
   constructor(props) {
     super(props);
 
-    this.convertToMdi.bind(this);
+    this.state = {
+      csvLoaded: false,
+      csvSelectFields: [
+        <MenuItem value7=''>Not mapped</MenuItem>
+      ],
+      csvMaps: emptyArray(),
+      csvData: []
+    };
+
+    this.convertToMdi = this.convertToMdi.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.submitPatient = this.submitPatient.bind(this);
+  }
+
+  handleChange = params => (event) => {
+    const newMaps = this.state.csvMaps.slice();
+    newMaps[params.rowIndex] = event.target.value;
+    this.setState({csvMaps: newMaps});
   }
 
   async convertToMdi(data, fileInfo) {
+
+    this.setState({
+      csvLoaded: true,
+      csvSelectFields: mapCsvToSelectFields(data[0]),
+      csvData: data
+    });
     const decedent = parseDecedent(data[0]);
     const autopsy = parseAutopsy(data[0]);
     const death = parseDeath(data[0]);
@@ -262,12 +436,14 @@ export default class CsvSubmission extends Component {
                                   null,null,null,null,null,
                                   null,null,null,null,autopsy.performed,autopsy.available);
     const mdiArray = [mdiEntry];
+    console.log(mdiArray);
     const mdiCsv = convertArrayToCSV(mdiArray);
 
     const formData = new FormData();
     formData.append('file', new Blob([mdiCsv], {
       type: 'text/csv',
     }));
+    {/*
     const res = await axios.post(`https://apps.hdap.gatech.edu/raven-mapper-api/upload-csv-file-dataonly`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
@@ -282,9 +458,37 @@ export default class CsvSubmission extends Component {
     }).catch(function(error) {
       console.log(error.message);
     });
+    */}
+  }
+
+  async submitPatient() {
+    const patients = cleanupPatientData(this.state.csvData[0],this.state.csvMaps);
+    console.log(patients);
   }
 
   render() {
+      const { csvLoaded, csvSelectFields, csvMaps, csvData } = this.state;
+      const columns: ColDef[] = [
+        { field: 'col1', headerName: 'MDI Field', width: 150, sortable: false },
+        { field: 'col2', headerName: 'Field Description', width: 300, sortable: false, renderCell: (params) => (
+          <div style={{whiteSpace: 'normal', overflowWrap: 'break-word'}}>
+            <p style={{lineHeight: '20px'}}>{params.value.desc}</p>
+          </div>
+        ) },
+        { field: 'col3', headerName: 'Select CSV Field', width: 300, sortable: false, renderCell: (params) => (
+          <strong>
+            <FormControl className={formStyles.formControl} style={{minWidth: 120}}>
+              <InputLabel id='csv-select-label'>{params.row.col1}</InputLabel>
+              <Select
+                labelId='csv-select-label'
+                onChange={this.handleChange(params)}
+                id='csvSelect'>
+                {(this.state.csvSelectFields)}
+              </Select>
+            </FormControl>
+          </strong>
+        )}
+      ];
       return(
         <div className='page csv-submission'>
           <div className='i1'>
@@ -299,8 +503,31 @@ export default class CsvSubmission extends Component {
               </div>
             </div>
           </div>
-          <div className="i2">
-            <NumberList numbers={numbers}/>
+          <div className='i2'>
+            <div className='i2-a'>
+              <div className='i2-aa' style={{ height: 600, marginTop: 8}} >
+                {(this.state.csvLoaded) ? <DataGrid rows={rows} columns={columns}
+                  disableColumnMenu={true}
+                  hideFooterPagination={true}
+                  hideFooterRowCount={true}
+                  className={{
+                    root: useStyles.root,
+                    row: useStyles.row,
+                    cell: useStyles.cell,
+                    window: useStyles.window,
+                    viewport: useStyles.viewport
+                  }}/> : null}
+              </div>
+            </div>
+          </div>
+          <div className='i3'>
+            <div className='i3-a'>
+              <div className='i3-aa' style={{marginTop: 8}}>
+                {(this.state.csvLoaded) ? <button
+                  className={`button is-small is-outlined is-primary`}
+                  onClick={() => this.submitPatient()}>Submit</button> : null}
+              </div>
+            </div>
           </div>
         </div>
       );
