@@ -389,7 +389,8 @@ export default class CsvSubmission extends Component {
         <MenuItem value=''>Not mapped</MenuItem>
       ],
       csvMaps: emptyArray(),
-      csvData: []
+      csvData: [],
+      submitStatus: 'Submit'
     };
 
     this.convertToMdi = this.convertToMdi.bind(this);
@@ -463,12 +464,59 @@ export default class CsvSubmission extends Component {
   }
 
   async submitPatient() {
-    const patients = cleanupPatientData(this.state.csvData[0],this.state.csvMaps);
-    console.log(patients);
+    this.setState(state => ({
+      submitStatus: 'Submitting'
+    }));
+    this.submitBtn.setAttribute('disabled', 'disabled');
+    const systemId = "urn:mdi:cms:burmingham";
+    var mdiArray = [];
+    for (var ii=0; ii<this.state.csvData.length; ii++) {
+      const patient = cleanupPatientData(this.state.csvData[0],this.state.csvMaps);
+      var mdiEntry = csvToMdiMapper(systemId,patient[1],patient[2],patient[3],patient[4],patient[5],patient[6],patient[7],patient[8],patient[9],
+                                    patient[10],patient[11],patient[12],patient[13],patient[14],patient[15],patient[16],patient[17],patient[18],patient[19],
+                                    patient[20],patient[21],patient[22],patient[23],patient[24],patient[25],patient[26],patient[27],patient[28],patient[29],
+                                    patient[30],patient[31],patient[32],patient[33],patient[34],patient[35],patient[36],patient[37],patient[38],patient[39],
+                                    patient[40],patient[41],patient[42],patient[43],patient[44],patient[45],patient[46],patient[47],patient[48],patient[49],
+                                    patient[50],patient[51],patient[52],patient[53],patient[54],patient[55],patient[56],patient[57],patient[58],patient[59],
+                                    patient[60],patient[61],patient[62],patient[63],patient[64],patient[65],patient[66],patient[67],patient[68],patient[69],
+                                    patient[70],patient[71],patient[72],patient[73],patient[74],patient[75],patient[76],patient[77],patient[78],patient[79],
+                                    patient[80],patient[81],patient[82],patient[83],patient[84],patient[85],patient[86],patient[87],patient[88],patient[89],
+                                    patient[90],patient[91],patient[92],patient[93],patient[94],patient[95],patient[96],patient[97],patient[98],patient[99]);
+      mdiArray[ii] = mdiEntry;
+    }
+    console.log(mdiArray);
+    const mdiCsv = convertArrayToCSV(mdiArray);
+    const formData = new FormData();
+    formData.append('file', new Blob([mdiCsv], {
+      type: 'text/csv',
+    }));
+    var self=this;
+    const res = await axios.post(`https://apps.hdap.gatech.edu/raven-mapper-api/upload-csv-file-dataonly`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE'
+      },
+      auth: {
+        username: 'client',
+        password: 'secret'
+      }
+    }).then(function(res) {
+      console.log(res);
+      self.setState(state => ({
+        submitStatus: 'Submitted'
+      }));
+      this.submitBtn.setAttribute('disabled', '');
+    }).catch(function(error) {
+      console.log(error.message);
+      self.setState(state => ({
+        submitStatus: 'Submit'
+      }));
+      this.submitBtn.setAttribute('disabled', '');
+    });
   }
 
   render() {
-      const { csvLoaded, csvSelectFields, csvMaps, csvData } = this.state;
+      const { csvLoaded, csvSelectFields, csvMaps, csvData, submitStatus } = this.state;
       const columns: ColDef[] = [
         { field: 'col1', headerName: 'MDI Field', width: 150, sortable: false },
         { field: 'col2', headerName: 'Field Description', width: 300, sortable: false, renderCell: (params) => (
@@ -526,9 +574,9 @@ export default class CsvSubmission extends Component {
           <div className='i3'>
             <div className='i3-a'>
               <div className='i3-aa' style={{marginTop: 8}}>
-                {(this.state.csvLoaded) ? <button
+                {(this.state.csvLoaded) ? <button ref={submitBtn => {this.submitBtn = submitBtn; }}
                   className={`button is-small is-outlined is-primary`}
-                  onClick={() => this.submitPatient()}>Submit</button> : null}
+                  onClick={() => this.submitPatient()}>{this.state.submitStatus}</button> : null}
               </div>
             </div>
           </div>
