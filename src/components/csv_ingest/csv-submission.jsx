@@ -390,12 +390,17 @@ export default class CsvSubmission extends Component {
       ],
       csvMaps: emptyArray(),
       csvData: [],
-      submitStatus: 'Submit'
+      submitStatus: 'Submit',
+      autoStatus: 'Auto',
+      blockSubmit: false,
+      mdiCsvFile: ''
     };
 
     this.convertToMdi = this.convertToMdi.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.submitPatient = this.submitPatient.bind(this);
+    this.autoSubmit = this.autoSubmit.bind(this);
+    this.downloadMdiCsv = this.downloadMdiCsv.bind(this);
   }
 
   handleChange = params => (event) => {
@@ -406,68 +411,19 @@ export default class CsvSubmission extends Component {
     }));
   }
 
-  async convertToMdi(data, fileInfo) {
-
+  convertToMdi(data, fileInfo) {
     this.setState(state => ({
       csvLoaded: true,
       csvSelectFields: mapCsvToSelectFields(data[0]),
       csvData: data
     }));
-    const decedent = parseDecedent(data[0]);
-    const autopsy = parseAutopsy(data[0]);
-    const death = parseDeath(data[0]);
-    const injury = parseInjury(data[0]);
-    const residence = parseResidence(data[0]);
-    const age = parseAge(data[0]);
-    const causes = parseCausesOfDeath(data[0]);
-    const certifier = parseCertifier(data[0]);
-    const systemId = "urn:mdi:cms:burmingham";
-
-    var mdiEntry = csvToMdiMapper(systemId,decedent.case,decedent.firstName,decedent.lastName,decedent.middleName,age.age,age.unit,decedent.race,decedent.gender,null,
-                                  decedent.birthDate,null,decedent.job,decedent.industry,null,decedent.maritalStatus,null,certifier.name,certifier.type,causes.causeA,
-                                  causes.causeB,causes.causeC,causes.causeD,causes.conditions,death.manner,injury.desc,null,null,null,null,
-                                  null,injury.atWork,injury.jobRelated,death.pronounceDate,death.pronouncedTime,null,null,death.date,death.time,death.pronounceDate,
-                                  death.pronouncedTime,null,injury.date,injury.time,null,null,death.time,null,null,null,null,
-                                  residence.street,residence.city,residence.county,residence.usState,residence.zip,
-                                  death.place,null,death.city,death.county,death.usState,death.zip,
-                                  null,null,null,null,null,null,
-                                  null,null,null,null,null,
-                                  null,null,null,null,null,null,
-                                  injury.place,injury.street,injury.city,null,injury.usState,injury.zip,
-                                  death.date,null,null,null,
-                                  null,null,null,null,null,
-                                  null,null,null,null,autopsy.performed,autopsy.available);
-    const mdiArray = [mdiEntry];
-    console.log(mdiArray);
-    const mdiCsv = convertArrayToCSV(mdiArray);
-
-    const formData = new FormData();
-    formData.append('file', new Blob([mdiCsv], {
-      type: 'text/csv',
-    }));
-    {/*
-    const res = await axios.post(`https://apps.hdap.gatech.edu/raven-mapper-api/upload-csv-file-dataonly`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE'
-      },
-      auth: {
-        username: 'client',
-        password: 'secret'
-      }
-    }).then(function(res) {
-      console.log(res);
-    }).catch(function(error) {
-      console.log(error.message);
-    });
-    */}
   }
 
   async submitPatient() {
     this.setState(state => ({
-      submitStatus: 'Submitting'
+      submitStatus: 'Submitting',
+      blockSubmit: true
     }));
-    this.submitBtn.setAttribute('disabled', 'disabled');
     const systemId = "urn:mdi:cms:burmingham";
     var mdiArray = [];
     for (var ii=0; ii<this.state.csvData.length; ii++) {
@@ -486,6 +442,9 @@ export default class CsvSubmission extends Component {
     }
     console.log(mdiArray);
     const mdiCsv = convertArrayToCSV(mdiArray);
+    this.setState(state => ({
+      mdiCsvFile: mdiCsv
+    }))
     const formData = new FormData();
     formData.append('file', new Blob([mdiCsv], {
       type: 'text/csv',
@@ -503,20 +462,99 @@ export default class CsvSubmission extends Component {
     }).then(function(res) {
       console.log(res);
       self.setState(state => ({
-        submitStatus: 'Submitted'
+        submitStatus: 'Submitted',
+        blockSubmit: false
       }));
-      this.submitBtn.setAttribute('disabled', '');
     }).catch(function(error) {
       console.log(error.message);
       self.setState(state => ({
-        submitStatus: 'Submit'
+        submitStatus: 'Submit',
+        blockSubmit: false
       }));
-      this.submitBtn.setAttribute('disabled', '');
     });
   }
 
+  async autoSubmit() {
+    this.setState(state => ({
+      autoStatus: 'Submitting',
+      blockSubmit: true
+    }));
+    const systemId = "urn:mdi:cms:burmingham";
+    var mdiArray = [];
+    for (var ii=0; ii<this.state.csvData.length; ii++) {
+      const decedent = parseDecedent(this.state.csvData[ii]);
+      const autopsy = parseAutopsy(this.state.csvData[ii]);
+      const death = parseDeath(this.state.csvData[ii]);
+      const injury = parseInjury(this.state.csvData[ii]);
+      const residence = parseResidence(this.state.csvData[ii]);
+      const age = parseAge(this.state.csvData[ii]);
+      const causes = parseCausesOfDeath(this.state.csvData[ii]);
+      const certifier = parseCertifier(this.state.csvData[ii]);
+
+      var mdiEntry = csvToMdiMapper(systemId,decedent.case,decedent.firstName,decedent.lastName,decedent.middleName,age.age,age.unit,decedent.race,decedent.gender,null,
+                                    decedent.birthDate,null,decedent.job,decedent.industry,null,decedent.maritalStatus,null,certifier.name,certifier.type,causes.causeA,
+                                    causes.causeB,causes.causeC,causes.causeD,causes.conditions,death.manner,injury.desc,null,null,null,null,
+                                    null,injury.atWork,injury.jobRelated,death.pronounceDate,death.pronouncedTime,null,null,death.date,death.time,death.pronounceDate,
+                                    death.pronouncedTime,null,injury.date,injury.time,null,null,death.time,null,null,null,null,
+                                    residence.street,residence.city,residence.county,residence.usState,residence.zip,
+                                    death.place,null,death.city,death.county,death.usState,death.zip,
+                                    null,null,null,null,null,null,
+                                    null,null,null,null,null,
+                                    null,null,null,null,null,null,
+                                    injury.place,injury.street,injury.city,null,injury.usState,injury.zip,
+                                    death.date,null,null,null,
+                                    null,null,null,null,null,
+                                    null,null,null,null,autopsy.performed,autopsy.available);
+      mdiArray[ii] = mdiEntry;
+    }
+    console.log(mdiArray);
+    const mdiCsv = convertArrayToCSV(mdiArray);
+    this.setState(state => ({
+      mdiCsvFile: mdiCsv
+    }))
+    const formData = new FormData();
+    formData.append('file', new Blob([mdiCsv], {
+      type: 'text/csv',
+    }));
+    var self=this;
+    const res = await axios.post(`https://apps.hdap.gatech.edu/raven-mapper-api/upload-csv-file-dataonly`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE'
+      },
+      auth: {
+        username: 'client',
+        password: 'secret'
+      }
+    }).then(function(res) {
+      console.log(res);
+      self.setState(state => ({
+        autoStatus: 'Submitted',
+        blockSubmit: false
+      }));
+    }).catch(function(error) {
+      console.log(error.message);
+      self.setState(state => ({
+        autoStatus: 'Submit',
+        blockSubmit: false
+      }));
+    });
+  }
+
+  async downloadMdiCsv() {
+    const data = new Blob([this.state.mdiCsvFile], {type: 'text/csv'});
+    const href = URL.createObjectURL(data);
+    const link = document.createElement('a');
+    link.href = href;
+    link.download = "mdiCsv.csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+  }
+
   render() {
-      const { csvLoaded, csvSelectFields, csvMaps, csvData, submitStatus } = this.state;
+      const { csvLoaded, csvSelectFields, csvMaps, csvData, submitStatus, autoStatus, blockSubmit, mdiCsvFile } = this.state;
       const columns: ColDef[] = [
         { field: 'col1', headerName: 'MDI Field', width: 150, sortable: false },
         { field: 'col2', headerName: 'Field Description', width: 300, sortable: false, renderCell: (params) => (
@@ -574,9 +612,22 @@ export default class CsvSubmission extends Component {
           <div className='i3'>
             <div className='i3-a'>
               <div className='i3-aa' style={{marginTop: 8}}>
-                {(this.state.csvLoaded) ? <button ref={submitBtn => {this.submitBtn = submitBtn; }}
-                  className={`button is-small is-outlined is-primary`}
-                  onClick={() => this.submitPatient()}>{this.state.submitStatus}</button> : null}
+                <div className="field is-grouped">
+                  <p className='control'>
+                    {(this.state.csvLoaded) ? <button className={`button is-small is-outlined is-primary`}
+                      disabled={this.state.blockSubmit}
+                      onClick={() => this.submitPatient()}>{this.state.submitStatus}</button> : null}
+                  </p>
+                  <p className='control'>
+                    {(this.state.csvLoaded) ? <button className={`button is-small is-outlined is-primary`}
+                      disabled={this.state.blockSubmit}
+                      onClick={() => this.autoSubmit()}>{this.state.autoStatus}</button> : null}
+                  </p>
+                  <p className='control'>
+                    {(this.state.mdiCsvFile.length > 0) ? <button className={`button is-small is-outlined is-primary`}
+                      onClick={() => this.downloadMdiCsv()}>Download MDI</button> : null}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
