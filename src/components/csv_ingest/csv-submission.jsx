@@ -1,5 +1,4 @@
-import React, { useState, Component } from 'react';
-import ReactDOM from 'react-dom';
+import React, { Component } from 'react';
 import CSVReader from 'react-csv-reader';
 import { convertArrayToCSV } from 'convert-array-to-csv';
 import axios from 'axios';
@@ -261,9 +260,9 @@ const formStyles = makeStyles((theme) => ({
 
 function mapCsvToSelectFields(data) {
   return ([
-    <MenuItem value=''>Not mapped</MenuItem>,
+    <MenuItem key='no-value' value=''>Not mapped</MenuItem>,
     Object.entries(data).map(([key, val]) =>
-      <MenuItem value={key}>{key}</MenuItem>
+      <MenuItem key={key} value={key}>{key}</MenuItem>
     )]
   );
 }
@@ -277,106 +276,106 @@ function emptyArray() {
 }
 
 const rows: RowsProp = [
-  { id: 1, col1: 'SYSTEMID', col2: {desc: 'A system identifier to the external datasource'}},
-  { id: 2, col1: 'CASEID', col2: {desc: 'A case id from the original datasource'}},
-  { id: 3, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 4, col1: 'LASTNAME', col2: {desc: 'Last Name of Patient'}},
-  { id: 5, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 6, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 7, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 8, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 9, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 10, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 11, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 12, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 13, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 14, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 15, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 16, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 17, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 18, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 19, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 20, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 21, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 22, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 23, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 24, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 25, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 26, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 27, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 28, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 29, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 30, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 31, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 32, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 33, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 34, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 35, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 36, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 37, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 38, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 39, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 40, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 41, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 42, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 43, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 44, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 45, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 46, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 47, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 48, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 49, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 50, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 51, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 52, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 53, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 54, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 55, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 56, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 57, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 58, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 59, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 60, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 61, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 62, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 63, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 64, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 65, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 66, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 67, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 68, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 69, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 70, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 71, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 72, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 73, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 74, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 75, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 76, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 77, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 78, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 79, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 80, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 81, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 82, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 83, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 84, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 85, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 86, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 87, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 88, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 89, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 90, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 91, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 92, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 93, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 94, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 95, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 96, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 97, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 98, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 99, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 100, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 0, col1: 'SYSTEMID', col2: {desc: 'A system identifier to the external datasource'}},
+  { id: 1, col1: 'CASEID', col2: {desc: 'A case id from the original datasource'}},
+  { id: 2, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
+  { id: 3, col1: 'LASTNAME', col2: {desc: 'Last Name of Patient'}},
+  { id: 4, col1: 'MIDNAME', col2: {desc: 'Middle Name of Patient'}},
+  { id: 5, col1: 'AGE', col2: {desc: 'Age of Patient'}},
+  { id: 6, col1: 'AGEUNIT', col2: {desc: 'seconds, minutes,hours, months, years patient lived'}},
+  { id: 7, col1: 'RACE', col2: {desc: 'Racial component of decedent'}},
+  { id: 8, col1: 'GENDER', col2: {desc: 'The identified gender of the decedent'}},
+  { id: 9, col1: 'ETHNICITY', col2: {desc: 'Ethnic component of decedent'}},
+  { id: 10, col1: 'BIRTHDATE', col2: {desc: 'Birthdate of decedent'}},
+  { id: 11, col1: 'MRNNUMBER', col2: {desc: 'A medical record number (if available) provided from a health record'}},
+  { id: 12, col1: 'JOBTITLE', col2: {desc: 'Job Title of the working decedent'}},
+  { id: 13, col1: 'INDUSTRY', col2: {desc: 'Industry in which the decedent worked in'}},
+  { id: 14, col1: 'LANGUAGE', col2: {desc: 'The perferred language of the decedent'}},
+  { id: 15, col1: 'MARITAL', col2: {desc: 'Martial status of the decedent(Married, annulled, not married, divorced)'}},
+  { id: 16, col1: 'POSSIBLEID', col2: {desc: 'A nickname, or other possible identification the decedent used'}},
+  { id: 17, col1: 'CERTIFIER_NAME', col2: {desc: 'Name of the Certifier who certified the death'}},
+  { id: 18, col1: 'CERTIFIER_TYPE', col2: {desc: 'Qualification of the Certifier (ME, Coroner, Pronouncer)'}},
+  { id: 19, col1: 'CAUSEA', col2: {desc: '1st Cause of Death'}},
+  { id: 20, col1: 'CAUSEB', col2: {desc: '2nd Cause of Death'}},
+  { id: 21, col1: 'CAUSEC', col2: {desc: '3rd Cause of Death'}},
+  { id: 22, col1: 'CAUSED', col2: {desc: '4th Cause of Death'}},
+  { id: 23, col1: 'OSCOND', col2: {desc: 'Other circumstances related to the cause of death'}},
+  { id: 24, col1: 'MANNER', col2: {desc: 'The manner of death (natural, suicide, accidental)'}},
+  { id: 25, col1: 'CHOWNINJURY', col2: {desc: 'A description of the injury, if occurred'}},
+  { id: 26, col1: 'DURATIONA', col2: {desc: 'The length of time related to CAUSEA'}},
+  { id: 27, col1: 'DURATIONB', col2: {desc: 'The length of time related to CAUSEB'}},
+  { id: 28, col1: 'DURATIONC', col2: {desc: 'The length of time related to CAUSEC'}},
+  { id: 29, col1: 'DURACTIOND', col2: {desc: 'The length of time related to CAUSED'}},
+  { id: 30, col1: 'CASENOTES', col2: {desc: 'Extra case notes related to the cause of death'}},
+  { id: 31, col1: 'ATWORK', col2: {desc: 'A True/False value if the death occurred at work'}},
+  { id: 32, col1: 'JOBRELATED', col2: {desc: 'A True/False value if the death was in any way job related'}},
+  { id: 33, col1: 'REPORTDATE', col2: {desc: 'The date the death was reported'}},
+  { id: 34, col1: 'REPORTTIME', col2: {desc: 'The time the death was reported'}},
+  { id: 35, col1: 'FOUNDDATE', col2: {desc: 'The date the body was found'}},
+  { id: 36, col1: 'FOUNDTIME', col2: {desc: 'The time the death was found'}},
+  { id: 37, col1: 'EVENTDATE', col2: {desc: 'The date the death occurred'}},
+  { id: 38, col1: 'EVENTTIME', col2: {desc: 'The time the death occurred'}},
+  { id: 39, col1: 'PRNDATE', col2: {desc: 'The date the body was pronounced dead'}},
+  { id: 40, col1: 'PRNTIME', col2: {desc: 'The time the body was pronounced dead'}},
+  { id: 41, col1: 'EXAMDATE', col2: {desc: 'The date the case review or examination of the body occurred'}},
+  { id: 42, col1: 'CINJDATE', col2: {desc: 'The date of the injury leading to death'}},
+  { id: 43, col1: 'CINJTIME', col2: {desc: 'The time of the injury leading to death'}},
+  { id: 44, col1: 'CIDATEFLAG', col2: {desc: 'Qualifications(Approximations) of the datetime related to the injury'}},
+  { id: 45, col1: 'CDEATHFLAG', col2: {desc: 'Qualifications(Approximations) of the date related to the death'}},
+  { id: 46, col1: 'CDEATHTIME', col2: {desc: 'Qualifications(Approximations) of the time related to the death'}},
+  { id: 47, col1: 'LKADATE', col2: {desc: 'The date decedent was last known alive'}},
+  { id: 48, col1: 'LKATIME', col2: {desc: 'The time the decedent was last known alive'}},
+  { id: 49, col1: 'CASEYEAR', col2: {desc: 'The year the case occurred'}},
+  { id: 50, col1: 'ATHOSPDATE', col2: {desc: 'The date the decedent entered the hospital, if available'}},
+  { id: 51, col1: 'RESSTRET', col2: {desc: 'The address line of the decedent\'s reseidence'}},
+  { id: 52, col1: 'RESCITY', col2: {desc: 'The city of the decedent\'s reseidence'}},
+  { id: 53, col1: 'RESCOUNTY', col2: {desc: 'The county of the decedent\'s reseidence'}},
+  { id: 54, col1: 'RESSTATE', col2: {desc: 'The state of the decedent\'s reseidence'}},
+  { id: 55, col1: 'RESZIP', col2: {desc: 'The zipcode of the decedent\'s reseidence'}},
+  { id: 56, col1: 'DEATHPLACE', col2: {desc: 'The name of the place of death'}},
+  { id: 57, col1: 'DEATH_STREET', col2: {desc: 'The address line of the place of death'}},
+  { id: 58, col1: 'DEATH_CITY', col2: {desc: 'The city of the place of death'}},
+  { id: 59, col1: 'DEATH_COUNTY', col2: {desc: 'The county of the place of death'}},
+  { id: 60, col1: 'DEATH_STATE', col2: {desc: 'The state of the place of death'}},
+  { id: 61, col1: 'DEATH_ZIP', col2: {desc: 'The zipcode of the place of death'}},
+  { id: 62, col1: 'EVENTPLACE', col2: {desc: 'The name of the place where the event that lead to injury took place'}},
+  { id: 63, col1: 'FOUNDADDR_STREET', col2: {desc: 'The address line of where the decedent was found'}},
+  { id: 64, col1: 'FOUNDADDR_CITY', col2: {desc: 'The city of where the decedent was found'}},
+  { id: 65, col1: 'FOUNDADDR_COUNTY', col2: {desc: 'The county of where the decedent was found'}},
+  { id: 66, col1: 'FOUNDADDR_STATE', col2: {desc: 'The state of where the decedent was found'}},
+  { id: 67, col1: 'FOUNDADDR_ZIP', col2: {desc: 'The zipcode of where the decedent was found'}},
+  { id: 68, col1: 'EVEENTADDR_STREET', col2: {desc: 'The address line of where the event that lead to injury took place'}},
+  { id: 69, col1: 'EVENTADDR_CITY', col2: {desc: 'The city of where the event that lead to injury took place'}},
+  { id: 70, col1: 'EVENTADDR_COUNTY', col2: {desc: 'The county of where the event that lead to injury took place'}},
+  { id: 71, col1: 'EVENT_ADDR_STATE', col2: {desc: 'The state of where the event that lead to injury took place'}},
+  { id: 72, col1: 'EVENTADDR_ZIP', col2: {desc: 'The zipcode of where the event that lead to injury took place'}},
+  { id: 73, col1: 'PRNPLACE', col2: {desc: 'The name of where the pronounciation was made'}},
+  { id: 74, col1: 'PRNSTREET', col2: {desc: 'The address line of where the pronounciation was made'}},
+  { id: 75, col1: 'PRNCITY', col2: {desc: 'The city of where the pronounciation was made'}},
+  { id: 76, col1: 'PRNCOUNTY', col2: {desc: 'The county of where the pronounciation was made'}},
+  { id: 77, col1: 'PRNSTATE', col2: {desc: 'The state of where the pronounciation was made'}},
+  { id: 78, col1: 'PRNZIP', col2: {desc: 'The zipcode of where the pronounciation was made'}},
+  { id: 79, col1: 'CINJPLACE', col2: {desc: 'The name of where the injury took place'}},
+  { id: 80, col1: 'CINJSTREET', col2: {desc: 'The address line of where the injury took place'}},
+  { id: 81, col1: 'CINJCITY', col2: {desc: 'The city of where the injury took place'}},
+  { id: 82, col1: 'CINJCOUNTY', col2: {desc: 'The county of where the injury took place'}},
+  { id: 83, col1: 'CINJSTATE', col2: {desc: 'The state of where the injury took place'}},
+  { id: 84, col1: 'CINJZIP', col2: {desc: 'The zipcode of where the injury took place'}},
+  { id: 85, col1: 'CDEATHDATE', col2: {desc: 'Qualification(Approximation) of the Death Date'}},
+  { id: 86, col1: 'RESNAME', col2: {desc: 'the name of the residence of the decedent'}},
+  { id: 87, col1: 'LKAWHERE', col2: {desc: 'String of where the decedent was last seen alive'}},
+  { id: 88, col1: 'HOSPNAME', col2: {desc: 'The name of the hospital that intook the patient'}},
+  { id: 89, col1: 'SCENEADDR_STREET', col2: {desc: 'The address line of where the scene of investigation took place'}},
+  { id: 90, col1: 'SCENEADDR_CITY', col2: {desc: 'The city of where the scene of investigation took place'}},
+  { id: 91, col1: 'SCENEADDR_COUNTY', col2: {desc: 'The county of where the scene of investigation took place'}},
+  { id: 92, col1: 'SCENEADDR_STATE', col2: {desc: 'The state of where the scene of investigation took place'}},
+  { id: 93, col1: 'SCENEADDR_ZIP', col2: {desc: 'The zipcode of where the scene of investigation took place'}},
+  { id: 94, col1: 'SURGERY', col2: {desc: 'Whether a surgery was conducted or not'}},
+  { id: 95, col1: 'SURGDATE', col2: {desc: 'The date of the surgery'}},
+  { id: 96, col1: 'HCPROVIDER', col2: {desc: 'The name of the health care provider for the decedent'}},
+  { id: 97, col1: 'CUSTODY', col2: {desc: 'A true/false value whether the decedent was in custody or not'}},
+  { id: 98, col1: 'CAUTOPSY', col2: {desc: 'A true/false value whether the decedent had an autopsy or not'}},
+  { id: 99, col1: 'AUTOPUSED', col2: {desc: 'A true/false value whether the decedent\'s autopsy was used to determine the cause of death'}},
 ]
 
 export default class CsvSubmission extends Component {
@@ -387,7 +386,7 @@ export default class CsvSubmission extends Component {
     this.state = {
       csvLoaded: false,
       csvSelectFields: [
-        <MenuItem value7=''>Not mapped</MenuItem>
+        <MenuItem value=''>Not mapped</MenuItem>
       ],
       csvMaps: emptyArray(),
       csvData: []
@@ -401,16 +400,18 @@ export default class CsvSubmission extends Component {
   handleChange = params => (event) => {
     const newMaps = this.state.csvMaps.slice();
     newMaps[params.rowIndex] = event.target.value;
-    this.setState({csvMaps: newMaps});
+    this.setState(state => ({
+      csvMaps: newMaps
+    }));
   }
 
   async convertToMdi(data, fileInfo) {
 
-    this.setState({
+    this.setState(state => ({
       csvLoaded: true,
       csvSelectFields: mapCsvToSelectFields(data[0]),
       csvData: data
-    });
+    }));
     const decedent = parseDecedent(data[0]);
     const autopsy = parseAutopsy(data[0]);
     const death = parseDeath(data[0]);
@@ -477,12 +478,14 @@ export default class CsvSubmission extends Component {
         ) },
         { field: 'col3', headerName: 'Select CSV Field', width: 300, sortable: false, renderCell: (params) => (
           <strong>
-            <FormControl className={formStyles.formControl} style={{minWidth: 120}}>
-              <InputLabel id='csv-select-label'>{params.row.col1}</InputLabel>
+            <FormControl key={'form-control' + params.row.col1.toString()} className={formStyles.formControl} style={{minWidth: 120}}>
+              <InputLabel id={'input-label' + params.row.col1.toString()} key={'input-label' + params.row.col1.toString()}>{params.row.col1}</InputLabel>
               <Select
-                labelId='csv-select-label'
+                labelId={'input-label' + params.row.col1.toString()}
                 onChange={this.handleChange(params)}
-                id='csvSelect'>
+                value={this.state.csvMaps[params.rowIndex]}
+                key={'select-' + params.row.col1.toString()}
+                id={'select-id-' + params.row.col1.toString()}>
                 {(this.state.csvSelectFields)}
               </Select>
             </FormControl>
