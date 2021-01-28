@@ -26,6 +26,6 @@ volumes:
       
 trigger:
   branch:
-  - master
+  - deploy-test
   event:
   - push
