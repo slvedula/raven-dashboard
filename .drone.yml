@@ -8,7 +8,7 @@ steps:
   settings:
     repo: gt-build.hdap.gatech.edu/raven-dashboard
     context: .
-    dockerfile: ./Dockerfile.prod
+    dockerfile: ./Dockerfile.alt
 #    tags:
 #      - latest
 
