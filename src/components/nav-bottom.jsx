@@ -56,12 +56,19 @@ export default class NavBottom extends Component {
       })
     });
     const url = 'https://apps.hdap.gatech.edu/raven-mapper-api/submitEDRS2.0?systemIdentifier=' + system + '&codeIdentifier=' + caseNum + '&submitOnly=true';
-    this.exportBtn.setAttribute('disabled', 'disabled');
     this.setState({
       exportText: 'Exporting'
     })
     xhr.open('GET', url);
     xhr.send();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.case.isLoaded === true && prevProps.case.isLoading === true) {
+      this.setState(state => ({
+        exportText: 'Export'
+      }));
+    }
   }
 
   render() {
@@ -152,7 +159,8 @@ export default class NavBottom extends Component {
             </a>
           </p>
             <p className="control">
-              <button ref={exportBtn => {this.exportBtn = exportBtn; }}
+              <button
+                disabled={this.state.exportText !== 'Export'}
                 className={`button is-small is-outlined is-primary`}
                 onClick={() => this.exportPatient(caseNumber, caseSystem)}>
                 {this.state.exportText}
