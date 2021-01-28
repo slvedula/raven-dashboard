@@ -4,7 +4,7 @@ export default class Documents extends Component {
   render() {
     return (
       <div className="">
-      Documents
+      Stay Tuned for Raven 2.0
       </div>
     );
   }

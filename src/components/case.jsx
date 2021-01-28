@@ -5,7 +5,7 @@ import queryString from 'query-string';
 import NavTop from './nav-top';
 import NavBottom from '../containers/nav_bottom_container';
 import CasePanel from './case/index';
-import FhirExplorer from './fhir-explorer';
+import FhirExplorer from '../containers/fhir_explorer_container';
 
 class Case extends Component {
   componentDidMount() {
@@ -23,17 +23,21 @@ class Case extends Component {
 
   render() {
     const patientId = idx(this.props, _ => _.match.params.caseId)
+    const {
+      isExplorerVisible,
+      handleSwitchChange
+    } = this.props;
     return (
       <>
-        <NavTop/>
-        <NavBottom/>
+        <NavTop handleSwitchChange={this.props.handleSwitchChange} isExplorerVisible={this.props.isExplorerVisible}/>
+        <NavBottom handleFieldClick={this.props.handleFieldClick} explore={this.props.explore}/>
         <div className="workspace">
           <div className={`left ${false ? 'explorer-visible' : ''}`}>
-            <CasePanel caseId={patientId}/>
+            <CasePanel caseId={patientId} handleFieldClick={this.props.handleFieldClick} explore={this.props.explore}/>
           </div>
           <FhirExplorer
-            fieldId={null}
-            visible={null}
+            fieldId={this.props.explore}
+            visible={this.props.isExplorerVisible}
           />
         </div>
       </>
