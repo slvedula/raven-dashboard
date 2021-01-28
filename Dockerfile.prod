@@ -10,7 +10,8 @@ COPY yarn.lock .
 RUN yarn
 COPY . .
 
-ARG PUBLIC_URL=/app
+#ARG PUBLIC_URL=/app
+ARG PUBLIC_URL=/raven-dashboard
 RUN PUBLIC_URL=$PUBLIC_URL yarn build
 
 # => Run container
