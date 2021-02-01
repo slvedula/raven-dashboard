@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import idx from 'idx';
 
 const fields = {
   'at-work': {
@@ -545,16 +546,16 @@ const fields = {
 
 function retrieveJson(patientBundle, documentBundle, fieldId) {
   if (fieldId === 'cause-a' || fieldId === 'cause-a-onset') {
-    return parseList(patientBundle, 0);
+    return parseList(documentBundle, 0);
   }
   else if (fieldId === 'cause-b' || fieldId === 'cause-b-onset') {
-    return parseList(patientBundle, 1);
+    return parseList(documentBundle, 1);
   }
   else if (fieldId === 'cause-c' || fieldId === 'cause-c-onset') {
-    return parseList(patientBundle, 2);
+    return parseList(documentBundle, 2);
   }
   else if (fieldId === 'cause-d' || fieldId === 'cause-d-onset') {
-    return parseList(patientBundle, 3);
+    return parseList(documentBundle, 3);
   }
   else if (fieldId === 'decedent') {
     try {
@@ -565,28 +566,28 @@ function retrieveJson(patientBundle, documentBundle, fieldId) {
   }
   else if (fieldId === 'time-of-death') {
     try {
-      return patientBundle.filter(resource => resource.resource.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date'))[0];
+      return patientBundle.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date')))[0];
     } catch (e) {
       return {}
     }
   }
   else if (fieldId === 'place-of-death' || fieldId === 'type-of-place') {
     try {
-      return documentBundle.filter(resource => resource.resource.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location'))[0];
+      return documentBundle.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Location')))[0];
     } catch(e) {
       return {};
     }
   }
   else if (fieldId === 'related-to-job') {
     try {
-      return documentBundle.filter(resource => resource.resource.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident'))[0];
+      return documentBundle.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident')))[0];
     } catch(e) {
       return {};
     }
   }
   else if (fieldId === 'autopsy-performed') {
     try {
-      return documentBundle.filter(resource => resource.resource.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator'))[0];
+      return documentBundle.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator')))[0];
     } catch(e) {
       return {};
     }

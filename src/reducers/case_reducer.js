@@ -216,8 +216,8 @@ function parseAutopsy(bundle) {
 function parseSurgery(bundle) {
   try {
     const procedures = bundle.filter(resource => resource.resource.resourceType === 'Procedure');
-    if (procedures[0]) {
-      const surgicals = procedures.filter(resource => resource.resource.category.coding[0].display.includes('Surgical procedure'));
+    if (procedures[0] && procedures[0].resource.category) {
+      const surgicals = procedures.filter(resource => resource.resource.category.coding[0].code.includes('387713003'));
       if (surgicals[0]) {
         if (surgicals[0].resource.status === 'completed') {
           const surgDate = moment(surgicals[0].resource.performedDateTime).format('YYYY-MM-DD');
@@ -262,10 +262,10 @@ export function caseReducer(state = initialState, action = {}) {
       const caseInfo = parseCaseNumber(entry);
       const decedent = parseDecedent(entry);
       const timeOfDeath = parseTimeOfDeath(entry);
-      const causesOfDeath = parseCausesOfDeath(entry);
       const patientJson = entry;
       const { data: { documentResources: { data } } } = action;
       const documentJson = data.entry;
+      const causesOfDeath = parseCausesOfDeath(documentJson);
       const certifier = parseCertifier(documentJson);
       const deathLocationInfo = parsePlaceOfDeath(documentJson);
       const deathFromWork = parseWorkInjury(documentJson);
