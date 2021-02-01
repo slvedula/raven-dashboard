@@ -11,31 +11,35 @@ import { makeStyles } from '@material-ui/core/styles';
 
 function csvToMdiMapper(systemId,caseId,firstName,lastName,midName,age,ageUnit,race,gender,ethnicity,                             //10 variables
                         birthDate,mrnNumber,jobTitle,industry,language,marital,possibleId,certifierName,certifierType,causeA,     //10 variables
-                        causeB,causeC,causeD,oscond,manner,chownInjury,durationA,durationB,durationC,durationD,                   //10 variables
-                        caseNotes,atWork,jobRelated,reportDate,reportTime,foundDate,foundTime,eventDate,eventTime,prnDate,        //10 variables
-                        prnTime,examDate,cinjDate,cinjTime,ciDateFlag,cDeathFlag,cDeathTime,lkaDate,lkaTime,caseYear,atHospDate, //11 variables
-                        resStreet,resCity,resCounty,resState,resZip,                                                               //5 variables
+                        causeB,causeC,causeD,oscond,dispMethod,manner,chownInjury,durationA,durationB,durationC,durationD,        //11 variables
+                        caseNotes,atWork,jobRelated,reportDate,reportTime,cDeathDate,cDeathTime,foundDate,foundTime,              //9 variables
+                        eventDate,eventTime,prnDate,prnTime,examDate,                                                             //5 variables
+                        cinjDate,cinjTime,ciDateFlag,cDeathFlag,lkaDate,lkaTime,caseYear,atHospDate,                              //8 variables
+                        resStreet,resCity,resCounty,resState,resZip,                                                              //5 variables
                         deathPlace,deathStreet,deathCity,deathCounty,deathState,deathZip,                                         //6 variables
                         eventPlace,foundAddrStreet,foundAddrCity,foundAddrCounty,foundAddrState,foundAddrZip,                     //6 variables
                         eventAddrStreet,eventAddrCity,eventAddrCounty,eventAddrState,eventAddrZip,                                //5 variables
                         prnPlace,prnStreet,prnCity,prnCounty,prnState,prnZip,                                                     //6 variables
+                        dispPlace,dispStreet,dispCity,dispCounty,dispState,dispZip,                                               //6 variables
                         cinjPlace,cinjStreet,cinjCity,cinjCounty,cinjState,cinjZip,                                               //6 variables
-                        cDeathDate,resName,lkaWhere,hospName,                                                                     //4 variables
+                        resName,lkaWhere,hospName,                                                                                //3 variables
                         sceneAddrStreet,sceneAddrCity,sceneAddrCounty,sceneAddrState,sceneAddrZip,                                //5 variables
-                        surgery,surgDate,hcProvider,custody,cAutopsy,autopused){                                                  //6 variables = 100
+                        surgery,surgDate,hcProvider,custody,cAutopsy,autopused){                                                  //6 variables = 101
   return {
     SYSTEMID:systemId,CASEID:caseId,FIRSTNAME:firstName,LASTNAME:lastName,MIDNAME:midName,AGE:age,AGEUNIT:ageUnit,RACE:race,GENDER:gender,ETHNICITY:ethnicity,
     BIRTHDATE:birthDate,MRNNUMBER:mrnNumber,JOBTITLE:jobTitle,INDUSTRY:industry,LANGUAGE:language,MARITAL:marital,POSSIBLEID:possibleId,CERTIFIER_NAME:certifierName,CERTIFIER_TYPE:certifierType,CAUSEA:causeA,
-    CAUSEB:causeB,CAUSEC:causeC,CAUSED:causeD,OSCOND:oscond,MANNER:manner,CHOWNINJURY:chownInjury,DURATIONA:durationA,DURATIONB:durationB,DURATIONC:durationC,DURACTIOND:durationD,
-    CASENOTES:caseNotes,ATWORK:atWork,JOBRELATED:jobRelated,REPORTDATE:reportDate,REPORTTIME:reportTime,FOUNDDATE:foundDate,FOUNDTIME:foundTime,EVENTDATE:eventDate,EVENTTIME:eventTime,PRNDATE:prnDate,
-    PRNTIME:prnTime,EXAMDATE:examDate,CINJDATE:cinjDate,CINJTIME:cinjTime,CIDATEFLAG:ciDateFlag,CDEATHFLAG:cDeathFlag,CDEATHTIME:cDeathTime,LKADATE:lkaDate,LKATIME:lkaTime,CASEYEAR:caseYear,ATHOSPDATE:atHospDate,
+    CAUSEB:causeB,CAUSEC:causeC,CAUSED:causeD,OSCOND:oscond,DISPMETHOD:dispMethod, MANNER:manner,CHOWNINJURY:chownInjury,DURATIONA:durationA,DURATIONB:durationB,DURATIONC:durationC,DURACTIOND:durationD,
+    CASENOTES:caseNotes,ATWORK:atWork,JOBRELATED:jobRelated,REPORTDATE:reportDate,REPORTTIME:reportTime,CDEATHDATE:cDeathDate,CDEATHTIME:cDeathTime,FOUNDDATE:foundDate,FOUNDTIME:foundTime,
+    EVENTDATE:eventDate,EVENTTIME:eventTime,PRNDATE:prnDate,PRNTIME:prnTime,EXAMDATE:examDate,
+    CINJDATE:cinjDate,CINJTIME:cinjTime,CIDATEFLAG:ciDateFlag,CDEATHFLAG:cDeathFlag,CDEATHTIME:cDeathTime,LKADATE:lkaDate,LKATIME:lkaTime,CASEYEAR:caseYear,ATHOSPDATE:atHospDate,
     RESSTREET:resStreet,RESCITY:resCity,RESCOUNTY:resCounty,RESSTATE:resState,RESZIP:resZip,
     DEATHPLACE:deathPlace,DEATH_STREET:deathStreet,DEATH_CITY:deathCity,DEATH_COUNTY:deathCounty,DEATH_STATE:deathState,DEATH_ZIP:deathZip,
     EVENTPLACE:eventPlace,FOUNDADDR_STREET:foundAddrStreet,FOUNDADDR_CITY:foundAddrCity,FOUNDADDR_COUNTY:foundAddrCounty,FOUNDADDR_STATE:foundAddrState,FOUNDADDR_ZIP:foundAddrZip,
     EVEENTADDR_STREET:eventAddrStreet,EVENTADDR_CITY:eventAddrCity,EVENTADDR_COUNTY:eventAddrCounty,EVENT_ADDR_STATE:eventAddrState,EVENTADDR_ZIP:eventAddrZip,
     PRNPLACE:prnPlace,PRNSTREET:prnStreet,PRNCITY:prnCity,PRNCOUNTY:prnCounty,PRNSTATE:prnState,PRNZIP:prnZip,
+    DISPPLACE:dispPlace,DISPSTREET:dispStreet,DISPCITY:dispCity,DISPCOUNTY:dispCounty,DISPSTATE:dispState,DISPZIP:dispZip,
     CINJPLACE:cinjPlace,CINJSTREET:cinjStreet,CINJCITY:cinjCity,CINJCOUNTY:cinjCounty,CINJSTATE:cinjState,CINJZIP:cinjZip,
-    CDEATHDATE:cDeathDate,RESNAME:resName,LKAWHERE:lkaWhere,HOSPNAME:hospName,
+    RESNAME:resName,LKAWHERE:lkaWhere,HOSPNAME:hospName,
     SCENEADDR_STREET:sceneAddrStreet,SCENEADDR_CITY:sceneAddrCity,SCENEADDR_COUNTY:sceneAddrCounty,SCENEADDR_STATE:sceneAddrState,SCENEADDR_ZIP:sceneAddrZip,
     SURGERY:surgery,SURGDATE:surgDate,HCPROVIDER:hcProvider,CUSTODY:custody,CAUTOPSY:cAutopsy,AUTOPUSED:autopused
   }
@@ -209,7 +213,7 @@ function parseCertifier(data) {
 
 function cleanupPatientData(data, csvMaps) {
   var values = [];
-  for (var ii=0;ii<100;ii++) {
+  for (var ii=0;ii<107;ii++) {
     if (csvMaps[ii].length > 0) {
       values[ii] = data[csvMaps[ii]] === "null" ? '' : data[csvMaps[ii]];
     } else {
@@ -269,7 +273,7 @@ function mapCsvToSelectFields(data) {
 
 function emptyArray() {
   var arr = [];
-  for (var ii=0;ii<100;ii++){
+  for (var ii=0;ii<107;ii++){
     arr.push('');
   }
   return arr;
@@ -300,82 +304,89 @@ const rows: RowsProp = [
   { id: 21, col1: 'CAUSEC', col2: {desc: '3rd Cause of Death'}},
   { id: 22, col1: 'CAUSED', col2: {desc: '4th Cause of Death'}},
   { id: 23, col1: 'OSCOND', col2: {desc: 'Other circumstances related to the cause of death'}},
-  { id: 24, col1: 'MANNER', col2: {desc: 'The manner of death (natural, suicide, accidental)'}},
-  { id: 25, col1: 'CHOWNINJURY', col2: {desc: 'A description of the injury, if occurred'}},
-  { id: 26, col1: 'DURATIONA', col2: {desc: 'The length of time related to CAUSEA'}},
-  { id: 27, col1: 'DURATIONB', col2: {desc: 'The length of time related to CAUSEB'}},
-  { id: 28, col1: 'DURATIONC', col2: {desc: 'The length of time related to CAUSEC'}},
-  { id: 29, col1: 'DURACTIOND', col2: {desc: 'The length of time related to CAUSED'}},
-  { id: 30, col1: 'CASENOTES', col2: {desc: 'Extra case notes related to the cause of death'}},
-  { id: 31, col1: 'ATWORK', col2: {desc: 'A True/False value if the death occurred at work'}},
-  { id: 32, col1: 'JOBRELATED', col2: {desc: 'A True/False value if the death was in any way job related'}},
-  { id: 33, col1: 'REPORTDATE', col2: {desc: 'The date the death was reported'}},
-  { id: 34, col1: 'REPORTTIME', col2: {desc: 'The time the death was reported'}},
-  { id: 35, col1: 'FOUNDDATE', col2: {desc: 'The date the body was found'}},
-  { id: 36, col1: 'FOUNDTIME', col2: {desc: 'The time the death was found'}},
-  { id: 37, col1: 'EVENTDATE', col2: {desc: 'The date the death occurred'}},
-  { id: 38, col1: 'EVENTTIME', col2: {desc: 'The time the death occurred'}},
-  { id: 39, col1: 'PRNDATE', col2: {desc: 'The date the body was pronounced dead'}},
-  { id: 40, col1: 'PRNTIME', col2: {desc: 'The time the body was pronounced dead'}},
-  { id: 41, col1: 'EXAMDATE', col2: {desc: 'The date the case review or examination of the body occurred'}},
-  { id: 42, col1: 'CINJDATE', col2: {desc: 'The date of the injury leading to death'}},
-  { id: 43, col1: 'CINJTIME', col2: {desc: 'The time of the injury leading to death'}},
-  { id: 44, col1: 'CIDATEFLAG', col2: {desc: 'Qualifications(Approximations) of the datetime related to the injury'}},
-  { id: 45, col1: 'CDEATHFLAG', col2: {desc: 'Qualifications(Approximations) of the date related to the death'}},
-  { id: 46, col1: 'CDEATHTIME', col2: {desc: 'Qualifications(Approximations) of the time related to the death'}},
-  { id: 47, col1: 'LKADATE', col2: {desc: 'The date decedent was last known alive'}},
-  { id: 48, col1: 'LKATIME', col2: {desc: 'The time the decedent was last known alive'}},
-  { id: 49, col1: 'CASEYEAR', col2: {desc: 'The year the case occurred'}},
-  { id: 50, col1: 'ATHOSPDATE', col2: {desc: 'The date the decedent entered the hospital, if available'}},
-  { id: 51, col1: 'RESSTRET', col2: {desc: 'The address line of the decedent\'s reseidence'}},
-  { id: 52, col1: 'RESCITY', col2: {desc: 'The city of the decedent\'s reseidence'}},
-  { id: 53, col1: 'RESCOUNTY', col2: {desc: 'The county of the decedent\'s reseidence'}},
-  { id: 54, col1: 'RESSTATE', col2: {desc: 'The state of the decedent\'s reseidence'}},
-  { id: 55, col1: 'RESZIP', col2: {desc: 'The zipcode of the decedent\'s reseidence'}},
-  { id: 56, col1: 'DEATHPLACE', col2: {desc: 'The name of the place of death'}},
-  { id: 57, col1: 'DEATH_STREET', col2: {desc: 'The address line of the place of death'}},
-  { id: 58, col1: 'DEATH_CITY', col2: {desc: 'The city of the place of death'}},
-  { id: 59, col1: 'DEATH_COUNTY', col2: {desc: 'The county of the place of death'}},
-  { id: 60, col1: 'DEATH_STATE', col2: {desc: 'The state of the place of death'}},
-  { id: 61, col1: 'DEATH_ZIP', col2: {desc: 'The zipcode of the place of death'}},
-  { id: 62, col1: 'EVENTPLACE', col2: {desc: 'The name of the place where the event that lead to injury took place'}},
-  { id: 63, col1: 'FOUNDADDR_STREET', col2: {desc: 'The address line of where the decedent was found'}},
-  { id: 64, col1: 'FOUNDADDR_CITY', col2: {desc: 'The city of where the decedent was found'}},
-  { id: 65, col1: 'FOUNDADDR_COUNTY', col2: {desc: 'The county of where the decedent was found'}},
-  { id: 66, col1: 'FOUNDADDR_STATE', col2: {desc: 'The state of where the decedent was found'}},
-  { id: 67, col1: 'FOUNDADDR_ZIP', col2: {desc: 'The zipcode of where the decedent was found'}},
-  { id: 68, col1: 'EVEENTADDR_STREET', col2: {desc: 'The address line of where the event that lead to injury took place'}},
-  { id: 69, col1: 'EVENTADDR_CITY', col2: {desc: 'The city of where the event that lead to injury took place'}},
-  { id: 70, col1: 'EVENTADDR_COUNTY', col2: {desc: 'The county of where the event that lead to injury took place'}},
-  { id: 71, col1: 'EVENT_ADDR_STATE', col2: {desc: 'The state of where the event that lead to injury took place'}},
-  { id: 72, col1: 'EVENTADDR_ZIP', col2: {desc: 'The zipcode of where the event that lead to injury took place'}},
-  { id: 73, col1: 'PRNPLACE', col2: {desc: 'The name of where the pronounciation was made'}},
-  { id: 74, col1: 'PRNSTREET', col2: {desc: 'The address line of where the pronounciation was made'}},
-  { id: 75, col1: 'PRNCITY', col2: {desc: 'The city of where the pronounciation was made'}},
-  { id: 76, col1: 'PRNCOUNTY', col2: {desc: 'The county of where the pronounciation was made'}},
-  { id: 77, col1: 'PRNSTATE', col2: {desc: 'The state of where the pronounciation was made'}},
-  { id: 78, col1: 'PRNZIP', col2: {desc: 'The zipcode of where the pronounciation was made'}},
-  { id: 79, col1: 'CINJPLACE', col2: {desc: 'The name of where the injury took place'}},
-  { id: 80, col1: 'CINJSTREET', col2: {desc: 'The address line of where the injury took place'}},
-  { id: 81, col1: 'CINJCITY', col2: {desc: 'The city of where the injury took place'}},
-  { id: 82, col1: 'CINJCOUNTY', col2: {desc: 'The county of where the injury took place'}},
-  { id: 83, col1: 'CINJSTATE', col2: {desc: 'The state of where the injury took place'}},
-  { id: 84, col1: 'CINJZIP', col2: {desc: 'The zipcode of where the injury took place'}},
-  { id: 85, col1: 'CDEATHDATE', col2: {desc: 'Qualification(Approximation) of the Death Date'}},
-  { id: 86, col1: 'RESNAME', col2: {desc: 'the name of the residence of the decedent'}},
-  { id: 87, col1: 'LKAWHERE', col2: {desc: 'String of where the decedent was last seen alive'}},
-  { id: 88, col1: 'HOSPNAME', col2: {desc: 'The name of the hospital that intook the patient'}},
-  { id: 89, col1: 'SCENEADDR_STREET', col2: {desc: 'The address line of where the scene of investigation took place'}},
-  { id: 90, col1: 'SCENEADDR_CITY', col2: {desc: 'The city of where the scene of investigation took place'}},
-  { id: 91, col1: 'SCENEADDR_COUNTY', col2: {desc: 'The county of where the scene of investigation took place'}},
-  { id: 92, col1: 'SCENEADDR_STATE', col2: {desc: 'The state of where the scene of investigation took place'}},
-  { id: 93, col1: 'SCENEADDR_ZIP', col2: {desc: 'The zipcode of where the scene of investigation took place'}},
-  { id: 94, col1: 'SURGERY', col2: {desc: 'Whether a surgery was conducted or not'}},
-  { id: 95, col1: 'SURGDATE', col2: {desc: 'The date of the surgery'}},
-  { id: 96, col1: 'HCPROVIDER', col2: {desc: 'The name of the health care provider for the decedent'}},
-  { id: 97, col1: 'CUSTODY', col2: {desc: 'A true/false value whether the decedent was in custody or not'}},
-  { id: 98, col1: 'CAUTOPSY', col2: {desc: 'A true/false value whether the decedent had an autopsy or not'}},
-  { id: 99, col1: 'AUTOPUSED', col2: {desc: 'A true/false value whether the decedent\'s autopsy was used to determine the cause of death'}},
+  { id: 24, col1: 'DISPMETHOD', col2: {desc: 'The method of disposal (burial, cremation) on the body'}},
+  { id: 25, col1: 'MANNER', col2: {desc: 'The manner of death (natural, suicide, accidental)'}},
+  { id: 26, col1: 'CHOWNINJURY', col2: {desc: 'A description of the injury, if occurred'}},
+  { id: 27, col1: 'DURATIONA', col2: {desc: 'The length of time related to CAUSEA'}},
+  { id: 28, col1: 'DURATIONB', col2: {desc: 'The length of time related to CAUSEB'}},
+  { id: 29, col1: 'DURATIONC', col2: {desc: 'The length of time related to CAUSEC'}},
+  { id: 30, col1: 'DURACTIOND', col2: {desc: 'The length of time related to CAUSED'}},
+  { id: 31, col1: 'CASENOTES', col2: {desc: 'Extra case notes related to the cause of death'}},
+  { id: 32, col1: 'ATWORK', col2: {desc: 'A True/False value if the death occurred at work'}},
+  { id: 33, col1: 'JOBRELATED', col2: {desc: 'A True/False value if the death was in any way job related'}},
+  { id: 34, col1: 'REPORTDATE', col2: {desc: 'The date the death was reported'}},
+  { id: 35, col1: 'REPORTTIME', col2: {desc: 'The time the death was reported'}},
+  { id: 36, col1: 'CDEATHDATE', col2: {desc: 'The date the death occurred'}},
+  { id: 37, col1: 'CDEATHTIME', col2: {desc: 'The time the death occurred'}},
+  { id: 38, col1: 'FOUNDDATE', col2: {desc: 'The date the body was found'}},
+  { id: 39, col1: 'FOUNDTIME', col2: {desc: 'The time the death was found'}},
+  { id: 40, col1: 'EVENTDATE', col2: {desc: 'The date of the onset of events leading to death'}},
+  { id: 41, col1: 'EVENTTIME', col2: {desc: 'The time of the onset of events leading to death'}},
+  { id: 42, col1: 'PRNDATE', col2: {desc: 'The date the body was pronounced dead'}},
+  { id: 43, col1: 'PRNTIME', col2: {desc: 'The time the body was pronounced dead'}},
+  { id: 44, col1: 'EXAMDATE', col2: {desc: 'The date the case review or examination of the body occurred'}},
+  { id: 45, col1: 'CINJDATE', col2: {desc: 'The date of the injury leading to death'}},
+  { id: 46, col1: 'CINJTIME', col2: {desc: 'The time of the injury leading to death'}},
+  { id: 47, col1: 'CIDATEFLAG', col2: {desc: 'Qualifications(Approximations) of the datetime related to the injury'}},
+  { id: 48, col1: 'CDEATHFLAG', col2: {desc: 'Qualifications(Approximations) of the date related to the death'}},
+  { id: 49, col1: 'LKADATE', col2: {desc: 'The date decedent was last known alive'}},
+  { id: 50, col1: 'LKATIME', col2: {desc: 'The time the decedent was last known alive'}},
+  { id: 51, col1: 'CASEYEAR', col2: {desc: 'The year the case occurred'}},
+  { id: 52, col1: 'ATHOSPDATE', col2: {desc: 'The date the decedent entered the hospital, if available'}},
+  { id: 53, col1: 'RESSTRET', col2: {desc: 'The address line of the decedent\'s reseidence'}},
+  { id: 54, col1: 'RESCITY', col2: {desc: 'The city of the decedent\'s reseidence'}},
+  { id: 55, col1: 'RESCOUNTY', col2: {desc: 'The county of the decedent\'s reseidence'}},
+  { id: 56, col1: 'RESSTATE', col2: {desc: 'The state of the decedent\'s reseidence'}},
+  { id: 57, col1: 'RESZIP', col2: {desc: 'The zipcode of the decedent\'s reseidence'}},
+  { id: 58, col1: 'DEATHPLACE', col2: {desc: 'The name of the place of death'}},
+  { id: 59, col1: 'DEATH_STREET', col2: {desc: 'The address line of the place of death'}},
+  { id: 60, col1: 'DEATH_CITY', col2: {desc: 'The city of the place of death'}},
+  { id: 61, col1: 'DEATH_COUNTY', col2: {desc: 'The county of the place of death'}},
+  { id: 62, col1: 'DEATH_STATE', col2: {desc: 'The state of the place of death'}},
+  { id: 63, col1: 'DEATH_ZIP', col2: {desc: 'The zipcode of the place of death'}},
+  { id: 64, col1: 'EVENTPLACE', col2: {desc: 'The name of the place where the event that lead to injury took place'}},
+  { id: 65, col1: 'FOUNDADDR_STREET', col2: {desc: 'The address line of where the decedent was found'}},
+  { id: 66, col1: 'FOUNDADDR_CITY', col2: {desc: 'The city of where the decedent was found'}},
+  { id: 67, col1: 'FOUNDADDR_COUNTY', col2: {desc: 'The county of where the decedent was found'}},
+  { id: 68, col1: 'FOUNDADDR_STATE', col2: {desc: 'The state of where the decedent was found'}},
+  { id: 69, col1: 'FOUNDADDR_ZIP', col2: {desc: 'The zipcode of where the decedent was found'}},
+  { id: 70, col1: 'EVEENTADDR_STREET', col2: {desc: 'The address line of where the event that lead to injury took place'}},
+  { id: 71, col1: 'EVENTADDR_CITY', col2: {desc: 'The city of where the event that lead to injury took place'}},
+  { id: 72, col1: 'EVENTADDR_COUNTY', col2: {desc: 'The county of where the event that lead to injury took place'}},
+  { id: 73, col1: 'EVENT_ADDR_STATE', col2: {desc: 'The state of where the event that lead to injury took place'}},
+  { id: 74, col1: 'EVENTADDR_ZIP', col2: {desc: 'The zipcode of where the event that lead to injury took place'}},
+  { id: 75, col1: 'PRNPLACE', col2: {desc: 'The name of where the pronounciation was made'}},
+  { id: 76, col1: 'PRNSTREET', col2: {desc: 'The address line of where the pronounciation was made'}},
+  { id: 77, col1: 'PRNCITY', col2: {desc: 'The city of where the pronounciation was made'}},
+  { id: 78, col1: 'PRNCOUNTY', col2: {desc: 'The county of where the pronounciation was made'}},
+  { id: 79, col1: 'PRNSTATE', col2: {desc: 'The state of where the pronounciation was made'}},
+  { id: 80, col1: 'PRNZIP', col2: {desc: 'The zipcode of where the pronounciation was made'}},
+  { id: 81, col1: 'DISP_PLACE', col2: {desc: 'The name of the place where the disposition took place'}},
+  { id: 82, col1: 'DISP_STREET', col2: {desc: 'The address line of the place where the disposition took place'}},
+  { id: 83, col1: 'DISP_CITY', col2: {desc: 'The city of the place where the disposition took place'}},
+  { id: 84, col1: 'DISP_COUNTY', col2: {desc: 'The county of the place where the disposition took place'}},
+  { id: 85, col1: 'DISP_STATE', col2: {desc: 'The state of the place where the disposition took place'}},
+  { id: 86, col1: 'DISP_ZIP', col2: {desc: 'The zipcode of the place where the disposition took place'}},
+  { id: 87, col1: 'CINJPLACE', col2: {desc: 'The name of where the injury took place'}},
+  { id: 88, col1: 'CINJSTREET', col2: {desc: 'The address line of where the injury took place'}},
+  { id: 89, col1: 'CINJCITY', col2: {desc: 'The city of where the injury took place'}},
+  { id: 90, col1: 'CINJCOUNTY', col2: {desc: 'The county of where the injury took place'}},
+  { id: 91, col1: 'CINJSTATE', col2: {desc: 'The state of where the injury took place'}},
+  { id: 92, col1: 'CINJZIP', col2: {desc: 'The zipcode of where the injury took place'}},
+  { id: 93, col1: 'RESNAME', col2: {desc: 'the name of the residence of the decedent'}},
+  { id: 94, col1: 'LKAWHERE', col2: {desc: 'String of where the decedent was last seen alive'}},
+  { id: 95, col1: 'HOSPNAME', col2: {desc: 'The name of the hospital that intook the patient'}},
+  { id: 96, col1: 'SCENEADDR_STREET', col2: {desc: 'The address line of where the scene of investigation took place'}},
+  { id: 97, col1: 'SCENEADDR_CITY', col2: {desc: 'The city of where the scene of investigation took place'}},
+  { id: 98, col1: 'SCENEADDR_COUNTY', col2: {desc: 'The county of where the scene of investigation took place'}},
+  { id: 99, col1: 'SCENEADDR_STATE', col2: {desc: 'The state of where the scene of investigation took place'}},
+  { id: 100, col1: 'SCENEADDR_ZIP', col2: {desc: 'The zipcode of where the scene of investigation took place'}},
+  { id: 101, col1: 'SURGERY', col2: {desc: 'Whether a surgery was conducted or not'}},
+  { id: 102, col1: 'SURGDATE', col2: {desc: 'The date of the surgery'}},
+  { id: 103, col1: 'HCPROVIDER', col2: {desc: 'The name of the health care provider for the decedent'}},
+  { id: 104, col1: 'CUSTODY', col2: {desc: 'A true/false value whether the decedent was in custody or not'}},
+  { id: 105, col1: 'CAUTOPSY', col2: {desc: 'A true/false value whether the decedent had an autopsy or not'}},
+  { id: 106, col1: 'AUTOPUSED', col2: {desc: 'A true/false value whether the decedent\'s autopsy was used to determine the cause of death'}},
 ]
 
 export default class CsvSubmission extends Component {
@@ -390,7 +401,7 @@ export default class CsvSubmission extends Component {
       ],
       csvMaps: emptyArray(),
       csvData: [],
-      submitStatus: 'Submit',
+      submitStatus: 'Import',
       autoStatus: 'Auto',
       blockSubmit: false,
       mdiCsvFile: ''
@@ -421,7 +432,7 @@ export default class CsvSubmission extends Component {
 
   async submitPatient() {
     this.setState(state => ({
-      submitStatus: 'Submitting',
+      submitStatus: 'Importing',
       blockSubmit: true
     }));
     const systemId = "urn:mdi:cms:burmingham";
@@ -437,7 +448,8 @@ export default class CsvSubmission extends Component {
                                     patient[60],patient[61],patient[62],patient[63],patient[64],patient[65],patient[66],patient[67],patient[68],patient[69],
                                     patient[70],patient[71],patient[72],patient[73],patient[74],patient[75],patient[76],patient[77],patient[78],patient[79],
                                     patient[80],patient[81],patient[82],patient[83],patient[84],patient[85],patient[86],patient[87],patient[88],patient[89],
-                                    patient[90],patient[91],patient[92],patient[93],patient[94],patient[95],patient[96],patient[97],patient[98],patient[99]);
+                                    patient[90],patient[91],patient[92],patient[93],patient[94],patient[95],patient[96],patient[97],patient[98],patient[99],
+                                    patient[100],patient[101],patient[102],patient[103],patient[104],patient[105],patient[106]);
       mdiArray[ii] = mdiEntry;
     }
     console.log(mdiArray);
@@ -462,13 +474,13 @@ export default class CsvSubmission extends Component {
     }).then(function(res) {
       console.log(res);
       self.setState(state => ({
-        submitStatus: 'Submitted',
+        submitStatus: 'Imported',
         blockSubmit: false
       }));
     }).catch(function(error) {
       console.log(error.message);
       self.setState(state => ({
-        submitStatus: 'Submit',
+        submitStatus: 'Import',
         blockSubmit: false
       }));
     });
@@ -476,7 +488,7 @@ export default class CsvSubmission extends Component {
 
   async autoSubmit() {
     this.setState(state => ({
-      autoStatus: 'Submitting',
+      autoStatus: 'Importing',
       blockSubmit: true
     }));
     const systemId = "urn:mdi:cms:burmingham";
@@ -493,16 +505,18 @@ export default class CsvSubmission extends Component {
 
       var mdiEntry = csvToMdiMapper(systemId,decedent.case,decedent.firstName,decedent.lastName,decedent.middleName,age.age,age.unit,decedent.race,decedent.gender,null,
                                     decedent.birthDate,null,decedent.job,decedent.industry,null,decedent.maritalStatus,null,certifier.name,certifier.type,causes.causeA,
-                                    causes.causeB,causes.causeC,causes.causeD,causes.conditions,death.manner,injury.desc,null,null,null,null,
-                                    null,injury.atWork,injury.jobRelated,death.pronounceDate,death.pronouncedTime,null,null,death.date,death.time,death.pronounceDate,
-                                    death.pronouncedTime,null,injury.date,injury.time,null,null,death.time,null,null,null,null,
+                                    causes.causeB,causes.causeC,causes.causeD,causes.conditions,null,death.manner,injury.desc,null,null,null,null,
+                                    null,injury.atWork,injury.jobRelated,death.pronounceDate,death.pronouncedTime,death.date,death.time,null,null,
+                                    null,null,death.pronounceDate,death.pronouncedTime,null,
+                                    injury.date,injury.time,null,null,null,null,null,null,
                                     residence.street,residence.city,residence.county,residence.usState,residence.zip,
                                     death.place,null,death.city,death.county,death.usState,death.zip,
                                     null,null,null,null,null,null,
                                     null,null,null,null,null,
                                     null,null,null,null,null,null,
+                                    null,null,null,null,null,null,
                                     injury.place,injury.street,injury.city,null,injury.usState,injury.zip,
-                                    death.date,null,null,null,
+                                    null,null,null,
                                     null,null,null,null,null,
                                     null,null,null,null,autopsy.performed,autopsy.available);
       mdiArray[ii] = mdiEntry;
@@ -529,13 +543,13 @@ export default class CsvSubmission extends Component {
     }).then(function(res) {
       console.log(res);
       self.setState(state => ({
-        autoStatus: 'Submitted',
+        autoStatus: 'Imported',
         blockSubmit: false
       }));
     }).catch(function(error) {
       console.log(error.message);
       self.setState(state => ({
-        autoStatus: 'Submit',
+        autoStatus: 'Import',
         blockSubmit: false
       }));
     });

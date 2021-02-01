@@ -13,7 +13,7 @@ export default class CsvTop extends Component {
           </div>
 
           <div className="navbar-middle">
-            <h1>Submit CSV</h1>
+            <h1>Import CSV</h1>
           </div>
 
           <div className="navbar-end"/>
