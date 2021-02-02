@@ -592,6 +592,20 @@ function retrieveJson(patientBundle, documentBundle, fieldId) {
       return {};
     }
   }
+  else if (fieldId === 'manner-of-death') {
+    try {
+      return documentBundle.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Manner-of-Death')))[0];
+    } catch(e) {
+      return {};
+    }
+  }
+  else if (fieldId === 'contributing-factors') {
+    try {
+      return documentBundle.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death')))[0];
+    } catch(e) {
+      return {};
+    }
+  }
   else if (fieldId === 'composition-document') {
     return documentBundle;
   }

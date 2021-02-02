@@ -49,7 +49,9 @@ export default class CaseSummary extends Component {
                 autopsyPerformed,
                 surgeryPerformed,
                 datePerformed,
-                physicianName
+                physicianName,
+                mannerOfDeath,
+                contributingFactors
               }
           }}} = this.props;
     return (
@@ -825,12 +827,33 @@ export default class CaseSummary extends Component {
                     <input
                       className="input is-small"
                       type="text"
-                      value=""
+                      value={contributingFactors || ""}
                     />
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+          <div className='i5-c'>
+          <div
+            className={`field is-horizontal explorable ${explore === 'manner-of-death' ? 'is-explore' : ''}`}
+            onClick={() => handleFieldClick('manner-of-death')}
+          >
+            <div className="field-label is-small">
+              <label className="label">Manner of Death:</label>
+            </div>
+            <div className="field-body">
+              <div className="field is-expanded">
+                <div className="control">
+                  <input
+                    className="input is-small"
+                    type="text"
+                    value={mannerOfDeath || ""}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
       </div>
