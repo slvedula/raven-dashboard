@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Tooltip from 'react-simple-tooltip';
 import {css} from 'styled-components';
+import axios from 'axios';
 
 function InputField(props) {
   if (props.value.length > props.overflow) {
@@ -44,6 +45,7 @@ export default class NavBottom extends Component {
     };
 
     this.exportPatient.bind(this);
+    this.checkExportStatus.bind(this);
   }
 
   exportPatient(caseNum, system) {
@@ -61,6 +63,16 @@ export default class NavBottom extends Component {
     })
     xhr.open('GET', url);
     xhr.send();
+  }
+
+  async checkExportStatus(caseNum, system) {
+    var self=this;
+    var res = axios.get('https://apps.hdap.gatech.edu/raven-mapper-api/submitstatus?systemIdentifier=' + system + '&codeIdentifier=' + caseNum)
+      .then(res => {
+        console.log(res);
+      }).catch(function(error) {
+        console.log(error.message);
+      })
   }
 
   componentDidUpdate(prevProps) {

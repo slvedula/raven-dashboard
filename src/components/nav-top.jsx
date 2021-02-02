@@ -16,7 +16,7 @@ export default class NavTop extends Component {
               Browse Cases
             </Link>
             <Link to='/app/csv' className="navbar-item">
-              Submit CSV
+              Import CSV
             </Link>
 
           </div>
