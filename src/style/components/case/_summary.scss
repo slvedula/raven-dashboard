@@ -589,5 +589,59 @@
         }
       }
     }
+    .i5-c {
+      padding: 5px 10px;
+      background-color: $primary-very-light;
+      border: 1px solid $primary-light;
+      border-radius: 3px;
+      margin-top: 8px;
+      .field {
+        .field-label {
+          flex: unset;
+          margin-right: 5px;
+          display: flex;
+          align-items: center;
+          padding-top: 0px;
+          label {
+            font-size: 10px;
+            color: $primary-very-dark;
+          }
+        }
+        .field-body {
+          .field {
+            .control {
+              input {
+                border-bottom: 1px solid $primary;
+                background-color: $primary-very-light;
+                border-top: none;
+                border-left: none;
+                border-right: none;
+                border-radius: 0px;
+                box-shadow: none;
+              }
+            }
+          }
+        }
+        &.explorable.is-explore {
+          .field-label {
+            label {
+              color: $explore;
+            }
+          }
+          .field-body {
+            .field {
+              .control {
+                input {
+                  border-bottom: 1px solid $explore;
+                }
+              }
+            }
+          }
+        }
+        &:not(:last-child) {
+          margin-bottom: 5px;
+        }
+      }
+    }
   }
 }

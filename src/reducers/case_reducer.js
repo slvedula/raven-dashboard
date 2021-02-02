@@ -95,8 +95,16 @@ function parseTimeOfDeath(bundle) {
   try {
     const observations = bundle.filter(resource => resource.resource.resourceType === 'Observation');
     const { resource: { valueDateTime }} = observations.find(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date')));
-    const date = moment(valueDateTime).format('YYYY-MM-DD');
-    const time = moment(valueDateTime).format('h:mm:ss a');
+    const { resource: { effectiveDateTime }} = observations.find(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Death-Date')));
+    var date = '';
+    var time = '';
+    if (valueDateTime) {
+      date = moment(valueDateTime).format('YYYY-MM-DD');
+      time = moment(valueDateTime).format('h:mm:ss a');
+    } else {
+      date = 'ERROR';
+      time = 'ERROR';
+    }
     return {
       dateOfDeath: date,
       timeOfDeath: time
@@ -246,6 +254,36 @@ function parseSurgery(bundle) {
   }
 }
 
+function parseMannerOfDeath(bundle) {
+  try {
+    const manner = bundle.filter(resource => resource.resource.resourceType === 'Observation');
+    const mannerList = manner.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Manner-of-Death')));
+    if (!mannerList[0]) return "";
+    else if (!mannerList[0].resource.valueCodeableConcept) return 'ERROR';
+    else if (mannerList[0].resource.valueCodeableConcept.text) return mannerList[0].resource.valueCodeableConcept.text;
+    else if (mannerList[0].resource.valueCodeableConcept.coding[0].display) return mannerList[0].resource.valueCodeableConcept.coding[0].display;
+    else if (mannerList[0].resource.valueCodeableConcept.coding[0].system && mannerList[0].resource.valueCodeableConcept.coding[0].code) {
+      return mannerList[0].resource.valueCodeableConcept.coding[0].system + " " + mannerList[0].resource.valueCodeableConcept.coding[0].code;
+    } else return 'ERROR';
+  } catch (e) {
+    console.error('e: ', e);
+    return "";
+  }
+}
+
+function parseContributingFactors(bundle) {
+  try {
+    const contributing = bundle.filter(resource => resource.resource.resourceType === 'Condition');
+    const contributingList = contributing.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Condition-Contributing-To-Death')));
+    if (!contributingList[0]) return "";
+    else if (contributingList[0].resource.code.text) return contributingList[0].resource.code.text;
+    else return "";
+  } catch (e) {
+    console.error('e: ', e);
+    return "";
+  }
+}
+
 export function caseReducer(state = initialState, action = {}) {
   switch(action.type) {
     case 'GET_CASE_REQUESTED': {
@@ -271,6 +309,8 @@ export function caseReducer(state = initialState, action = {}) {
       const deathFromWork = parseWorkInjury(documentJson);
       const autopsyPerformed = parseAutopsy(documentJson);
       const surgInfo = parseSurgery(documentJson);
+      const manner = parseMannerOfDeath(documentJson);
+      const contributing = parseContributingFactors(documentJson);
       return {
         ...state,
         isLoading: false,
@@ -288,7 +328,9 @@ export function caseReducer(state = initialState, action = {}) {
             ...deathLocationInfo,
             deathFromWork: deathFromWork,
             autopsyPerformed: autopsyPerformed,
-            ...surgInfo
+            ...surgInfo,
+            mannerOfDeath: manner,
+            contributingFactors: contributing
           },
           fhirExplorer: {
             patientJson: patientJson,
