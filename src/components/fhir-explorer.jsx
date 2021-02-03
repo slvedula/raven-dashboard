@@ -606,6 +606,13 @@ function retrieveJson(patientBundle, documentBundle, fieldId) {
       return {};
     }
   }
+  else if (fieldId === 'reported-date') {
+	  try {
+		  return documentBundle.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted')))[0];
+	  } catch(e) {
+		  return {};
+	  }
+  }
   else if (fieldId === 'composition-document') {
     return documentBundle;
   }

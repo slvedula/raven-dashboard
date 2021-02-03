@@ -51,7 +51,8 @@ export default class CaseSummary extends Component {
                 datePerformed,
                 physicianName,
                 mannerOfDeath,
-                contributingFactors
+                contributingFactors,
+                reportedDate
               }
           }}} = this.props;
     return (
@@ -245,11 +246,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <input
-                        className="input is-small"
-                        type="text"
-                        value=""
-                      />
+                      <InputField value={reportedDate || ""} />
                     </div>
                   </div>
                 </div>

@@ -284,6 +284,19 @@ function parseContributingFactors(bundle) {
   }
 }
 
+function parseReportedDate(bundle) {
+  try {
+    const dates = bundle.filter(resource => resource.resource.resourceType === 'Observation');
+    const dateList = dates.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted')));
+    if (!dateList[0]) return "";
+    else if (dateList[0].resource.component[0]) return moment(dateList[0].resource.component[0].valueDateTime).format('YYYY-MM-DD');
+    else return "";
+  } catch (e) {
+    console.error('e: ', e);
+    return "";
+  }
+}
+
 export function caseReducer(state = initialState, action = {}) {
   switch(action.type) {
     case 'GET_CASE_REQUESTED': {
@@ -311,6 +324,7 @@ export function caseReducer(state = initialState, action = {}) {
       const surgInfo = parseSurgery(documentJson);
       const manner = parseMannerOfDeath(documentJson);
       const contributing = parseContributingFactors(documentJson);
+      const dateReported = parseReportedDate(documentJson);
       return {
         ...state,
         isLoading: false,
@@ -330,7 +344,8 @@ export function caseReducer(state = initialState, action = {}) {
             autopsyPerformed: autopsyPerformed,
             ...surgInfo,
             mannerOfDeath: manner,
-            contributingFactors: contributing
+            contributingFactors: contributing,
+            reportedDate: dateReported
           },
           fhirExplorer: {
             patientJson: patientJson,
