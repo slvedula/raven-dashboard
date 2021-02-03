@@ -544,7 +544,7 @@ const fields = {
 	}
 }
 
-function retrieveJson(patientBundle, documentBundle, fieldId) {
+function retrieveJson(patientBundle, documentBundle, entireDocument, fieldId) {
   if (fieldId === 'cause-a' || fieldId === 'cause-a-onset') {
     return parseList(documentBundle, 0);
   }
@@ -607,7 +607,7 @@ function retrieveJson(patientBundle, documentBundle, fieldId) {
     }
   }
   else if (fieldId === 'composition-document') {
-    return documentBundle;
+    return entireDocument;
   }
   else {
     return {}
@@ -637,11 +637,12 @@ export default class FhirExplorer extends Component {
             { form:
               { fhirExplorer: {
                 patientJson,
-                documentJson
+                documentJson,
+                entireDocument
       }}}} = this.props;
     return (
       <div className={`fhir-explorer ${visible ? 'is-visible' : ''}`}>
-      <pre>{JSON.stringify(retrieveJson(patientJson, documentJson, fieldId), null, 2)}</pre>
+      <pre>{JSON.stringify(retrieveJson(patientJson, entireDocument, entireDocument, fieldId), null, 2)}</pre>
       </div>
     );
   }

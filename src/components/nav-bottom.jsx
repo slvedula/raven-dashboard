@@ -68,7 +68,7 @@ export default class NavBottom extends Component {
 
   async checkExportStatus(caseNum, system) {
     var self=this;
-    console.log("Checking export status");
+    console.log("Checking export status for: ", system + ' ' + caseNum);
     var res = axios.get('https://apps.hdap.gatech.edu/raven-mapper-api/submitstatus?systemIdentifier=' + system + '&codeIdentifier=' + caseNum)
       .then(res => {
         console.log(res);

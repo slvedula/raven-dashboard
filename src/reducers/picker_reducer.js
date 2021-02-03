@@ -105,6 +105,7 @@ export function pickerReducer(state = initialState, action = {}) {
           caseNumber: caseNum,
           timeOfDeath: tod_moment.format("YYYY-MM-DD"),
           system: system,
+          rawSystem: rawSystem,
           status: "Pending"
         }
         return obj;

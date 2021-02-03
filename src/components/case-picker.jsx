@@ -8,29 +8,58 @@ import { GrClose } from 'react-icons/gr';
 import axios from 'axios';
 
 async function checkExportStatus(caseNum, system) {
+  var status = "Not started";
   var res = await axios.get('https://apps.hdap.gatech.edu/raven-mapper-api/submitstatus?systemIdentifier=' + system + '&codeIdentifier=' + caseNum)
     .then(res => {
-      console.log(res);
       if (res.data.length > 0) {
 
         for (var ii = 0; ii < res.data[0].sources.length; ii++) {
           if (res.data[0].sources[ii].status !== "completed" ) {
-            return "Pending";
+            if (res.data[0].sources[ii].status === "error") status = "Incomplete";
+            else status = "Pending";
           }
         }
-        console.log("This is completed");
-        return "Completed";
+        if (status === "Not started") {
+          status = "Completed";
+        }
       } else {
-        console.log("This is not started");
-        return "Not Started";
+        status = "Not Started";
       }
     }).catch(function(error) {
       console.log(error.message);
-      return "Pending";
-    })
+      status = "Pending";
+    });
+    return status;
 }
 
+function statusClassMapper(displayText) {
+  switch (displayText) {
+    case "Completed":
+      return "completeStatus";
+    case "Not Started":
+      return "notStartedStatus";
+    case "Pending":
+      return "pendingStatus";
+    case "Incomplete":
+      return "pendingStatus";
+    case "No Info":
+      return "noStatus";
+    default:
+      return "noStatus";
+  }
+}
 
+function StatusCell(props) {
+  var display = "No Info"
+  if (props.statusMap.hasOwnProperty(props.cases.byId[props.caseId].caseNumber)) {
+    display = props.statusMap[props.cases.byId[props.caseId].caseNumber];
+  }
+  const status = statusClassMapper(display);
+  return (
+  <td className={status}>
+    <div>{display}</div></td>
+   )
+}
 
 class CasePicker extends Component {
 
@@ -39,21 +68,29 @@ class CasePicker extends Component {
 
     this.state = {
       casePickerIsVisible: false,
-      showCloseButton: true
+      showCloseButton: true,
+      statusMap: {}
     };
     this.mapCaseStatuses.bind(this);
   }
 
   async mapCaseStatuses() {
-    console.log(this.props.picker.cases);
     var caseStatusMap = {};
-    this.props.picker.cases.allIds.map((caseId) => {
-      var res = checkExportStatus(this.props.picker.cases.byId[caseId].caseNumber,this.props.picker.cases.byId[caseId].system)
-        .then(result => {
-          caseStatusMap[this.props.picker.cases.byId[caseId].caseNumber] = result;
-      });
-    })
-    return caseStatusMap;
+    const asyncRes = await Promise.all(this.props.picker.cases.allIds.map(async (caseId) => {
+      const caseNum = this.props.picker.cases.byId[caseId].caseNumber
+      const res = await checkExportStatus(this.props.picker.cases.byId[caseId].caseNumber,this.props.picker.cases.byId[caseId].rawSystem)
+      return {
+          caseNum,
+          res
+      }
+    }));
+    asyncRes.map(res => {
+      caseStatusMap[res.caseNum] = res.res;
+    });
+    var state = this;
+    state.setState({
+      statusMap: caseStatusMap
+    });
   }
 
   match({match, location}) {
@@ -93,22 +130,26 @@ class CasePicker extends Component {
     this.props.getCases();
     const { casePickerIsVisible, showCloseButton } = this.match(this.props);
     if (casePickerIsVisible) {
+      this.mapCaseStatuses();
       this.setState({
         casePickerIsVisible: true,
-        showCloseButton: showCloseButton,
-
+        showCloseButton: showCloseButton
       });
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { casePickerIsVisible, showCloseButton, statusMap } = this.match(this.props);
+    const { casePickerIsVisible, showCloseButton } = this.match(this.props);
     const { casePickerIsVisible: prevCasePickerIsVisible } = this.match(prevProps);
     if (casePickerIsVisible && !prevCasePickerIsVisible) {
+      this.mapCaseStatuses();
       return this.setState({
         casePickerIsVisible: true,
         showCloseButton: showCloseButton
       });
+    }
+    if (casePickerIsVisible && this.props.picker.isLoaded && !prevProps.picker.isLoaded) {
+      this.mapCaseStatuses();
     }
     if (!casePickerIsVisible && prevCasePickerIsVisible) {
       return this.setState({
@@ -149,8 +190,7 @@ class CasePicker extends Component {
         <div className="modal-card">
           <header className="modal-card-head">
             <div className="left">
-              <div className="title"
-                onClick={() => this.mapCaseStatuses()}>
+              <div className="title">
                 Cases
               </div>
               <div className="filter">
@@ -229,7 +269,7 @@ class CasePicker extends Component {
                           </td>
                           <td className="time-of-death">{cases.byId[caseId].timeOfDeath}</td>
                           <td className="system">{cases.byId[caseId].system}</td>
-                          <td className="status"><div>{cases.byId[caseId].status}</div></td>
+                          <StatusCell cases={cases} statusMap={this.state.statusMap} caseId={caseId}/>
                         </tr>
                       )}
                     </tbody>
