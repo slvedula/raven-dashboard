@@ -1,4 +1,6 @@
 import moment from 'moment';
+import axios from 'axios';
+
 
 const initialState = {
   isLoading: true,
@@ -25,6 +27,29 @@ function isValidUrl(str) {
   '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
   '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
   return pattern.test(str);
+}
+
+async function checkExportStatus(caseNum, system) {
+  console.log("Checking export status");
+  var res = await axios.get('https://apps.hdap.gatech.edu/raven-mapper-api/submitstatus?systemIdentifier=' + system + '&codeIdentifier=' + caseNum)
+    .then(res => {
+      console.log(res);
+      console.log(res.data.length);
+      if (res.data.length > 0) {
+        for (var ii = 0; ii < res.data[0].sources.length; ii++) {
+          if (res.data[0].sources[ii].status !== "completed" ) {
+            return "Pending";
+          }
+        }
+        return "Completed";
+      } else {
+        console.log("Not started");
+        return "Not Started";
+      }
+    }).catch(function(error) {
+      console.log(error.message);
+      return "Pending";
+    })
 }
 
 export function pickerReducer(state = initialState, action = {}) {
@@ -64,22 +89,23 @@ export function pickerReducer(state = initialState, action = {}) {
           return system;
         }, null);
         const system = isValidUrl(rawSystem) ? rawSystem.split('/').pop() : rawSystem.split(':').pop();
+        const caseNum = identifiers.reduce((caseNum, identifier) => {
+          if (!identifier.type) {
+            return caseNum;
+          }
+          if (identifier.type.coding[0].code === "1000007") {
+            caseNum = identifier.value;
+          }
+          return caseNum;
+        }, null);
         obj[id] = {
           name: `${name[0].given ? name[0].given[0] : '<NO FIRST>'} ${name[0].family ? name[0].family[0] : '<NO LAST>'}`,
           age:  tod_moment.diff(birth_moment, 'years'),
           gender: gender,
-          caseNumber: identifiers.reduce((caseNum, identifier) => {
-            if (!identifier.type) {
-              return caseNum;
-            }
-            if (identifier.type.coding[0].code === "1000007") {
-              caseNum = identifier.value;
-            }
-            return caseNum;
-          }, null),
+          caseNumber: caseNum,
           timeOfDeath: tod_moment.format("YYYY-MM-DD"),
           system: system,
-          status: 'Pending'
+          status: "Pending"
         }
         return obj;
       }, {});

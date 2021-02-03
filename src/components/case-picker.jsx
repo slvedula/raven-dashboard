@@ -5,6 +5,32 @@ import { Link } from "react-router-dom";
 import queryString from 'query-string';
 import { BsSearch } from 'react-icons/bs';
 import { GrClose } from 'react-icons/gr';
+import axios from 'axios';
+
+async function checkExportStatus(caseNum, system) {
+  var res = await axios.get('https://apps.hdap.gatech.edu/raven-mapper-api/submitstatus?systemIdentifier=' + system + '&codeIdentifier=' + caseNum)
+    .then(res => {
+      console.log(res);
+      if (res.data.length > 0) {
+
+        for (var ii = 0; ii < res.data[0].sources.length; ii++) {
+          if (res.data[0].sources[ii].status !== "completed" ) {
+            return "Pending";
+          }
+        }
+        console.log("This is completed");
+        return "Completed";
+      } else {
+        console.log("This is not started");
+        return "Not Started";
+      }
+    }).catch(function(error) {
+      console.log(error.message);
+      return "Pending";
+    })
+}
+
+
 
 class CasePicker extends Component {
 
@@ -15,6 +41,19 @@ class CasePicker extends Component {
       casePickerIsVisible: false,
       showCloseButton: true
     };
+    this.mapCaseStatuses.bind(this);
+  }
+
+  async mapCaseStatuses() {
+    console.log(this.props.picker.cases);
+    var caseStatusMap = {};
+    this.props.picker.cases.allIds.map((caseId) => {
+      var res = checkExportStatus(this.props.picker.cases.byId[caseId].caseNumber,this.props.picker.cases.byId[caseId].system)
+        .then(result => {
+          caseStatusMap[this.props.picker.cases.byId[caseId].caseNumber] = result;
+      });
+    })
+    return caseStatusMap;
   }
 
   match({match, location}) {
@@ -50,21 +89,20 @@ class CasePicker extends Component {
     };
   };
 
-
-
   componentDidMount() {
     this.props.getCases();
     const { casePickerIsVisible, showCloseButton } = this.match(this.props);
     if (casePickerIsVisible) {
       this.setState({
         casePickerIsVisible: true,
-        showCloseButton: showCloseButton
+        showCloseButton: showCloseButton,
+
       });
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { casePickerIsVisible, showCloseButton } = this.match(this.props);
+    const { casePickerIsVisible, showCloseButton, statusMap } = this.match(this.props);
     const { casePickerIsVisible: prevCasePickerIsVisible } = this.match(prevProps);
     if (casePickerIsVisible && !prevCasePickerIsVisible) {
       return this.setState({
@@ -94,7 +132,7 @@ class CasePicker extends Component {
   }
 
   render() {
-    const { casePickerIsVisible, showCloseButton } = this.state;
+    const { casePickerIsVisible, showCloseButton, statusMap } = this.state;
     const caseIdFromUrl = idx(this.props, _ => _.match.params.caseId);
     const {
       isLoading,
@@ -111,7 +149,8 @@ class CasePicker extends Component {
         <div className="modal-card">
           <header className="modal-card-head">
             <div className="left">
-              <div className="title">
+              <div className="title"
+                onClick={() => this.mapCaseStatuses()}>
                 Cases
               </div>
               <div className="filter">
@@ -190,7 +229,7 @@ class CasePicker extends Component {
                           </td>
                           <td className="time-of-death">{cases.byId[caseId].timeOfDeath}</td>
                           <td className="system">{cases.byId[caseId].system}</td>
-                          <td className="status"><div>Pending</div></td>
+                          <td className="status"><div>{cases.byId[caseId].status}</div></td>
                         </tr>
                       )}
                     </tbody>

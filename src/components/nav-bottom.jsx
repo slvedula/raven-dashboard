@@ -49,7 +49,7 @@ export default class NavBottom extends Component {
   }
 
   exportPatient(caseNum, system) {
-    console.log('Exporting patient');
+
     var xhr = new XMLHttpRequest();
     xhr.addEventListener('load', () => {
       console.log(xhr.responseText);
@@ -58,6 +58,7 @@ export default class NavBottom extends Component {
       })
     });
     const url = 'https://apps.hdap.gatech.edu/raven-mapper-api/submitEDRS2.0?systemIdentifier=' + system + '&codeIdentifier=' + caseNum + '&submitOnly=true';
+    console.log('Exporting patient', url);
     this.setState({
       exportText: 'Exporting'
     })
@@ -67,6 +68,7 @@ export default class NavBottom extends Component {
 
   async checkExportStatus(caseNum, system) {
     var self=this;
+    console.log("Checking export status");
     var res = axios.get('https://apps.hdap.gatech.edu/raven-mapper-api/submitstatus?systemIdentifier=' + system + '&codeIdentifier=' + caseNum)
       .then(res => {
         console.log(res);
