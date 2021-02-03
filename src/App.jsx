@@ -73,7 +73,9 @@ export default class App extends Component {
               <Redirect to="/app/cases" />
           </Route>
           <Route exact path="/*">
-              <h1>404 Page Undefined</h1>
+              <h1>404 Page Undefined - 
+                <a href="/"> Return Home</a>
+              </h1>
           </Route>
         </Router>
       </Provider>
