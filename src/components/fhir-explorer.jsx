@@ -613,6 +613,31 @@ function retrieveJson(patientBundle, documentBundle, fieldId) {
 		  return {};
 	  }
   }
+  else if (fieldId === 'surgery-performed' || fieldId === 'date-of-surgery') {
+	  try {
+		const procedures = documentBundle.filter(resource => resource.resource.resourceType === 'Procedure');
+		return procedures.filter(resource => resource.resource.category.coding[0].code.includes('387713003'));
+	  } catch (e) {
+		return {};
+	  }
+  }
+  else if (fieldId === 'hospital-where-first-taken') {
+	  try {
+		const patientDetails = documentBundle.filter(resource => resource.resource.resourceType === 'Patient');
+		const patientDetailsExtension = patientDetails.filter(resource => resource.resource.extension.some(extension => extension.url.includes('urn:mdi:temporary:code:hospital-name-decedent-was-first-taken')));
+		return patientDetailsExtension;
+	  } catch (e) {
+		return {};
+	  }
+  }
+  else if (fieldId === 'date-arrived-at-hospital') {
+	try {
+	  const observations = documentBundle.filter(resource => resource.resource.resourceType === 'Observation');
+	  return observations.filter(resource => resource.resource.code.coding[0].code.includes('1000006'));
+	} catch (e) {
+	  return {};
+	}
+}
   else if (fieldId === 'composition-document') {
     return documentBundle;
   }

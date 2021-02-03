@@ -52,7 +52,9 @@ export default class CaseSummary extends Component {
                 physicianName,
                 mannerOfDeath,
                 contributingFactors,
-                reportedDate
+                reportedDate,
+                dateArrivedAtHospital,
+                hospitalFirstTaken
               }
           }}} = this.props;
     return (
@@ -388,10 +390,10 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <input
+                      <InputField
                         className="input is-small"
                         type="text"
-                        value=""
+                        value={dateArrivedAtHospital || ""}
                       />
                     </div>
                   </div>
@@ -407,10 +409,10 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <input
+                      <InputField
                         className="input is-small"
                         type="text"
-                        value=""
+                        value={hospitalFirstTaken || ""}
                       />
                     </div>
                   </div>

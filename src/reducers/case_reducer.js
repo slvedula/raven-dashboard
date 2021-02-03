@@ -286,10 +286,36 @@ function parseContributingFactors(bundle) {
 
 function parseReportedDate(bundle) {
   try {
-    const dates = bundle.filter(resource => resource.resource.resourceType === 'Observation');
-    const dateList = dates.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted')));
-    if (!dateList[0]) return "";
-    else if (dateList[0].resource.component[0]) return moment(dateList[0].resource.component[0].valueDateTime).format('YYYY-MM-DD');
+    const observations = bundle.filter(resource => resource.resource.resourceType === 'Observation');
+    const observation = observations.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted')));
+    if (!observation[0]) return "";
+    else if (observation[0].resource.component[0]) return moment(observation[0].resource.component[0].valueDateTime).format('YYYY-MM-DD');
+    else return "";
+  } catch (e) {
+    console.error('e: ', e);
+    return "";
+  }
+}
+
+function parseDateArrivedAtHospital(bundle) {
+  try {
+    const observations = bundle.filter(resource => resource.resource.resourceType === 'Observation');
+    const observation = observations.filter(resource => resource.resource.code.coding[0].code.includes('1000006'));
+    if (!observation[0]) return "";
+    else if (observation[0].resource) return moment(observation[0].resource.valueDateTime).format('YYYY-MM-DD');
+    else return "";
+  } catch (e) {
+    console.error('e: ', e);
+    return "";
+  }
+}
+
+function parseHospitalFirstTaken(bundle) {
+  try {
+    const patientDetails = bundle.filter(resource => resource.resource.resourceType === 'Patient');
+		const patientDetailsExtension = patientDetails[0].resource.extension.filter(extension => extension.url.includes('urn:mdi:temporary:code:hospital-name-decedent-was-first-taken'));
+    if (!patientDetailsExtension[0]) return "";
+    else if (patientDetailsExtension[0].valueString) return patientDetailsExtension[0].valueString;
     else return "";
   } catch (e) {
     console.error('e: ', e);
@@ -325,6 +351,8 @@ export function caseReducer(state = initialState, action = {}) {
       const manner = parseMannerOfDeath(documentJson);
       const contributing = parseContributingFactors(documentJson);
       const dateReported = parseReportedDate(documentJson);
+      const dateArrivedAtHospital = parseDateArrivedAtHospital(documentJson);
+      const hospitalFirstTaken = parseHospitalFirstTaken(documentJson);
       return {
         ...state,
         isLoading: false,
@@ -345,7 +373,9 @@ export function caseReducer(state = initialState, action = {}) {
             ...surgInfo,
             mannerOfDeath: manner,
             contributingFactors: contributing,
-            reportedDate: dateReported
+            reportedDate: dateReported,
+            dateArrivedAtHospital: dateArrivedAtHospital,
+            hospitalFirstTaken: hospitalFirstTaken
           },
           fhirExplorer: {
             patientJson: patientJson,
