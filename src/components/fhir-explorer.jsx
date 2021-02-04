@@ -642,7 +642,7 @@ export default class FhirExplorer extends Component {
       }}}} = this.props;
     return (
       <div className={`fhir-explorer ${visible ? 'is-visible' : ''}`}>
-      <pre>{JSON.stringify(retrieveJson(patientJson, entireDocument, entireDocument, fieldId), null, 2)}</pre>
+      <pre>{JSON.stringify(retrieveJson(patientJson, documentJson, entireDocument, fieldId), null, 2)}</pre>
       </div>
     );
   }
