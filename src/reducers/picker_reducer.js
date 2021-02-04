@@ -1,5 +1,4 @@
 import moment from 'moment';
-import axios from 'axios';
 
 
 const initialState = {
@@ -27,29 +26,6 @@ function isValidUrl(str) {
   '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
   '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
   return pattern.test(str);
-}
-
-async function checkExportStatus(caseNum, system) {
-  console.log("Checking export status");
-  var res = await axios.get('https://apps.hdap.gatech.edu/raven-mapper-api/submitstatus?systemIdentifier=' + system + '&codeIdentifier=' + caseNum)
-    .then(res => {
-      console.log(res);
-      console.log(res.data.length);
-      if (res.data.length > 0) {
-        for (var ii = 0; ii < res.data[0].sources.length; ii++) {
-          if (res.data[0].sources[ii].status !== "completed" ) {
-            return "Pending";
-          }
-        }
-        return "Completed";
-      } else {
-        console.log("Not started");
-        return "Not Started";
-      }
-    }).catch(function(error) {
-      console.log(error.message);
-      return "Pending";
-    })
 }
 
 export function pickerReducer(state = initialState, action = {}) {
