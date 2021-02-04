@@ -5,6 +5,61 @@ import { Link } from "react-router-dom";
 import queryString from 'query-string';
 import { BsSearch } from 'react-icons/bs';
 import { GrClose } from 'react-icons/gr';
+import axios from 'axios';
+
+async function checkExportStatus(caseNum, system) {
+  var status = "Not started";
+  var res = await axios.get('https://apps.hdap.gatech.edu/raven-mapper-api/submitstatus?systemIdentifier=' + system + '&codeIdentifier=' + caseNum)
+    .then(res => {
+      if (res.data.length > 0) {
+
+        for (var ii = 0; ii < res.data[0].sources.length; ii++) {
+          if (res.data[0].sources[ii].status !== "completed" ) {
+            if (res.data[0].sources[ii].status === "error") status = "Incomplete";
+            else status = "Pending";
+          }
+        }
+        if (status === "Not started") {
+          status = "Completed";
+        }
+      } else {
+        status = "Not Started";
+      }
+    }).catch(function(error) {
+      console.log(error.message);
+      status = "Pending";
+    });
+    return status;
+}
+
+function statusClassMapper(displayText) {
+  switch (displayText) {
+    case "Completed":
+      return "completeStatus";
+    case "Not Started":
+      return "notStartedStatus";
+    case "Pending":
+      return "pendingStatus";
+    case "Incomplete":
+      return "pendingStatus";
+    case "No Info":
+      return "noStatus";
+    default:
+      return "noStatus";
+  }
+}
+
+function StatusCell(props) {
+  var display = "No Info"
+  if (props.statusMap.hasOwnProperty(props.cases.byId[props.caseId].caseNumber)) {
+    display = props.statusMap[props.cases.byId[props.caseId].caseNumber];
+  }
+  const status = statusClassMapper(display);
+  return (
+  <td className={status}>
+    <div>{display}</div></td>
+   )
+}
 
 class CasePicker extends Component {
 
@@ -13,8 +68,29 @@ class CasePicker extends Component {
 
     this.state = {
       casePickerIsVisible: false,
-      showCloseButton: true
+      showCloseButton: true,
+      statusMap: {}
     };
+    this.mapCaseStatuses.bind(this);
+  }
+
+  async mapCaseStatuses() {
+    var caseStatusMap = {};
+    const asyncRes = await Promise.all(this.props.picker.cases.allIds.map(async (caseId) => {
+      const caseNum = this.props.picker.cases.byId[caseId].caseNumber
+      const res = await checkExportStatus(this.props.picker.cases.byId[caseId].caseNumber,this.props.picker.cases.byId[caseId].rawSystem)
+      return {
+          caseNum,
+          res
+      }
+    }));
+    asyncRes.map(res => {
+      caseStatusMap[res.caseNum] = res.res;
+    });
+    var state = this;
+    state.setState({
+      statusMap: caseStatusMap
+    });
   }
 
   match({match, location}) {
@@ -50,12 +126,11 @@ class CasePicker extends Component {
     };
   };
 
-
-
   componentDidMount() {
     this.props.getCases();
     const { casePickerIsVisible, showCloseButton } = this.match(this.props);
     if (casePickerIsVisible) {
+      this.mapCaseStatuses();
       this.setState({
         casePickerIsVisible: true,
         showCloseButton: showCloseButton
@@ -67,10 +142,14 @@ class CasePicker extends Component {
     const { casePickerIsVisible, showCloseButton } = this.match(this.props);
     const { casePickerIsVisible: prevCasePickerIsVisible } = this.match(prevProps);
     if (casePickerIsVisible && !prevCasePickerIsVisible) {
+      this.mapCaseStatuses();
       return this.setState({
         casePickerIsVisible: true,
         showCloseButton: showCloseButton
       });
+    }
+    if (casePickerIsVisible && this.props.picker.isLoaded && !prevProps.picker.isLoaded) {
+      this.mapCaseStatuses();
     }
     if (!casePickerIsVisible && prevCasePickerIsVisible) {
       return this.setState({
@@ -94,7 +173,7 @@ class CasePicker extends Component {
   }
 
   render() {
-    const { casePickerIsVisible, showCloseButton } = this.state;
+    const { casePickerIsVisible, showCloseButton, statusMap } = this.state;
     const caseIdFromUrl = idx(this.props, _ => _.match.params.caseId);
     const {
       isLoading,
@@ -190,7 +269,7 @@ class CasePicker extends Component {
                           </td>
                           <td className="time-of-death">{cases.byId[caseId].timeOfDeath}</td>
                           <td className="system">{cases.byId[caseId].system}</td>
-                          <td className="status"><div>Pending</div></td>
+                          <StatusCell cases={cases} statusMap={this.state.statusMap} caseId={caseId}/>
                         </tr>
                       )}
                     </tbody>

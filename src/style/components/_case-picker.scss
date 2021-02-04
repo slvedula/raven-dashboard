@@ -144,6 +144,58 @@
                   font-weight: 600;
                 }
               }
+              &.pendingStatus {
+                div {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  width: 110px;
+                  height: 40px;
+                  border-radius: 8px;
+                  background-color: #fff8ed;
+                  color: #e4bf82;
+                  font-weight: 600;
+                }
+              }
+              &.completeStatus {
+                div {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  width: 110px;
+                  height: 40px;
+                  border-radius: 8px;
+                  background-color: #b3f5bc;
+                  color: #11bf29;
+                  font-weight: 600;
+                }
+              }
+              &.notStartedStatus {
+                div {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  width: 110px;
+                  height: 40px;
+                  border-radius: 8px;
+                  background-color: #b3e3f5;
+                  color: #03a9fc;
+                  font-weight: 600;
+                }
+              }
+              &.noStatus {
+                div {
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  width: 110px;
+                  height: 40px;
+                  border-radius: 8px;
+                  background-color: #d4d4d4;
+                  color: #808080;
+                  font-weight: 600;
+                }
+              }
             }
           }
         }

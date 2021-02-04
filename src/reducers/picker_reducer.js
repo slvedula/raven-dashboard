@@ -1,5 +1,6 @@
 import moment from 'moment';
 
+
 const initialState = {
   isLoading: true,
   isLoaded: false,
@@ -64,22 +65,24 @@ export function pickerReducer(state = initialState, action = {}) {
           return system;
         }, null);
         const system = isValidUrl(rawSystem) ? rawSystem.split('/').pop() : rawSystem.split(':').pop();
+        const caseNum = identifiers.reduce((caseNum, identifier) => {
+          if (!identifier.type) {
+            return caseNum;
+          }
+          if (identifier.type.coding[0].code === "1000007") {
+            caseNum = identifier.value;
+          }
+          return caseNum;
+        }, null);
         obj[id] = {
           name: `${name[0].given ? name[0].given[0] : '<NO FIRST>'} ${name[0].family ? name[0].family[0] : '<NO LAST>'}`,
           age:  tod_moment.diff(birth_moment, 'years'),
           gender: gender,
-          caseNumber: identifiers.reduce((caseNum, identifier) => {
-            if (!identifier.type) {
-              return caseNum;
-            }
-            if (identifier.type.coding[0].code === "1000007") {
-              caseNum = identifier.value;
-            }
-            return caseNum;
-          }, null),
+          caseNumber: caseNum,
           timeOfDeath: tod_moment.format("YYYY-MM-DD"),
           system: system,
-          status: 'Pending'
+          rawSystem: rawSystem,
+          status: "Pending"
         }
         return obj;
       }, {});
