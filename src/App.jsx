@@ -66,6 +66,17 @@ export default class App extends Component {
               <CsvIngest {...props}/>
             )}
           />
+          <Route exact path="/app">
+              <Redirect to="/app/cases" />
+          </Route>
+          <Route exact path="/">
+              <Redirect to="/app/cases" />
+          </Route>
+          <Route exact path="/*">
+              <h1>404 Page Undefined - 
+                <a href="/"> Return Home</a>
+              </h1>
+          </Route>
         </Router>
       </Provider>
     );

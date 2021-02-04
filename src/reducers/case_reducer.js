@@ -474,6 +474,7 @@ export function caseReducer(state = initialState, action = {}) {
       const patientJson = entry;
       const { data: { documentResources: { data } } } = action;
       const documentJson = data.entry;
+      const allDocumentJson = data;
       const causesOfDeath = parseCausesOfDeath(documentJson);
       const certifier = parseCertifier(documentJson);
       const deathLocationInfo = parsePlaceOfDeath(documentJson);
@@ -531,7 +532,8 @@ export function caseReducer(state = initialState, action = {}) {
           },
           fhirExplorer: {
             patientJson: patientJson,
-            documentJson: documentJson
+            documentJson: documentJson,
+            entireDocument: allDocumentJson
           }
         }
       }
