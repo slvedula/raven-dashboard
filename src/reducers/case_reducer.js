@@ -447,7 +447,6 @@ function parseDeathJobRelated(bundle) {
 function parseTypeOfResidence(bundle) {
   try {
     const patientDetails = bundle.filter(resource => resource.resource.resourceType === 'Patient');
-    console.log(patientDetails[0]);
     if (patientDetails[0].resource.address) return patientDetails[0].resource.address[0].use;
     else return "";
   } catch (e) {
