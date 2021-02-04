@@ -202,7 +202,7 @@ function parseWorkInjury(bundle) {
     if (!injuryIncedentList[0]) return "";
     const components = injuryIncedentList[0].resource.component;
     const deathFromWorkComponent = components.filter(resource => resource.code.coding[0].display === 'Did death result from injury at work')[0];
-    return  deathFromWorkComponent.valueCodeableConcept.coding[0].display
+    return deathFromWorkComponent.valueCodeableConcept.coding[0].display;
   } catch(e) {
     console.error('e: ',e);
     return "";
