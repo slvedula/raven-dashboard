@@ -313,7 +313,7 @@ function parseDateArrivedAtHospital(bundle) {
 function parseHospitalFirstTaken(bundle) {
   try {
     const patientDetails = bundle.filter(resource => resource.resource.resourceType === 'Patient');
-		const patientDetailsExtension = patientDetails[0].resource.extension.filter(extension => extension.url.includes('urn:mdi:temporary:code:hospital-name-decedent-was-first-taken'));
+    const patientDetailsExtension = patientDetails[0].resource.extension.filter(extension => extension.url.includes('urn:mdi:temporary:code:hospital-name-decedent-was-first-taken'));
     if (!patientDetailsExtension[0]) return "";
     else if (patientDetailsExtension[0].valueString) return patientDetailsExtension[0].valueString;
     else return "";
@@ -391,7 +391,7 @@ function parseInjuryEventDate(bundle) {
 function parsePlaceLKA(bundle) {
   try {
     const patientDetails = bundle.filter(resource => resource.resource.resourceType === 'Patient');
-		const patientDetailsExtension = patientDetails[0].resource.extension.filter(extension => extension.url.includes('urn:mdi:temporary:code:last-known-to-be-alive-or-okay-place'));
+    const patientDetailsExtension = patientDetails[0].resource.extension.filter(extension => extension.url.includes('urn:mdi:temporary:code:last-known-to-be-alive-or-okay-place'));
     if (!patientDetailsExtension[0]) return "";
     else if (patientDetailsExtension[0].valueString) return patientDetailsExtension[0].valueString;
     else return "";
