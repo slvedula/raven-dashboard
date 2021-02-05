@@ -23,6 +23,7 @@ function InputField(props) {
   } else {
     return (
       <input
+        disabled={props.disabled || false}
         className="input is-small"
         type="text"
         size="small"
@@ -51,7 +52,20 @@ export default class CaseSummary extends Component {
                 datePerformed,
                 physicianName,
                 mannerOfDeath,
-                contributingFactors
+                contributingFactors,
+                reportedDate,
+                dateArrivedAtHospital,
+                hospitalFirstTaken,
+                foundDate,
+                lastAliveDate,
+                dateCaseReviewed,
+                injuryEventDate,
+                placeLKA,
+                yearCaseCategorized,
+                bodyDisposition,
+                findingsUsed,
+                deathJobRelated,
+                typeOfResidence
               }
           }}} = this.props;
     return (
@@ -211,11 +225,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <input
-                        className="input is-small"
-                        type="text"
-                        value=""
-                      />
+                    <InputField value={deathFromWork || ""}/>
                     </div>
                   </div>
                 </div>
@@ -230,7 +240,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <InputField value={deathFromWork || ""}/>
+                      <InputField value={deathJobRelated || ""}/>
                     </div>
                   </div>
                 </div>
@@ -245,11 +255,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <input
-                        className="input is-small"
-                        type="text"
-                        value=""
-                      />
+                      <InputField value={reportedDate || ""} />
                     </div>
                   </div>
                 </div>
@@ -264,11 +270,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <input
-                        className="input is-small"
-                        type="text"
-                        value=""
-                      />
+                      <InputField value={foundDate || ""} />
                     </div>
                   </div>
                 </div>
@@ -283,11 +285,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <input
-                        className="input is-small"
-                        type="text"
-                        value=""
-                      />
+                      <InputField value={injuryEventDate || ""} />
                     </div>
                   </div>
                 </div>
@@ -334,11 +332,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <input
-                        className="input is-small"
-                        type="text"
-                        value=""
-                      />
+                      <InputField value={lastAliveDate || ""} />
                     </div>
                   </div>
                 </div>
@@ -353,10 +347,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <input
-                        className="input is-small"
-                        type="text"
-                      />
+                      <InputField value={placeLKA || ""}/>
                     </div>
                   </div>
                 </div>
@@ -371,10 +362,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <input
-                        className="input is-small"
-                        type="text"
-                      />
+                      <InputField value={dateCaseReviewed || ""} />
                     </div>
                   </div>
                 </div>
@@ -391,11 +379,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <input
-                        className="input is-small"
-                        type="text"
-                        value=""
-                      />
+                      <InputField value={dateArrivedAtHospital || ""} />
                     </div>
                   </div>
                 </div>
@@ -410,11 +394,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <input
-                        className="input is-small"
-                        type="text"
-                        value=""
-                      />
+                      <InputField value={hospitalFirstTaken || ""} />
                     </div>
                   </div>
                 </div>
@@ -451,7 +431,7 @@ export default class CaseSummary extends Component {
               </div>
               <div
                 className={`field is-horizontal explorable ${explore === 'physician-name' ? 'is-explore' : ''}`}
-                onClick={() => handleFieldClick('physician-name')}
+                // onClick={() => handleFieldClick('physician-name')}
               >
                 <div className="field-label is-small">
                   <label className="label">Physician Name</label>
@@ -459,7 +439,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <InputField value={physicianName || ""}/>
+                      <InputField value={physicianName || ""} disabled={true} />
                     </div>
                   </div>
                 </div>
@@ -492,11 +472,7 @@ export default class CaseSummary extends Component {
               <div className="field-body">
                 <div className="field is-expanded">
                   <div className="control">
-                    <input
-                      className="input is-small"
-                      type="text"
-                      value=""
-                    />
+                    <InputField value={findingsUsed || ""}/>
                   </div>
                 </div>
               </div>
@@ -511,11 +487,7 @@ export default class CaseSummary extends Component {
               <div className="field-body">
                 <div className="field is-expanded">
                   <div className="control">
-                    <input
-                      className="input is-small"
-                      type="text"
-                      value=""
-                    />
+                    <InputField value={bodyDisposition || ""}/>
                   </div>
                 </div>
               </div>
@@ -530,11 +502,7 @@ export default class CaseSummary extends Component {
               <div className="field-body">
                 <div className="field is-expanded">
                   <div className="control">
-                    <input
-                      className="input is-small"
-                      type="text"
-                      value=""
-                    />
+                    <InputField value={yearCaseCategorized || ""} />
                   </div>
                 </div>
               </div>
@@ -549,11 +517,7 @@ export default class CaseSummary extends Component {
               <div className="field-body">
                 <div className="field is-expanded">
                   <div className="control">
-                    <input
-                      className="input is-small"
-                      type="text"
-                      value=""
-                    />
+                    <InputField value={typeOfResidence || ""}/>
                   </div>
                 </div>
               </div>

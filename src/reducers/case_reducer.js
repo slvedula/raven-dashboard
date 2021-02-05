@@ -284,6 +284,177 @@ function parseContributingFactors(bundle) {
   }
 }
 
+function parseReportedDate(bundle) {
+  try {
+    const observations = bundle.filter(resource => resource.resource.resourceType === 'Observation');
+    const observation = observations.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Examiner-Contacted')));
+    if (!observation[0]) return "";
+    else if (observation[0].resource.component[0]) return moment(observation[0].resource.component[0].valueDateTime).format('YYYY-MM-DD');
+    else return "";
+  } catch (e) {
+    console.error('e: ', e);
+    return "";
+  }
+}
+
+function parseDateArrivedAtHospital(bundle) {
+  try {
+    const observations = bundle.filter(resource => resource.resource.resourceType === 'Observation');
+    const observation = observations.filter(resource => resource.resource.code.coding[0].code.includes('1000006'));
+    if (!observation[0]) return "";
+    else if (observation[0].resource) return moment(observation[0].resource.valueDateTime).format('YYYY-MM-DD');
+    else return "";
+  } catch (e) {
+    console.error('e: ', e);
+    return "";
+  }
+}
+
+function parseHospitalFirstTaken(bundle) {
+  try {
+    const patientDetails = bundle.filter(resource => resource.resource.resourceType === 'Patient');
+    const patientDetailsExtension = patientDetails[0].resource.extension.filter(extension => extension.url.includes('urn:mdi:temporary:code:hospital-name-decedent-was-first-taken'));
+    if (!patientDetailsExtension[0]) return "";
+    else if (patientDetailsExtension[0].valueString) return patientDetailsExtension[0].valueString;
+    else return "";
+  } catch (e) {
+    console.error('e: ', e);
+    return "";
+  }
+}
+
+function parseFoundDate(bundle) {
+  try {
+    const observations = bundle.filter(resource => resource.resource.resourceType === 'Observation');
+    const observation = observations.filter(resource => resource.resource.code.coding[0].code.includes('1000001'));
+    if (!observation[0]) return "";
+    else if (observation[0].resource) return moment(observation[0].resource.valueDateTime).format('YYYY-MM-DD');
+    else return "";
+  } catch (e) {
+    console.error('e: ', e);
+    return "";
+  }
+}
+
+function parseLastAliveDate(bundle) {
+  try {
+    const observations = bundle.filter(resource => resource.resource.resourceType === 'Observation');
+    const observation = observations.filter(resource => resource.resource.code.coding[0].code.includes('1000004'));
+    if (!observation[0]) return "";
+    else if (observation[0].resource) return moment(observation[0].resource.valueDateTime).format('YYYY-MM-DD');
+    else return "";
+  } catch (e) {
+    console.error('e: ', e);
+    return "";
+  }
+}
+
+function parseDateCaseReviewed(bundle) {
+  try {
+    const observations = bundle.filter(resource => resource.resource.resourceType === 'Observation');
+    const observation = observations.filter(resource => resource.resource.code.coding[0].code.includes('1000003'));
+    if (!observation[0]) return "";
+    else if (observation[0].resource) return moment(observation[0].resource.valueDateTime).format('YYYY-MM-DD');
+    else return "";
+  } catch (e) {
+    console.error('e: ', e);
+    return "";
+  }
+}
+
+function parseYearCaseCategorized(bundle) {
+  try {
+    const observations = bundle.filter(resource => resource.resource.resourceType === 'Observation');
+    const observation = observations.filter(resource => resource.resource.code.coding[0].code.includes('1000005'));
+    if (!observation[0]) return "";
+    else if (observation[0].resource) return moment(observation[0].resource.valueDateTime).format('YYYY');
+    else return "";
+  } catch (e) {
+    console.error('e: ', e);
+    return "";
+  }
+}
+
+function parseInjuryEventDate(bundle) {
+  try {
+    const observations = bundle.filter(resource => resource.resource.resourceType === 'Observation');
+    const observation = observations.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident')));
+    if (!observation[0]) return "";
+    else if (observation[0].resource) return moment(observation[0].resource.effectiveDateTime).format('YYYY-MM-DD');
+    else return "";
+  } catch (e) {
+    console.error('e: ', e);
+    return "";
+  }
+}
+
+function parsePlaceLKA(bundle) {
+  try {
+    const patientDetails = bundle.filter(resource => resource.resource.resourceType === 'Patient');
+    const patientDetailsExtension = patientDetails[0].resource.extension.filter(extension => extension.url.includes('urn:mdi:temporary:code:last-known-to-be-alive-or-okay-place'));
+    if (!patientDetailsExtension[0]) return "";
+    else if (patientDetailsExtension[0].valueString) return patientDetailsExtension[0].valueString;
+    else return "";
+  } catch (e) {
+    console.error('e: ', e);
+    return "";
+  }
+}
+
+function parseBodyDisposition(bundle) {
+  try {
+    const observations = bundle.filter(resource => resource.resource.resourceType === 'Observation');
+    const observation = observations.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/VRDR-Decedent-Disposition-Method')));
+    if (!observation[0]) return "";
+    else if (observation[0].resource) return observation[0].resource.valueCodeableConcept.coding[0].display;
+    else return "";
+  } catch (e) {
+    console.error('e: ', e);
+    return "";
+  }
+}
+
+function parseFindingsUsed(bundle) {
+  try {
+    const observations = bundle.filter(resource => resource.resource.resourceType === 'Observation');
+    const observation = observations.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator')));
+    const observationExtension = observation[0].resource.extension.filter(extension => extension.url.includes('urn:mdi:temporary:code:autopsy-findings-were-used'))
+    if (!observationExtension[0]) return "";
+    else if (observationExtension[0].valueBoolean === true) return "Yes";
+    else if (observationExtension[0].valueBoolean === false) return "No";
+    else return "";
+  } catch (e) {
+    console.error('e: ', e);
+    return "";
+  }
+}
+
+function parseDeathJobRelated(bundle) {
+  try {
+    const observations = bundle.filter(resource => resource.resource.resourceType === 'Observation');
+    const observation = observations.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident')));
+    const observationModifier = observation[0].resource.component[0].modifierExtension.filter(modifierExtension => modifierExtension.url.includes('urn:mdi:temporary:code:constitute-osha-injury-at-work'));
+    if (!observationModifier[0]) return "";
+    else if (observationModifier[0].valueBoolean === true) return "Yes";
+    else if (observationModifier[0].valueBoolean === false) return "No";
+    else return "";
+  } catch(e) {
+    console.error('e: ',e);
+    return "";
+  }
+}
+
+function parseTypeOfResidence(bundle) {
+  try {
+    const patientDetails = bundle.filter(resource => resource.resource.resourceType === 'Patient');
+    if (patientDetails[0].resource.address) return patientDetails[0].resource.address[0].use;
+    else return "";
+  } catch (e) {
+    console.error('e: ', e);
+    return "";
+  }
+}
+
 export function caseReducer(state = initialState, action = {}) {
   switch(action.type) {
     case 'GET_CASE_REQUESTED': {
@@ -312,6 +483,19 @@ export function caseReducer(state = initialState, action = {}) {
       const surgInfo = parseSurgery(documentJson);
       const manner = parseMannerOfDeath(documentJson);
       const contributing = parseContributingFactors(documentJson);
+      const dateReported = parseReportedDate(documentJson);
+      const dateArrivedAtHospital = parseDateArrivedAtHospital(documentJson);
+      const hospitalFirstTaken = parseHospitalFirstTaken(documentJson);
+      const foundDate = parseFoundDate(documentJson);
+      const lastAliveDate = parseLastAliveDate(documentJson);
+      const dateCaseReviewed = parseDateCaseReviewed(documentJson);
+      const injuryEventDate = parseInjuryEventDate(documentJson);
+      const placeLKA = parsePlaceLKA(documentJson);
+      const yearCaseCategorized = parseYearCaseCategorized(documentJson);
+      const bodyDisposition = parseBodyDisposition(documentJson);
+      const findingsUsed = parseFindingsUsed(documentJson);
+      const deathJobRelated = parseDeathJobRelated(documentJson);
+      const typeOfResidence = parseTypeOfResidence(documentJson);
       return {
         ...state,
         isLoading: false,
@@ -331,7 +515,20 @@ export function caseReducer(state = initialState, action = {}) {
             autopsyPerformed: autopsyPerformed,
             ...surgInfo,
             mannerOfDeath: manner,
-            contributingFactors: contributing
+            contributingFactors: contributing,
+            reportedDate: dateReported,
+            dateArrivedAtHospital: dateArrivedAtHospital,
+            hospitalFirstTaken: hospitalFirstTaken,
+            foundDate: foundDate,
+            lastAliveDate: lastAliveDate,
+            dateCaseReviewed: dateCaseReviewed,
+            injuryEventDate: injuryEventDate,
+            placeLKA: placeLKA,
+            yearCaseCategorized:yearCaseCategorized,
+            bodyDisposition: bodyDisposition,
+            findingsUsed: findingsUsed,
+            deathJobRelated: deathJobRelated,
+            typeOfResidence: typeOfResidence
           },
           fhirExplorer: {
             patientJson: patientJson,
