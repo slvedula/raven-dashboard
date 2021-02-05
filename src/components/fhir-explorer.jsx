@@ -129,7 +129,7 @@ function retrieveJson(patientBundle, documentBundle, entireDocument, fieldId) {
   else if (fieldId === 'place-last-known-alive') {
     try {
       const patientDetails = documentBundle.filter(resource => resource.resource.resourceType === 'Patient');
-      const patientDetailsExtension = patientDetails.filter(resource => resource.resource.extension.some(extension => extension.url.includes('urn:mdi:temporary:code:last-known-to-be-alive-or-okay-place')));
+      const patientDetailsExtension = patientDetails.filter(resource => resource.resource.extension.some(extension => extension.url.includes('urn:mdi:temporary:code:last-known-to-be-alive-or-okay-place')))[0] || {};
       return patientDetailsExtension || {};
     } catch (e) {
       return {};
