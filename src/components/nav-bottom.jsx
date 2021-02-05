@@ -41,7 +41,8 @@ export default class NavBottom extends Component {
     super(props);
 
     this.state = {
-      exportText: 'Export'
+      exportText: 'Export',
+      oldExplore: 'decedent'
     };
 
     this.exportPatient.bind(this);
@@ -87,8 +88,8 @@ export default class NavBottom extends Component {
   }
 
   render() {
-    const { exportText } = this.state;
-    const { explore, handleFieldClick } = this.props;
+    const { exportText, oldExplore } = this.state;
+    const { explore, handleFieldClick, isExplorerVisible } = this.props;
     const { case:
             { form:
               { navBottom: {
@@ -168,8 +169,19 @@ export default class NavBottom extends Component {
           <div className="field is-grouped">
           <p className="control">
             <a
-              className={`button is-small is-outlined is-primary ${explore === 'composition-document' ? 'is-hovered' : ''}`}
-              onClick={() => handleFieldClick('composition-document')}>
+              className={`button is-small is-outlined is-primary ${(explore === 'composition-document' && isExplorerVisible) ? 'is-hovered' : ''}`}
+              onClick={() => {
+                if (isExplorerVisible) {
+                  if (explore !== 'composition-document') {
+                    this.setState({
+                      oldExplore: explore
+                    });
+                    handleFieldClick('composition-document');
+                  } else {
+                    handleFieldClick(this.state.oldExplore);
+                  }
+                }
+              }}>
               VRDR Document
             </a>
           </p>

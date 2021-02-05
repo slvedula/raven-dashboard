@@ -106,7 +106,8 @@ export default class CaseSummary extends Component {
           </div>
           */}
           <div className="i1-b">
-            <div className="field is-horizontal">
+            <div className="field is-horizontal"
+              onClick={() => handleFieldClick('certifier')}>
               <div className="field-label">
                 <label className="label">Death Certificate signed by:</label>
               </div>

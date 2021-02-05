@@ -433,11 +433,13 @@ function parseDeathJobRelated(bundle) {
   try {
     const observations = bundle.filter(resource => resource.resource.resourceType === 'Observation');
     const observation = observations.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident')));
-    const observationModifier = observation[0].resource.component[0].modifierExtension.filter(modifierExtension => modifierExtension.url.includes('urn:mdi:temporary:code:constitute-osha-injury-at-work'));
-    if (!observationModifier[0]) return "";
-    else if (observationModifier[0].valueBoolean === true) return "Yes";
-    else if (observationModifier[0].valueBoolean === false) return "No";
-    else return "";
+    if (observation[0].resource.component[0].modifierExtension) {
+      const observationModifier = observation[0].resource.component[0].modifierExtension.filter(modifierExtension => modifierExtension.url.includes('urn:mdi:temporary:code:constitute-osha-injury-at-work'));
+      if (!observationModifier[0]) return "";
+      else if (observationModifier[0].valueBoolean === true) return "Yes";
+      else if (observationModifier[0].valueBoolean === false) return "No";
+      else return "";
+    } else return "";
   } catch(e) {
     console.error('e: ',e);
     return "";
