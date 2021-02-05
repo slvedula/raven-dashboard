@@ -48,22 +48,23 @@ export default class NavBottom extends Component {
     this.checkExportStatus.bind(this);
   }
 
-  exportPatient(caseNum, system) {
-
-    var xhr = new XMLHttpRequest();
-    xhr.addEventListener('load', () => {
-      console.log(xhr.responseText);
-      this.setState({
-        exportText: 'Exported'
-      })
-    });
-    const url = 'https://apps.hdap.gatech.edu/raven-mapper-api/submitEDRS2.0?systemIdentifier=' + system + '&codeIdentifier=' + caseNum + '&submitOnly=true';
-    console.log('Exporting patient', url);
+  async exportPatient(caseNum, system) {
+    var self=this;
     this.setState({
       exportText: 'Exporting'
-    })
-    xhr.open('GET', url);
-    xhr.send();
+    });
+    var res = await axios.get('https://apps.hdap.gatech.edu/raven-mapper-api/submitEDRS2.0?systemIdentifier=' + system + '&codeIdentifier=' + caseNum)
+      .then(res => {
+        console.log(res);
+        self.setState({
+          exportText: 'Exported'
+        })
+      }).catch(function(error) {
+        console.log(error.message);
+        self.setState({
+          exportText: 'Export'
+        })
+    });
   }
 
   async checkExportStatus(caseNum, system) {
