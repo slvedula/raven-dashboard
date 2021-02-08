@@ -46,8 +46,10 @@ export default class CaseSummary extends Component {
                 certifier,
                 deathLocation,
                 typeOfDeathLocation,
-                deathFromWork,
+                atWork,
+                fromWork,
                 autopsyPerformed,
+                autopsyUsed,
                 surgeryPerformed,
                 datePerformed,
                 physicianName,
@@ -63,8 +65,6 @@ export default class CaseSummary extends Component {
                 placeLKA,
                 yearCaseCategorized,
                 bodyDisposition,
-                findingsUsed,
-                deathJobRelated,
                 typeOfResidence
               }
           }}} = this.props;
@@ -226,7 +226,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                    <InputField value={deathFromWork || ""}/>
+                    <InputField value={atWork || ""}/>
                     </div>
                   </div>
                 </div>
@@ -241,7 +241,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <InputField value={deathJobRelated || ""}/>
+                      <InputField value={fromWork || ""}/>
                     </div>
                   </div>
                 </div>
@@ -473,7 +473,7 @@ export default class CaseSummary extends Component {
               <div className="field-body">
                 <div className="field is-expanded">
                   <div className="control">
-                    <InputField value={findingsUsed || ""}/>
+                    <InputField value={autopsyUsed || ""}/>
                   </div>
                 </div>
               </div>
