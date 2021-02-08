@@ -158,6 +158,14 @@ function retrieveJson(patientBundle, documentBundle, entireDocument, fieldId) {
       return {};
     }
   }
+  else if (fieldId === 'certifier') {
+    try {
+      const practitionerList = documentBundle.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Certifier')));
+      return practitionerList[0] || {};
+    } catch(e) {
+      return {};
+    }
+  }
   else if (fieldId === 'composition-document') {
     return entireDocument;
   }

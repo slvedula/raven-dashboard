@@ -52,9 +52,14 @@ function parseDecedent(bundle) {
     if (name[0].given.length > 1) {
       middle = name[0].given[1];
     }
-    var address = ''
-    if (patient.address[0] && patient.address[0].line && patient.address[0].city && patient.address[0].state)
-      address = patient.address[0].line[0] + ", " + patient.address[0].city + ", " + patient.address[0].state;
+    var address = "";
+    var addressType = "";
+    if (patient.address[0]) {
+      if (patient.address[0].line && patient.address[0].city && patient.address[0].state) {
+        address = patient.address[0].line[0] + ", " + patient.address[0].city + ", " + patient.address[0].state;
+      }
+      if (patient.address[0].use) addressType = patient.address[0].use;
+    }
     const extensions = patient.extension;
     var race = "";
     var ethnicity = "";
@@ -75,6 +80,7 @@ function parseDecedent(bundle) {
       gender: patient.gender,
       birthDate: patient.birthDate,
       address: address,
+      addressType: addressType,
       city: patient.address[0].city,
       usState: patient.address[0].state,
       race: race,
@@ -199,13 +205,32 @@ function parseWorkInjury(bundle) {
   try {
     const injuryIncedent = bundle.filter(resource => resource.resource.resourceType === 'Observation');
     const injuryIncedentList = injuryIncedent.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident')));
-    if (!injuryIncedentList[0]) return "";
+    if (!injuryIncedentList[0]) {
+      return {
+        atWork: "",
+        fromWork: ""
+      }
+    }
     const components = injuryIncedentList[0].resource.component;
-    const deathFromWorkComponent = components.filter(resource => resource.code.coding[0].display === 'Did death result from injury at work')[0];
-    return deathFromWorkComponent.valueCodeableConcept.coding[0].display;
+    const deathFromWorkComponent = components.filter(resource => resource.code.coding[0].code === '69444-8')[0];
+    const atWork = deathFromWorkComponent.valueCodeableConcept.coding[0].display;
+    var fromWork = "";
+    if (deathFromWorkComponent.modifierExtension) {
+      const observationModifier = deathFromWorkComponent.modifierExtension.filter(modifierExtension => modifierExtension.url.includes('urn:mdi:temporary:code:constitute-osha-injury-at-work'));
+      if (observationModifier[0]) {
+        fromWork = (observationModifier[0].valueBoolean) ? "Yes" : "No";
+      }
+    }
+    return {
+      atWork: atWork,
+      fromWork: fromWork
+    }
   } catch(e) {
     console.error('e: ',e);
-    return "";
+    return {
+      atWork: "",
+      fromWork: ""
+    }
   }
 }
 
@@ -213,11 +238,31 @@ function parseAutopsy(bundle) {
   try {
     const autopsyPerformed = bundle.filter(resource => resource.resource.resourceType === 'Observation');
     const autopsyPerformedList = autopsyPerformed.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator')));
-    if (!autopsyPerformedList[0]) return "";
-    return autopsyPerformedList[0].resource.valueCodeableConcept.coding[0].display;
+    if (!autopsyPerformedList[0]) {
+      return {
+        autopsyPerformed: "",
+        autopsyUsed: ""
+      };
+    } else {
+      const performed = autopsyPerformedList[0].resource.valueCodeableConcept.coding[0].display;
+      var used = "";
+      if (autopsyPerformedList[0].resource.extension) {
+        const observationExtension = autopsyPerformedList[0].resource.extension.filter(extension => extension.url.includes('urn:mdi:temporary:code:autopsy-findings-were-used'));
+        if (observationExtension[0]) {
+          used = (observationExtension[0].valueBoolean) ? "Yes" : "No";
+        }
+      }
+      return {
+        autopsyPerformed: performed,
+        autopsyUsed: used
+      }
+    }
   } catch(e) {
     console.error('e: ',e);
-    return "";
+    return {
+      autopsyPerformed: "",
+      autopsyUsed: ""
+    }
   }
 }
 
@@ -414,47 +459,6 @@ function parseBodyDisposition(bundle) {
   }
 }
 
-function parseFindingsUsed(bundle) {
-  try {
-    const observations = bundle.filter(resource => resource.resource.resourceType === 'Observation');
-    const observation = observations.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Autopsy-Performed-Indicator')));
-    const observationExtension = observation[0].resource.extension.filter(extension => extension.url.includes('urn:mdi:temporary:code:autopsy-findings-were-used'))
-    if (!observationExtension[0]) return "";
-    else if (observationExtension[0].valueBoolean === true) return "Yes";
-    else if (observationExtension[0].valueBoolean === false) return "No";
-    else return "";
-  } catch (e) {
-    console.error('e: ', e);
-    return "";
-  }
-}
-
-function parseDeathJobRelated(bundle) {
-  try {
-    const observations = bundle.filter(resource => resource.resource.resourceType === 'Observation');
-    const observation = observations.filter(resource => idx(resource.resource, _ => _.meta.profile.includes('http://hl7.org/fhir/us/vrdr/StructureDefinition/VRDR-Injury-Incident')));
-    const observationModifier = observation[0].resource.component[0].modifierExtension.filter(modifierExtension => modifierExtension.url.includes('urn:mdi:temporary:code:constitute-osha-injury-at-work'));
-    if (!observationModifier[0]) return "";
-    else if (observationModifier[0].valueBoolean === true) return "Yes";
-    else if (observationModifier[0].valueBoolean === false) return "No";
-    else return "";
-  } catch(e) {
-    console.error('e: ',e);
-    return "";
-  }
-}
-
-function parseTypeOfResidence(bundle) {
-  try {
-    const patientDetails = bundle.filter(resource => resource.resource.resourceType === 'Patient');
-    if (patientDetails[0].resource.address) return patientDetails[0].resource.address[0].use;
-    else return "";
-  } catch (e) {
-    console.error('e: ', e);
-    return "";
-  }
-}
-
 export function caseReducer(state = initialState, action = {}) {
   switch(action.type) {
     case 'GET_CASE_REQUESTED': {
@@ -479,7 +483,7 @@ export function caseReducer(state = initialState, action = {}) {
       const certifier = parseCertifier(documentJson);
       const deathLocationInfo = parsePlaceOfDeath(documentJson);
       const deathFromWork = parseWorkInjury(documentJson);
-      const autopsyPerformed = parseAutopsy(documentJson);
+      const autopsy = parseAutopsy(documentJson);
       const surgInfo = parseSurgery(documentJson);
       const manner = parseMannerOfDeath(documentJson);
       const contributing = parseContributingFactors(documentJson);
@@ -493,9 +497,6 @@ export function caseReducer(state = initialState, action = {}) {
       const placeLKA = parsePlaceLKA(documentJson);
       const yearCaseCategorized = parseYearCaseCategorized(documentJson);
       const bodyDisposition = parseBodyDisposition(documentJson);
-      const findingsUsed = parseFindingsUsed(documentJson);
-      const deathJobRelated = parseDeathJobRelated(documentJson);
-      const typeOfResidence = parseTypeOfResidence(documentJson);
       return {
         ...state,
         isLoading: false,
@@ -511,8 +512,8 @@ export function caseReducer(state = initialState, action = {}) {
             ...causesOfDeath,
             certifier: certifier,
             ...deathLocationInfo,
-            deathFromWork: deathFromWork,
-            autopsyPerformed: autopsyPerformed,
+            ...deathFromWork,
+            ...autopsy,
             ...surgInfo,
             mannerOfDeath: manner,
             contributingFactors: contributing,
@@ -526,9 +527,7 @@ export function caseReducer(state = initialState, action = {}) {
             placeLKA: placeLKA,
             yearCaseCategorized:yearCaseCategorized,
             bodyDisposition: bodyDisposition,
-            findingsUsed: findingsUsed,
-            deathJobRelated: deathJobRelated,
-            typeOfResidence: typeOfResidence
+            typeOfResidence: decedent.addressType
           },
           fhirExplorer: {
             patientJson: patientJson,
