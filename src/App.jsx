@@ -42,41 +42,37 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <Router>
+          <Switch>
+            <Route
+              path="/app/c/:caseId"
+              render={(props) => (
+                <Case {...props}
+                  handleFieldClick={this.handleFieldClick}
+                  handleSwitchChange={this.handleSwitchChange}
+                  isExplorerVisible={this.state.isExplorerVisible}
+                  explore={this.state.exploreFieldId}
+                  />
+              )}
+            />
+            <Route
+              path="/app/csv"
+              exact
+              render={(props) => (
+                <CsvIngest {...props}/>
+              )}
+            />
+            <Redirect exact from="/app" to="/app/cases" />
+            <Redirect exact from="/" to="/app/cases" />
+            <Route path="*">
+                <h1>404 Page Undefined - 
+                  <a href="/"> Return Home</a>
+                </h1>
+            </Route>
+          </Switch>
           <Route
-            path={[
-              "/app/cases",
-              "/app/c/:caseId"
-            ]}
-            children={(props) => <CasePicker {...props}/>}
-          />
-          <Route
-            path="/app/c/:caseId"
-            render={(props) => (
-              <Case {...props}
-                handleFieldClick={this.handleFieldClick}
-                handleSwitchChange={this.handleSwitchChange}
-                isExplorerVisible={this.state.isExplorerVisible}
-                explore={this.state.exploreFieldId}
-                />
-            )}
-          />
-          <Route
-            path="/app/csv"
-            render={(props) => (
-              <CsvIngest {...props}/>
-            )}
-          />
-          <Route exact path="/app">
-              <Redirect to="/app/cases" />
-          </Route>
-          <Route exact path="/">
-              <Redirect to="/app/cases" />
-          </Route>
-          <Route exact path="/*">
-              <h1>404 Page Undefined -
-                <a href="/"> Return Home</a>
-              </h1>
-          </Route>
+              path={["/app/cases","/app/c/:caseId"]}
+              render={(props) => <CasePicker {...props}/>}
+            />
         </Router>
       </Provider>
     );
