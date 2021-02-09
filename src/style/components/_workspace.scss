@@ -5,14 +5,18 @@
   .left {
     display: flex;
     height: 100%;
-    transition: margin 100ms linear;
+    max-width: 100%;
+    transition: max-width 100ms linear;
     input.is-small {
       height: 2.1em;
     }
     &.explorer-visible {
-      margin-right: 445px;
+      max-width: 70%;
     }
     .page.case {
+      max-width: 60em;
+      margin-left: auto;
+      margin-right: auto;
       .tabs {
         margin-bottom: 15px;
       }
