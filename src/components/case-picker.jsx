@@ -217,7 +217,17 @@ class CasePicker extends Component {
                   </div>
                 </div>
               </div>
+              <div style={{marginLeft: '8px'}}>
+                <Link to='/app/csv'>
+                  <button
+                    style={{color: '#0f4672'}}
+                    className="button is-outlined">
+                    Import CSV
+                  </button>
+                </Link>
+              </div>
             </div>
+
             <div className="right">
               { showCloseButton &&
                 <Link
