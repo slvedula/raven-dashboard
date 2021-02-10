@@ -1,5 +1,5 @@
 .fhir-explorer {
-  max-width: 0%;
+  width: 0%;
   border-radius: 10px;
   background-color: #fff;
   display: flex;
@@ -9,10 +9,10 @@
   top: 0;
   position: absolute;
   box-shadow: 0 10px 10px rgba(0,0,0,.05);
-  transition: max-width 100ms linear;
+  transition: width 100ms linear;
   margin: 0;
   &.is-visible {
-    max-width: 30%;
+    width: 30%;
   }
   pre {
     border-radius: 10px;
