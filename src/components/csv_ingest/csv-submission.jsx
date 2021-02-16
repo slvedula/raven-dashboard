@@ -435,7 +435,7 @@ export default class CsvSubmission extends Component {
       submitStatus: 'Importing',
       blockSubmit: true
     }));
-    const systemId = "urn:mdi:cms:burmingham";
+    const systemId = "urn:mdi:cms:birmingham";
     var mdiArray = [];
     for (var ii=0; ii<this.state.csvData.length; ii++) {
       const patient = cleanupPatientData(this.state.csvData[ii],this.state.csvMaps);
@@ -491,7 +491,7 @@ export default class CsvSubmission extends Component {
       autoStatus: 'Importing',
       blockSubmit: true
     }));
-    const systemId = "urn:mdi:cms:burmingham";
+    const systemId = "urn:mdi:cms:birmingham";
     var mdiArray = [];
     for (var ii=0; ii<this.state.csvData.length; ii++) {
       const decedent = parseDecedent(this.state.csvData[ii]);
