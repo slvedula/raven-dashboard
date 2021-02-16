@@ -435,10 +435,10 @@ export default class CsvSubmission extends Component {
       submitStatus: 'Importing',
       blockSubmit: true
     }));
-    const systemId = "urn:mdi:cms:birmingham";
     var mdiArray = [];
     for (var ii=0; ii<this.state.csvData.length; ii++) {
       const patient = cleanupPatientData(this.state.csvData[ii],this.state.csvMaps);
+      const systemId = patient[0].length > 0 ? patient[0] : "urn:mdi:cms:birmingham";
       var mdiEntry = csvToMdiMapper(systemId,patient[1],patient[2],patient[3],patient[4],patient[5],patient[6],patient[7],patient[8],patient[9],
                                     patient[10],patient[11],patient[12],patient[13],patient[14],patient[15],patient[16],patient[17],patient[18],patient[19],
                                     patient[20],patient[21],patient[22],patient[23],patient[24],patient[25],patient[26],patient[27],patient[28],patient[29],
