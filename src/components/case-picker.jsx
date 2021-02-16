@@ -8,22 +8,22 @@ import { GrClose } from 'react-icons/gr';
 import axios from 'axios';
 
 async function checkExportStatus(caseNum, system) {
-  var status = "Not started";
+  var status = "Imported";
   var res = await axios.get('https://apps.hdap.gatech.edu/raven-mapper-api/submitstatus?systemIdentifier=' + system + '&codeIdentifier=' + caseNum)
     .then(res => {
       if (res.data.length > 0) {
 
         for (var ii = 0; ii < res.data[0].sources.length; ii++) {
-          if (res.data[0].sources[ii].status !== "completed" ) {
-            if (res.data[0].sources[ii].status === "error") status = "Incomplete";
+          if (res.data[0].sources[ii].status !== "Sent" ) {
+            if (res.data[0].sources[ii].status === "error") status = "Sent";
             else status = "Pending";
           }
         }
-        if (status === "Not started") {
-          status = "Completed";
+        if (status === "Imported") {
+          status = "Sent";
         }
       } else {
-        status = "Not Started";
+        status = "Imported";
       }
     }).catch(function(error) {
       console.log(error.message);
@@ -34,13 +34,11 @@ async function checkExportStatus(caseNum, system) {
 
 function statusClassMapper(displayText) {
   switch (displayText) {
-    case "Completed":
+    case "Sent":
       return "completeStatus";
-    case "Not Started":
+    case "Imported":
       return "notStartedStatus";
     case "Pending":
-      return "pendingStatus";
-    case "Incomplete":
       return "pendingStatus";
     case "No Info":
       return "noStatus";

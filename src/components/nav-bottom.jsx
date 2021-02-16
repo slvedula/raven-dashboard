@@ -28,6 +28,8 @@ function InputField(props) {
         className="input is-small"
         type="text"
         size="small"
+        required={props.required || false}
+        placeholder={props.required ? "Required" : ""}
         value={props.value || ""}
         />
     )
@@ -129,7 +131,7 @@ export default class NavBottom extends Component {
             <div className="field-body">
               <div className="field">
                 <div className="control">
-                  <InputField value={firstName || ""} overflow='20'/>
+                  <InputField value={firstName || ""} overflow='20' required={true} />
                 </div>
               </div>
               <div className="field">
@@ -139,7 +141,7 @@ export default class NavBottom extends Component {
               </div>
               <div className="field">
                 <div className="control">
-                  <InputField value={lastName || ""} overflow='20'/>
+                  <InputField value={lastName || ""} overflow='20' required={true} />
                 </div>
               </div>
             </div>
@@ -154,12 +156,12 @@ export default class NavBottom extends Component {
             <div className="field-body">
               <div className="field">
                 <div className="control">
-                  <InputField value={dateOfDeath || ""} overflow='6'/>
+                  <InputField value={dateOfDeath || ""} overflow='6' required={true} />
                 </div>
               </div>
               <div className="field">
                 <div className="control">
-                  <InputField value={timeOfDeath || ""} overflow='6'/>
+                  <InputField value={timeOfDeath || ""} overflow='6' required={true} />
                 </div>
               </div>
             </div>

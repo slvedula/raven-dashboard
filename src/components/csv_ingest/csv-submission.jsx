@@ -597,6 +597,12 @@ export default class CsvSubmission extends Component {
           <div className='i1'>
             <div className='i1-a'>
               <div className='i1-aa'>
+                <ol>
+                  <li>Once you have chosen your file, the Raven MDI CSV mapping interface will be shown.</li>
+                  <li>The Raven Dashboard will provide three columns containing the Raven MDI CSV Field name, a description of the intent of the field, and then a drop down box containing all potential fields in the user submitted CSV.</li>
+                  <li>Once you have completed your mapping, pressing the "Submit" button at the bottom of the page will attempt to send your CSV to the Raven Dashboard's backend which handles this part of the process, wherein the newly created Raven MDI CSV file will be automatically passed to the Raven Mapper API and posted to the FHIR Server. </li>
+                  <li>If successful, the "Submit" button will change text to say "Submitted" and a new option to "Download MDI" will appear. The "Download MDI" button allows you to download and store the Raven MDI CSV version of your data for reference and to afford the user the opportunity to review data integrity. Your case data should now be viewable using the "Browse Cases" button in the top left corner of the page, next to where the "Submit CSV" button was previously.</li>
+                </ol>
                   <CSVReader
                     className='button is-small is-outlined is-primary'
                     onFileLoaded={this.convertToMdi}

@@ -36,6 +36,8 @@ export default class ReleaseInfo extends Component {
                       <input
                         className="input is-small"
                         type="text"
+                        required
+                        placeholder="Required"
                         value={firstName || ""}
                         />
                     </div>
@@ -74,6 +76,8 @@ export default class ReleaseInfo extends Component {
                       <input
                         className="input is-small"
                         type="text"
+                        required
+                        placeholder="Required"
                         value={lastName || ""}
                         />
                     </div>
@@ -112,6 +116,8 @@ export default class ReleaseInfo extends Component {
                       <input
                         className="input is-small"
                         type="text"
+                        required
+                        placeholder="Required"
                         value={birthDate || ""}
                         />
                     </div>
@@ -131,6 +137,8 @@ export default class ReleaseInfo extends Component {
                       <input
                         className="input is-small"
                         type="text"
+                        required
+                        placeholder="Required"
                         value={age || ""}
                         />
                     </div>
@@ -150,6 +158,8 @@ export default class ReleaseInfo extends Component {
                       <input
                         className="input is-small"
                         type="text"
+                        required
+                        placeholder="Required"
                         value={race || ""}
                         />
                     </div>
@@ -169,6 +179,8 @@ export default class ReleaseInfo extends Component {
                       <input
                         className="input is-small"
                         type="text"
+                        required
+                        placeholder="Required"
                         value={ethnicity || ""}
                         />
                     </div>
