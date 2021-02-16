@@ -78,17 +78,17 @@ export default class Index extends Component {
               </Link>
             </li>
             <li
-              className={activeTabIndex === 1 ? 'is-active' : ''}
-              onClick={this.changeTab.bind(this, 1)}>
-              <Link to={`/app/c/${caseId}/notes`}>
-                <span>Case Notes</span>
-              </Link>
-            </li>
-            <li
               className={activeTabIndex === 2 ? 'is-active' : ''}
               onClick={this.changeTab.bind(this, 2)}>
               <Link to={`/app/c/${caseId}/release`}>
                 <span>Decedent Detail</span>
+              </Link>
+            </li>
+            <li
+              className={activeTabIndex === 1 ? 'is-active' : ''}
+              onClick={this.changeTab.bind(this, 1)}>
+              <Link to={`/app/c/${caseId}/notes`}>
+                <span>Case Notes</span>
               </Link>
             </li>
             <li

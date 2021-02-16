@@ -51,6 +51,9 @@
               input {
                 border: 1px solid $primary;
               }
+              input:required:placeholder-shown {
+                border: 1px solid red;
+              }
             }
           }
         }
@@ -124,6 +127,9 @@
                   input {
                     border: 1px solid $explore;
                   }
+                  input:required:placeholder-shown {
+                    border: 1px solid red;
+                  }
                 }
               }
             }
@@ -155,6 +161,9 @@
                 .control {
                   input {
                     border: 1px solid $explore;
+                  }
+                  input:required:placeholder-shown {
+                    border: 1px solid red;
                   }
                 }
               }
@@ -188,6 +197,9 @@
                   input {
                     border: 1px solid $explore;
                   }
+                  input:required:placeholder-shown {
+                    border: 1px solid red;
+                  }
                 }
               }
             }
@@ -220,6 +232,9 @@
               .control {
                 input {
                   border: 1px solid $explore;
+                }
+                input:required:placeholder-shown {
+                  border: 1px solid red;
                 }
               }
             }
@@ -333,6 +348,9 @@
                 input {
                   border: 1px solid $explore;
                 }
+                input:required:placeholder-shown {
+                  border: 1px solid red;
+                }
               }
             }
           }
@@ -443,6 +461,9 @@
                     border-radius: 0px;
                     box-shadow: none;
                   }
+                  input:required:placeholder-shown {
+                    border: 1px solid red;
+                  }
                 }
               }
             }
@@ -457,6 +478,9 @@
                   .control {
                     input {
                       border-bottom: 1px solid $explore;
+                    }
+                    input:required:placeholder-shown {
+                      border: 1px solid red;
                     }
                   }
                 }
@@ -509,6 +533,9 @@
                     border-radius: 0px;
                     box-shadow: none;
                   }
+                  input:required:placeholder-shown {
+                    border: 1px solid red;
+                  }
                 }
               }
             }
@@ -523,6 +550,9 @@
                   .control {
                     input {
                       border-bottom: 1px solid $explore;
+                    }
+                    input:required:placeholder-shown {
+                      border: 1px solid red;
                     }
                   }
                 }
@@ -565,6 +595,9 @@
                 border-radius: 0px;
                 box-shadow: none;
               }
+              input:required:placeholder-shown {
+                border: 1px solid red;
+              }
             }
           }
         }
@@ -579,6 +612,9 @@
               .control {
                 input {
                   border-bottom: 1px solid $explore;
+                }
+                input:required:placeholder-shown {
+                  border: 1px solid red;
                 }
               }
             }
@@ -619,6 +655,9 @@
                 border-radius: 0px;
                 box-shadow: none;
               }
+              input:required:placeholder-shown {
+                border: 1px solid red;
+              }
             }
           }
         }
@@ -633,6 +672,9 @@
               .control {
                 input {
                   border-bottom: 1px solid $explore;
+                }
+                input:required:placeholder-shown {
+                  border: 1px solid red;
                 }
               }
             }

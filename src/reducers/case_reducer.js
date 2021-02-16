@@ -107,9 +107,6 @@ function parseTimeOfDeath(bundle) {
     if (valueDateTime) {
       date = moment(valueDateTime).format('YYYY-MM-DD');
       time = moment(valueDateTime).format('h:mm:ss a');
-    } else {
-      date = 'ERROR';
-      time = 'ERROR';
     }
     return {
       dateOfDeath: date,

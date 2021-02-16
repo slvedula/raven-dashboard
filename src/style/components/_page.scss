@@ -10,3 +10,7 @@
   padding: 20px;
   transition: margin 100ms linear;
 }
+
+input:required:placeholder-shown {
+  border: 1px solid red;
+}

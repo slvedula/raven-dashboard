@@ -23,10 +23,12 @@ function InputField(props) {
   } else {
     return (
       <input
+        required={props.required || false}
         disabled={props.disabled || false}
         className="input is-small"
         type="text"
         size="small"
+        placeholder={props.required ? "Required" : ""}
         value={props.value || ""}
         />
     )
@@ -117,7 +119,8 @@ export default class CaseSummary extends Component {
                     <input
                       className="input is-small"
                       type="text"
-                      placeholder="Name"
+                      required
+                      placeholder="Name Required"
                       value= {certifier || ""}
                     />
                   </p>
@@ -286,7 +289,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <InputField value={injuryEventDate || ""} />
+                      <InputField value={injuryEventDate || ""} required={true} />
                     </div>
                   </div>
                 </div>
@@ -303,7 +306,7 @@ export default class CaseSummary extends Component {
                 <div className="field-body">
                   <div className="field is-expanded">
                     <div className="control">
-                      <InputField value={deathLocation || ""}/>
+                      <InputField value={deathLocation || ""} required={true} />
                     </div>
                   </div>
                 </div>
@@ -641,6 +644,8 @@ export default class CaseSummary extends Component {
                         <input
                           className="input is-small"
                           type="text"
+                          required
+                          placeholder="Required"
                           value={causeA.text || '' }
                         />
                       </div>
@@ -813,6 +818,8 @@ export default class CaseSummary extends Component {
                   <input
                     className="input is-small"
                     type="text"
+                    required
+                    placeholder="Required"
                     value={mannerOfDeath || ""}
                   />
                 </div>
