@@ -598,6 +598,7 @@ export default class CsvSubmission extends Component {
             <div className='i1-a'>
               <div className='i1-aa'>
                 <ol>
+                  <li>Click 'Choose File' button and select local CSV file</li>
                   <li>Once you have chosen your file, the Raven MDI CSV mapping interface will be shown.</li>
                   <li>The Raven Dashboard will provide three columns containing the Raven MDI CSV Field name, a description of the intent of the field, and then a drop down box containing all potential fields in the user submitted CSV.</li>
                   <li>Once you have completed your mapping, pressing the "Submit" button at the bottom of the page will attempt to send your CSV to the Raven Dashboard's backend which handles this part of the process, wherein the newly created Raven MDI CSV file will be automatically passed to the Raven Mapper API and posted to the FHIR Server. </li>
@@ -640,11 +641,12 @@ export default class CsvSubmission extends Component {
                   </p>
                   <p className='control'>
                     {(this.state.csvLoaded) ? <button className={`button is-small is-outlined is-primary`}
-                      disabled={this.state.blockSubmit}
+                      disabled={this.state.blockSubmit || true}
                       onClick={() => this.autoSubmit()}>{this.state.autoStatus}</button> : null}
                   </p>
                   <p className='control'>
                     {(this.state.mdiCsvFile.length > 0) ? <button className={`button is-small is-outlined is-primary`}
+                      disabled={true}
                       onClick={() => this.downloadMdiCsv()}>Download MDI</button> : null}
                   </p>
                 </div>

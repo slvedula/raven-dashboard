@@ -115,8 +115,8 @@ function parseTimeOfDeath(bundle) {
   } catch(e) {
     console.error('e: ',e);
     return {
-      dateOfDeath: 'ERROR',
-      timeOfDeath: 'ERROR'
+      dateOfDeath: 'MISSING',
+      timeOfDeath: 'MISSING'
     };
   }
 }
