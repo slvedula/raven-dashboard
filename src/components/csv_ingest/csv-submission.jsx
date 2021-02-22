@@ -462,7 +462,7 @@ export default class CsvSubmission extends Component {
       type: 'text/csv',
     }));
     var self=this;
-    const res = await axios.post(`https://apps.hdap.gatech.edu/raven-mapper-api/upload-csv-file-dataonly`, formData, {
+    const res = await axios.post(`${window._env_.FHIR_MAPPER_URL}` + `upload-csv-file-dataonly`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE'
@@ -531,7 +531,7 @@ export default class CsvSubmission extends Component {
       type: 'text/csv',
     }));
     var self=this;
-    const res = await axios.post(`https://apps.hdap.gatech.edu/raven-mapper-api/upload-csv-file-dataonly`, formData, {
+    const res = await axios.post(`${window._env_.FHIR_MAPPER_URL}` + `upload-csv-file-dataonly`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE'
