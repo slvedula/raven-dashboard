@@ -26,6 +26,6 @@ volumes:
       
 trigger:
   branch:
-  - master
+  - hdap-deploy-test-2
   event:
   - push
