@@ -73,35 +73,35 @@ export default class Index extends Component {
             <li
               className={activeTabIndex === 0 ? 'is-active' : ''}
               onClick={this.changeTab.bind(this, 0)}>
-              <Link className="is-primary" to={`/app/c/${caseId}/summary`}>
+              <Link className="is-primary" to={`/raven-dashboard/c/${caseId}/summary`}>
                 <span>Case Summary</span>
               </Link>
             </li>
             <li
               className={activeTabIndex === 2 ? 'is-active' : ''}
               onClick={this.changeTab.bind(this, 2)}>
-              <Link to={`/app/c/${caseId}/release`}>
+              <Link to={`/raven-dashboard/c/${caseId}/release`}>
                 <span>Decedent Detail</span>
               </Link>
             </li>
             <li
               className={activeTabIndex === 1 ? 'is-active' : ''}
               onClick={this.changeTab.bind(this, 1)}>
-              <Link to={`/app/c/${caseId}/notes`}>
+              <Link to={`/raven-dashboard/c/${caseId}/notes`}>
                 <span>Case Notes</span>
               </Link>
             </li>
             <li
               className={activeTabIndex === 3 ? 'is-active' : ''}
               onClick={this.changeTab.bind(this, 3)}>
-              <Link to={`/app/c/${caseId}/toxicology`}>
+              <Link to={`/raven-dashboard/c/${caseId}/toxicology`}>
                 <span>Toxicology</span>
               </Link>
             </li>
             <li
               className={activeTabIndex === 4 ? 'is-active' : ''}
               onClick={this.changeTab.bind(this, 4)}>
-              <Link to={`/app/c/${caseId}/documents`}>
+              <Link to={`/raven-dashboard/c/${caseId}/documents`}>
                 <span>Documents</span>
               </Link>
             </li>
@@ -110,7 +110,7 @@ export default class Index extends Component {
         <div className="content">
           <Switch>
             <Route
-              path={`/app/c/${caseId}/summary`}
+              path={`/raven-dashboard/c/${caseId}/summary`}
               render={() =>
                 <CaseSummary
                   explore={explore}
@@ -119,13 +119,13 @@ export default class Index extends Component {
               }
             />
             <Route
-              path={`/app/c/${caseId}/notes`}
+              path={`/raven-dashboard/c/${caseId}/notes`}
               render={() =>
                 <CaseNotes/>
               }
             />
             <Route
-              path={`/app/c/${caseId}/release`}
+              path={`/raven-dashboard/c/${caseId}/release`}
               render={() =>
                 <ReleaseInfo
                   explore={explore}
@@ -134,18 +134,18 @@ export default class Index extends Component {
               }
             />
             <Route
-              path={`/app/c/${caseId}/toxicology`}
+              path={`/raven-dashboard/c/${caseId}/toxicology`}
               render={() =>
                 <Toxicology/>
               }
             />
             <Route
-              path={`/app/c/${caseId}/documents`}
+              path={`/raven-dashboard/c/${caseId}/documents`}
               render={() =>
                 <Documents/>
               }
             />
-            <Redirect to={`/app/c/${caseId}/summary`}/>
+            <Redirect to={`/raven-dashboard/c/${caseId}/summary`}/>
           </Switch>
         </div>
       </div>
