@@ -44,7 +44,7 @@ export default class App extends Component {
         <Router>
           <Switch>
             <Route
-              path="/app/c/:caseId"
+              path="/raven-dashboard/c/:caseId"
               render={(props) => (
                 <Case {...props}
                   handleFieldClick={this.handleFieldClick}
@@ -55,15 +55,15 @@ export default class App extends Component {
               )}
             />
             <Route
-              path="/app/csv"
+              path="/raven-dashboard/csv"
               exact
               render={(props) => (
                 <CsvIngest {...props}/>
               )}
             />
-            <Route exact path="/app/cases" />
-            <Redirect exact from="/app" to="/app/cases" />
-            <Redirect exact from="/" to="/app/cases" />
+            <Route exact path="/raven-dashboard/cases" />
+            <Redirect exact from="/raven-dashboard" to="/raven-dashboard/cases" />
+            <Redirect exact from="/" to="/raven-dashboard/cases" />
             <Route>
                 <h1>404 Page Undefined - 
                   <a href="/"> Return Home</a>
@@ -71,7 +71,7 @@ export default class App extends Component {
             </Route>
           </Switch>
           <Route
-              path={["/app/cases","/app/c/:caseId"]}
+              path={["/raven-dashboard/cases","/raven-dashboard/c/:caseId"]}
               render={(props) => <CasePicker {...props}/>}
             />
         </Router>
