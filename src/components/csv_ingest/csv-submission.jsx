@@ -8,6 +8,11 @@ import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 function csvToMdiMapper(systemId,caseId,firstName,lastName,midName,age,ageUnit,race,gender,ethnicity,                             //10 variables
                         birthDate,mrnNumber,jobTitle,industry,language,marital,possibleId,certifierName,certifierType,causeA,     //10 variables
@@ -280,13 +285,13 @@ function emptyArray() {
 }
 
 const rows: RowsProp = [
-  { id: 0, col1: 'SYSTEMID', col2: {desc: 'A system identifier to the external datasource'}},
-  { id: 1, col1: 'CASEID', col2: {desc: 'A case id from the original datasource'}},
-  { id: 2, col1: 'FIRSTNAME', col2: {desc: 'First Name of Patient'}},
-  { id: 3, col1: 'LASTNAME', col2: {desc: 'Last Name of Patient'}},
-  { id: 4, col1: 'MIDNAME', col2: {desc: 'Middle Name of Patient'}},
-  { id: 5, col1: 'AGE', col2: {desc: 'Age of Patient'}},
-  { id: 6, col1: 'AGEUNIT', col2: {desc: 'seconds, minutes,hours, months, years patient lived'}},
+  { id: 0, col1: 'SYSTEMID', col2: {desc: 'A system identifier for the original datasource. Part of the case identifier. Required.'}},
+  { id: 1, col1: 'CASEID', col2: {desc: 'A case id from the original datasource. Part of the case identifer. Required.'}},
+  { id: 2, col1: 'FIRSTNAME', col2: {desc: 'First Name of decedent.'}},
+  { id: 3, col1: 'LASTNAME', col2: {desc: 'Last Name of decedent.'}},
+  { id: 4, col1: 'MIDNAME', col2: {desc: 'Middle Name of decedent.'}},
+  { id: 5, col1: 'AGE', col2: {desc: 'Age of decedent.'}},
+  { id: 6, col1: 'AGEUNIT', col2: {desc: 'Seconds, minutes, hours, months, years patient lived.'}},
   { id: 7, col1: 'RACE', col2: {desc: 'Racial component of decedent'}},
   { id: 8, col1: 'GENDER', col2: {desc: 'The identified gender of the decedent'}},
   { id: 9, col1: 'ETHNICITY', col2: {desc: 'Ethnic component of decedent'}},
@@ -404,7 +409,8 @@ export default class CsvSubmission extends Component {
       submitStatus: 'Import',
       autoStatus: 'Auto',
       blockSubmit: false,
-      mdiCsvFile: ''
+      mdiCsvFile: '',
+      openAlert: false
     };
 
     this.convertToMdi = this.convertToMdi.bind(this);
@@ -412,6 +418,7 @@ export default class CsvSubmission extends Component {
     this.submitPatient = this.submitPatient.bind(this);
     this.autoSubmit = this.autoSubmit.bind(this);
     this.downloadMdiCsv = this.downloadMdiCsv.bind(this);
+    this.handleCloseAlert = this.handleCloseAlert.bind(this);
   }
 
   handleChange = params => (event) => {
@@ -436,9 +443,18 @@ export default class CsvSubmission extends Component {
       blockSubmit: true
     }));
     var mdiArray = [];
+
     for (var ii=0; ii<this.state.csvData.length; ii++) {
       const patient = cleanupPatientData(this.state.csvData[ii],this.state.csvMaps);
-      const systemId = patient[0].length > 0 ? patient[0] : "urn:mdi:cms:birmingham";
+      const systemId = patient[0].length > 0 ? patient[0] : "urn:mdi:cms:raven";
+      if (systemId === "urn:mdi:cms:raven" || patient[1].length === 0) {
+        this.setState(state => ({
+          openAlert: true,
+          submitStatus: 'Import',
+          blockSubmit: false
+        }));
+        return;
+      }
       var mdiEntry = csvToMdiMapper(systemId,patient[1],patient[2],patient[3],patient[4],patient[5],patient[6],patient[7],patient[8],patient[9],
                                     patient[10],patient[11],patient[12],patient[13],patient[14],patient[15],patient[16],patient[17],patient[18],patient[19],
                                     patient[20],patient[21],patient[22],patient[23],patient[24],patient[25],patient[26],patient[27],patient[28],patient[29],
@@ -491,7 +507,7 @@ export default class CsvSubmission extends Component {
       autoStatus: 'Importing',
       blockSubmit: true
     }));
-    const systemId = "urn:mdi:cms:birmingham";
+    const systemId = "urn:mdi:cms:raven";
     var mdiArray = [];
     for (var ii=0; ii<this.state.csvData.length; ii++) {
       const decedent = parseDecedent(this.state.csvData[ii]);
@@ -502,6 +518,15 @@ export default class CsvSubmission extends Component {
       const age = parseAge(this.state.csvData[ii]);
       const causes = parseCausesOfDeath(this.state.csvData[ii]);
       const certifier = parseCertifier(this.state.csvData[ii]);
+
+      if (systemId === "urn:mdi:cms:raven" || decedent.case.length === 0) {
+        this.setState(state => ({
+          openAlert: true,
+          submitStatus: 'Import',
+          blockSubmit: false
+        }));
+        return;
+      }
 
       var mdiEntry = csvToMdiMapper(systemId,decedent.case,decedent.firstName,decedent.lastName,decedent.middleName,age.age,age.unit,decedent.race,decedent.gender,null,
                                     decedent.birthDate,null,decedent.job,decedent.industry,null,decedent.maritalStatus,null,certifier.name,certifier.type,causes.causeA,
@@ -567,8 +592,14 @@ export default class CsvSubmission extends Component {
 
   }
 
+  async handleCloseAlert() {
+    this.setState(state => ({
+      openAlert: false
+    }));
+  }
+
   render() {
-      const { csvLoaded, csvSelectFields, csvMaps, csvData, submitStatus, autoStatus, blockSubmit, mdiCsvFile } = this.state;
+      const { csvLoaded, csvSelectFields, csvMaps, csvData, submitStatus, autoStatus, blockSubmit, mdiCsvFile, openAlert } = this.state;
       const columns: ColDef[] = [
         { field: 'col1', headerName: 'MDI Field', width: 150, sortable: false },
         { field: 'col2', headerName: 'Field Description', width: 300, sortable: false, renderCell: (params) => (
@@ -592,6 +623,8 @@ export default class CsvSubmission extends Component {
           </strong>
         )}
       ];
+
+
       return(
         <div className='page csv-submission'>
           <div className='i1'>
@@ -639,6 +672,24 @@ export default class CsvSubmission extends Component {
                       disabled={this.state.blockSubmit}
                       onClick={() => this.submitPatient()}>{this.state.submitStatus}</button> : null}
                   </p>
+                  <Dialog
+                    open={this.state.openAlert}
+                    onClose={() => this.handleCloseAlert()}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                  >
+                    <DialogTitle id="alert-dialog-title">{"Required fields missing mapping"}</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        CSV Submission requires two mandatory fields, System ID and Case ID, to be mapped by the user before cases can be imported.
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <button className={`button is-small is-outlined is-primary`} onClick={() => this.handleCloseAlert()}>
+                        OK
+                      </button>
+                    </DialogActions>
+                  </Dialog>
                   <p className='control'>
                     {(this.state.csvLoaded) ? <button className={`button is-small is-outlined is-primary`}
                       disabled={this.state.blockSubmit || true}
