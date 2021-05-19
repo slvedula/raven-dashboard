@@ -7,7 +7,7 @@ export default class CsvTop extends Component {
       <nav className="navbar nav-top" role="navigation" aria-label="main navigation">
         <div className="navbar-menu">
           <div className="navbar-start">
-            <Link to='/app/cases' className="navbar-item">
+            <Link to='/raven-dashboard/cases' className="navbar-item">
               Browse Cases
             </Link>
           </div>

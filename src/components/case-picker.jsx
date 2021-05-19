@@ -94,13 +94,13 @@ class CasePicker extends Component {
   match({match, location}) {
     if (match) {
       switch(match.path) {
-        case "/app/cases": {
+        case "/raven-dashboard/cases": {
           return {
             casePickerIsVisible: true,
             showCloseButton: false
           };
         }
-        case "/app/c/:caseId": {
+        case "/raven-dashboard/c/:caseId": {
           const { showPicker } = queryString.parse(
             location.search,
             { parseBooleans: true }
@@ -167,7 +167,7 @@ class CasePicker extends Component {
 
   handlePatientClick = caseNum => {
     const { history: { push } } = this.props;
-    push(`/app/c/${caseNum}`);
+    push(`/raven-dashboard/c/${caseNum}`);
   }
 
   render() {
@@ -216,7 +216,7 @@ class CasePicker extends Component {
                 </div>
               </div>
               <div style={{marginLeft: '8px'}}>
-                <Link to='/app/csv'>
+                <Link to='/raven-dashboard/csv'>
                   <button
                     style={{color: '#0f4672'}}
                     className="button is-outlined">
@@ -229,7 +229,7 @@ class CasePicker extends Component {
             <div className="right">
               { showCloseButton &&
                 <Link
-                  to={`/app/c/${caseIdFromUrl}`}
+                  to={`/raven-dashboard/c/${caseIdFromUrl}`}
                   aria-label="close"
                 >
                 <GrClose/>

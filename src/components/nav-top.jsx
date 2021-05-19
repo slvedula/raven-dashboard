@@ -15,7 +15,7 @@ export default class NavTop extends Component {
             <Link to={`${window.location.pathname}?showPicker=true`} className="navbar-item">
               Browse Cases
             </Link>
-            <Link to='/app/csv' className="navbar-item">
+            <Link to='/raven-dashboard/csv' className="navbar-item">
               Import CSV
             </Link>
 
