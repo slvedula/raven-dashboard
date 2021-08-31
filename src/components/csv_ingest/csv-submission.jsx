@@ -36,7 +36,7 @@ function csvToMdiMapper(systemId,caseId,firstName,lastName,midName,age,ageUnit,r
     CAUSEB:causeB,CAUSEC:causeC,CAUSED:causeD,OSCOND:oscond,DISPMETHOD:dispMethod, MANNER:manner,CHOWNINJURY:chownInjury,DURATIONA:durationA,DURATIONB:durationB,DURATIONC:durationC,DURACTIOND:durationD,
     CASENOTES:caseNotes,ATWORK:atWork,JOBRELATED:jobRelated,REPORTDATE:reportDate,REPORTTIME:reportTime,CDEATHDATE:cDeathDate,CDEATHTIME:cDeathTime,FOUNDDATE:foundDate,FOUNDTIME:foundTime,
     EVENTDATE:eventDate,EVENTTIME:eventTime,PRNDATE:prnDate,PRNTIME:prnTime,EXAMDATE:examDate,
-    CINJDATE:cinjDate,CINJTIME:cinjTime,CIDATEFLAG:ciDateFlag,CDEATHFLAG:cDeathFlag,CDEATHTIME:cDeathTime,LKADATE:lkaDate,LKATIME:lkaTime,CASEYEAR:caseYear,ATHOSPDATE:atHospDate,
+    CINJDATE:cinjDate,CINJTIME:cinjTime,CIDATEFLAG:ciDateFlag,CDEATHFLAG:cDeathFlag,LKADATE:lkaDate,LKATIME:lkaTime,CASEYEAR:caseYear,ATHOSPDATE:atHospDate,
     RESSTREET:resStreet,RESCITY:resCity,RESCOUNTY:resCounty,RESSTATE:resState,RESZIP:resZip,
     DEATHPLACE:deathPlace,DEATH_STREET:deathStreet,DEATH_CITY:deathCity,DEATH_COUNTY:deathCounty,DEATH_STATE:deathState,DEATH_ZIP:deathZip,
     EVENTPLACE:eventPlace,FOUNDADDR_STREET:foundAddrStreet,FOUNDADDR_CITY:foundAddrCity,FOUNDADDR_COUNTY:foundAddrCounty,FOUNDADDR_STATE:foundAddrState,FOUNDADDR_ZIP:foundAddrZip,
@@ -478,7 +478,7 @@ export default class CsvSubmission extends Component {
       type: 'text/csv',
     }));
     var self=this;
-    const res = await axios.post(`${window._env_.FHIR_MAPPER_URL}` + `upload-csv-file-dataonly`, formData, {
+    const res = await axios.post(`${process.env.REACT_APP_FHIR_IMPORT_SUBMIT_API_URL}` + `upload-csv-file-dataonly`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE'
@@ -556,7 +556,7 @@ export default class CsvSubmission extends Component {
       type: 'text/csv',
     }));
     var self=this;
-    const res = await axios.post(`${window._env_.FHIR_MAPPER_URL}` + `upload-csv-file-dataonly`, formData, {
+    const res = await axios.post(`${process.env.REACT_APP_FHIR_IMPORT_SUBMIT_API_URL}` + `upload-csv-file-dataonly`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE'

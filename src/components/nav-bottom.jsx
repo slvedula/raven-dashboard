@@ -56,7 +56,7 @@ export default class NavBottom extends Component {
     this.setState({
       exportText: 'Exporting'
     });
-    var res = await axios.get(`${window._env_.FHIR_MAPPER_URL}` + 'submitEDRS2.0?systemIdentifier=' + system + '&codeIdentifier=' + caseNum)
+    var res = await axios.get(`${process.env.REACT_APP_FHIR_IMPORT_SUBMIT_API_URL}` + 'submitEDRS2.0?systemIdentifier=' + system + '&codeIdentifier=' + caseNum)
       .then(res => {
         console.log(res);
         self.setState({
@@ -73,7 +73,7 @@ export default class NavBottom extends Component {
   async checkExportStatus(caseNum, system) {
     var self=this;
     console.log("Checking export status for: ", system + ' ' + caseNum);
-    var res = axios.get(`${window._env_.FHIR_MAPPER_URL}` + 'submitstatus?systemIdentifier=' + system + '&codeIdentifier=' + caseNum)
+    var res = axios.get(`${process.env.REACT_APP_FHIR_IMPORT_SUBMIT_API_URL}` + 'submitstatus?systemIdentifier=' + system + '&codeIdentifier=' + caseNum)
       .then(res => {
         console.log(res);
       }).catch(function(error) {

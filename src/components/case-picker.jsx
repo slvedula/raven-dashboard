@@ -9,7 +9,7 @@ import axios from 'axios';
 
 async function checkExportStatus(caseNum, system) {
   var status = "Imported";
-  var res = await axios.get(`${window._env_.FHIR_MAPPER_URL}` + 'submitstatus?systemIdentifier=' + system + '&codeIdentifier=' + caseNum)
+  var res = await axios.get(`${process.env.REACT_APP_FHIR_IMPORT_SUBMIT_API_URL}` + 'submitstatus?systemIdentifier=' + system + '&codeIdentifier=' + caseNum)
     .then(res => {
       if (res.data.length > 0) {
 
