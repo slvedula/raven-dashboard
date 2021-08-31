@@ -10,6 +10,7 @@ import Documents from './documents';
 import CaseNotes from './notes';
 import ReleaseInfo from '../../containers/case_release_info';
 import Toxicology from './toxicology';
+import Connectathon from "../../containers/case_connectathon";
 
 
 export default class Index extends Component {
@@ -36,6 +37,9 @@ export default class Index extends Component {
           break;
         case 'documents':
           return 4;
+          break;
+        case 'connectathon':
+          return 5;
           break;
         default:
           return 0;
@@ -105,6 +109,13 @@ export default class Index extends Component {
                 <span>Documents</span>
               </Link>
             </li>
+            <li
+                className={activeTabIndex === 5 ? 'is-active' : ''}
+                onClick={this.changeTab.bind(this, 5)}>
+              <Link to={`/raven-dashboard/c/${caseId}/connectathon`}>
+                <span>Connectathon</span>
+              </Link>
+            </li>
           </ul>
         </div>
         <div className="content">
@@ -143,6 +154,15 @@ export default class Index extends Component {
               path={`/raven-dashboard/c/${caseId}/documents`}
               render={() =>
                 <Documents/>
+              }
+            />
+            <Route
+              path={`/raven-dashboard/c/${caseId}/connectathon`}
+              render={() =>
+                  <Connectathon
+                      explore={explore}
+                      handleFieldClick={handleFieldClick}
+                  />
               }
             />
             <Redirect to={`/raven-dashboard/c/${caseId}/summary`}/>

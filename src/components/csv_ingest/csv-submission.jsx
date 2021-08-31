@@ -36,7 +36,7 @@ function csvToMdiMapper(systemId,caseId,firstName,lastName,midName,age,ageUnit,r
     CAUSEB:causeB,CAUSEC:causeC,CAUSED:causeD,OSCOND:oscond,DISPMETHOD:dispMethod, MANNER:manner,CHOWNINJURY:chownInjury,DURATIONA:durationA,DURATIONB:durationB,DURATIONC:durationC,DURACTIOND:durationD,
     CASENOTES:caseNotes,ATWORK:atWork,JOBRELATED:jobRelated,REPORTDATE:reportDate,REPORTTIME:reportTime,CDEATHDATE:cDeathDate,CDEATHTIME:cDeathTime,FOUNDDATE:foundDate,FOUNDTIME:foundTime,
     EVENTDATE:eventDate,EVENTTIME:eventTime,PRNDATE:prnDate,PRNTIME:prnTime,EXAMDATE:examDate,
-    CINJDATE:cinjDate,CINJTIME:cinjTime,CIDATEFLAG:ciDateFlag,CDEATHFLAG:cDeathFlag,CDEATHTIME:cDeathTime,LKADATE:lkaDate,LKATIME:lkaTime,CASEYEAR:caseYear,ATHOSPDATE:atHospDate,
+    CINJDATE:cinjDate,CINJTIME:cinjTime,CIDATEFLAG:ciDateFlag,CDEATHFLAG:cDeathFlag,LKADATE:lkaDate,LKATIME:lkaTime,CASEYEAR:caseYear,ATHOSPDATE:atHospDate,
     RESSTREET:resStreet,RESCITY:resCity,RESCOUNTY:resCounty,RESSTATE:resState,RESZIP:resZip,
     DEATHPLACE:deathPlace,DEATH_STREET:deathStreet,DEATH_CITY:deathCity,DEATH_COUNTY:deathCounty,DEATH_STATE:deathState,DEATH_ZIP:deathZip,
     EVENTPLACE:eventPlace,FOUNDADDR_STREET:foundAddrStreet,FOUNDADDR_CITY:foundAddrCity,FOUNDADDR_COUNTY:foundAddrCounty,FOUNDADDR_STATE:foundAddrState,FOUNDADDR_ZIP:foundAddrZip,
