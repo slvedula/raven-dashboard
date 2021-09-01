@@ -10,7 +10,7 @@ import Documents from './documents';
 import CaseNotes from './notes';
 import ReleaseInfo from '../../containers/case_release_info';
 import Toxicology from './toxicology';
-import Connectathon from "../../containers/case_connectathon";
+import Connectathon from "../../containers/case_connectathon_container";
 
 
 export default class Index extends Component {

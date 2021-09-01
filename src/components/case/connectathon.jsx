@@ -1,30 +1,22 @@
 import React, {Component} from 'react';
 import api from "../../api";
+import ConnectathonSearchModal from "../../containers/connectathon-search-modal-container";
 
 export default class Connectathon extends Component {
   render() {
-    const {explore, handleFieldClick} = this.props;
-    const {
-      case:
-          {
-            form:
-                {
-                  navBottom: {
+    const { case:
+            { form:
+                { navBottom: {
                     firstName,
                     middleName,
                     lastName,
                     gender,
                     birthDate
-                  }
-                }
-          }
-    } = this.props;
+                  }}}} = this.props;
 
     // On Button Click, search the FHIR Server for MDI Documents matching params.
     // TODO: Handle bundle result and show in list.
     async function searchWithParams() {
-      console.log('Search Clicked');
-
       var parameters = createParameterResource();
       var res = api.post('/Composition/$mdi-documents', parameters)
           .then(res => {
@@ -36,37 +28,47 @@ export default class Connectathon extends Component {
 
     // Create Parameter Resource based on current input.
     // TODO: Adjust to pull from input boxes and only include key:value pairs for which a value is not empty.
+    // TODO: Get full list of parameters from Myung.
     function createParameterResource() {
       console.log("Creating Parameter Resource");
-      return '{\n' +
-          '  "resourceType": "Parameters",\n' +
-          '  "parameter": [\n' +
-          '    {\n' +
-          '      "name": "decedent.given",\n' +
-          '      "valueString": "Jamil"\n' +
-          '    },\n' +
-          '\t\t{\n' +
-          '      "name": "decedent.address-city",\n' +
-          '      "valueString": "Atlanta"\n' +
-          '    }\n' +
-          '  ]\n' +
-          '}';
+      var parameters = {
+        "resourceType": "Parameters",
+        "parameter": [{
+          "name": "decedent.given",
+          "valueString": firstName
+        }
+        ]
+      }
+      return parameters;
     }
 
     // Render DOM
     return (
         <div className="">
+          <div className="select">
+            <select >
+              <option>https://apps.hdap.gatech.edu/raven-fhir-server/fhir/</option>
+              <option>https://apps.hdap.gatech.edu/raven-fhir-server/fhir/</option>
+              {/*<option key={"all-systems"} value="all-systems">All Systems</option>*/}
+              {/*{systemOptions.map((system, i) =>*/}
+              {/*    <option key={system} value={system}>{system}</option>*/}
+              {/*)}*/}
+            </select>
+          </div>
+
           <button
               className={`button is-small is-outlined is-primary`}
-              onClick={() => searchWithParams()}>
+              onClick={() => {searchWithParams()}}>
             Search
           </button>
+
+
+
           <div className="i1">
             <div className="i1-a">
               <div className="i1-aa">
                 <div
-                    className={`field is-horizontal explorable ${explore ? 'is-explore' : ''}`}
-                    onClick={() => handleFieldClick('decedent')}>
+                    className={`field is-horizontal explorable`}>
                   <div className="field-label is-small">
                     <label className="label">First Name</label>
                   </div>
@@ -88,6 +90,7 @@ export default class Connectathon extends Component {
             </div>
           </div>
         </div>
+
     );
   }
 }
