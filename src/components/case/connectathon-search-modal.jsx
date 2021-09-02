@@ -11,9 +11,11 @@ export default class ConnectathonSearchModal extends Component {
     super(props);
 
     this.state = {
-      searchResultsVisible: false,
+      searchResultsVisible: true,
       showCloseButton: true,
+
     };
+
   }
 
   render() {
@@ -26,7 +28,7 @@ export default class ConnectathonSearchModal extends Component {
 
     // Render DOM
     return (
-        <div className={`case-picker modal ${searchResultIsVisible ? 'is-active' : ''}`}>
+        <div className={'case-picker modal is-active'}>
           <div className="modal-background"></div>
           <div className="modal-card">
             <header className="modal-card-head">
@@ -35,14 +37,8 @@ export default class ConnectathonSearchModal extends Component {
                   Search Results
                 </div>
               </div>
-
               <div className="right">
-                <Link
-                    to={`/raven-dashboard/c/`}
-                    aria-label="close"
-                >
-                  <GrClose/>
-                </Link>
+                  <GrClose onClick={this.props.onCloseButtonClick}/>
               </div>
             </header>
             <section className={`modal-card-body ${isLoading ? 'is-loading' : ''}`}>
@@ -65,9 +61,7 @@ export default class ConnectathonSearchModal extends Component {
                         <th>Status</th>
                       </tr>
                       </thead>
-
                       <tbody className="no-data-message"><tr><td>No results.</td></tr></tbody>
-
                     </table>
                   </>
               )}
