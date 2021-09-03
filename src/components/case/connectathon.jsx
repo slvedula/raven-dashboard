@@ -3,64 +3,149 @@ import axios from "axios";
 import ConnectathonSearchModal from "../../containers/connectathon-search-modal-container";
 
 export default class Connectathon extends Component {
-  state = {
-    selectedServerBase: 'https://apps.hdap.gatech.edu/raven-fhir-server/fhir/',
-    showSearchResults: false,
-    parameters: {}
+  constructor(props){
+    super(props);
+    this.state = {
+      selectedServerBase: 'https://apps.hdap.gatech.edu/raven-fhir-server/fhir/',
+      showSearchResults: false,
+      parameters: this.initializeParameterResource()
+    };
   }
 
+  // State modifiers.
   toggleShowSearchResults = (value) => {
     this.setState({showSearchResults: value});
   };
-
   setServerBase = (e) => {
+    console.log(e.target.value.serverBase);
     this.setState({selectedServerBase: e.target.value});
-    console.log(this.state.selectedServerBase);
-    //this.props.setServerBase(e.target.value);
+  };
+  setParameters = (params) => {
+    this.setState({parameters: params});
+  };
+  setSearchResults = (searchResults) => {
+    this.setState({searchResults: searchResults})
   };
 
   // On Button Click, search the FHIR Server for MDI Documents matching params.
-  // TODO: Handle bundle result and show in list.
-  async searchWithParams(params) {
+  // TODO: Pass bundle result and show in result list.
+  async searchWithParams() {
+    this.props.searchWithParams(this.state.selectedServerBase, this.state.parameters);
     this.toggleShowSearchResults(true);
-    var parameters = this.createParameterResource(params);
-    var api = axios.create({
-      baseURL: `${this.state.selectedServerBase}/`,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      auth: {
-        username: 'client',
-        password: 'secret'
-      }
-    });
-    var res = api.post('Composition/$mdi-documents', parameters)
-        .then(res => {
-          console.log(res)
-        }).catch(function (error) {
-          console.log(error.message);
-        });
+    // this.toggleShowSearchResults(true);
+    // //var parameters = this.createParameterResource(params);
+    // var api = axios.create({
+    //   baseURL: `${this.state.selectedServerBase}/`,
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   auth: {
+    //     username: 'client',
+    //     password: 'secret'
+    //   }
+    // });
+    // var res = api.post('Composition/$mdi-documents', this.state.parameters)
+    //     .then(res => {
+    //       this.setResponseBundle(res.data);
+    //     }).catch(function (error) {
+    //       console.log(error.message);
+    //     });
   }
 
-  // Create Parameter Resource based on current input.
-  // TODO: Adjust to pull from input boxes and only include key:value pairs for which a value is not empty.
-  // TODO: Get full list of parameters from Myung.
-  createParameterResource(params) {
-    // Temp
-    let firstName = params;
-    console.log("Creating Parameter Resource");
-    var parameters = {
+  // Initialize Parameter Resource on render based on the passed properties.
+  initializeParameterResource(params) {
+    var parameterResourceJSON = {
       "resourceType": "Parameters",
-      "parameter": [{
-        "name": "decedent.given",
-        "valueString": firstName
-      }
-      ]
+      "parameter": []
+    };
+    var parameterList = parameterResourceJSON["parameter"];
+    // console.log(params);
+    // if (!!params) {
+    //   params.map(entry => {
+    //     let element = (Object.keys(entry))[0];
+    //     let value = entry[element];
+    //     if(!!value && value.trim(' ') !== '') {
+    //       value = value.trim();
+    //       parameterList.push(this.mapParameterEntry(element, value));
+    //     }
+    //     });
+    // }
+    parameterResourceJSON["parameter"] = parameterList;
+    return JSON.stringify(parameterResourceJSON, null, 2);
+  }
+
+  // Update Parameter Resource based on current input onChange. Default valueType is valueString, must specify other
+  // value types. E.g. valueDateTime
+  updateParameterResource(element, e, valueType = "valueString") {
+    // Pull the value from the onChange event and trim the string.
+    var value = e.target.value;
+    var value = value.trim();
+
+    // Parse the string as JSON to allow operations.
+    // TODO: Remove if the state is changed to be stored as JSON instead of string representation.
+    var parametersJSON = JSON.parse(this.state.parameters);
+
+    // Create a reference to the parameter list in the resource to work with it directly.
+    var parameterList = parametersJSON["parameter"];
+
+    if (value === "") {
+      // Check if Parameter exists and delete it if value string is empty.
+      let parameterListCopy = [...parameterList];
+      parameterListCopy.map((entry, index) => {
+        if(!!entry.name && entry.name.trim(' ') !== '') {
+          if (entry.name === element) {
+            parameterList.splice(index, 1);
+          }
+        }
+      });
     }
-    return parameters;
+    else {
+      // If value string not empty, iterate over parameter list and either
+      // add or update..
+
+      // Parameter Control Bool
+      let parameterExists = false;
+
+      // Iterate over the parameter list and check if an entry with a name whose value equals the relevant FHIR element
+      // passed (ie: decedent.given). If exists, flag as true to skip the add(push) operation and update the value.
+      parameterList.map(entry => {
+         if(!!entry.name && entry.name.trim(' ') !== '') {
+           if (entry.name === element) {
+             parameterExists = true;
+             entry[valueType] = value;
+           }
+         }
+      });
+
+      // If the name whose value did not equal the relevant FHIR element is not found, push to the list.
+      if (!parameterExists) {
+        parameterList.push(this.mapParameterEntry(element, value));
+      }
+    }
+
+    // Call the setsParameters state method and pass in the string version of the parameter to render properly in the
+    // text area.
+    // TODO: Note, this can be retained as a JSON if not doing the demo output.
+    this.setParameters(JSON.stringify(parametersJSON, null, 2))
+  }
+
+  // Reusable method to quickly turn the element:value pair into the required Parameter resource structure.
+  mapParameterEntry(element, value, valueType = "valueString"){
+    let entry = {};
+    entry["name"] = element;
+    entry[valueType] = value
+    return entry;
+  }
+
+
+  componentDidUpdate() {
+    console.log("Did Update");
+    console.log(this.props.connectathon);
+    console.log(this.state);
   }
 
   render() {
+    //const { searchResults } = this.state;
     const {
       case:
           {
@@ -74,7 +159,11 @@ export default class Connectathon extends Component {
                     birthDate
                   }
                 }
-          }
+          },
+        connectathon: {
+            searchResults,
+            edrsServers
+        }
     } = this.props;
 
     // Render DOM
@@ -85,12 +174,9 @@ export default class Connectathon extends Component {
           <div className={`search-case`}>
             <div className="select">
               <select onChange={this.setServerBase}>
-                <option value={'https://apps.hdap.gatech.edu/raven-fhir-server/fhir/'}>Raven FHIR Server (Demo)</option>
-                <option value={'http://65.61.13.216/FHIR2021/WebApi/FHIR/r4/'}>Georgia EDRS</option>
-                {/*<option key={"all-systems"} value="all-systems">All Systems</option>*/}
-                {/*{systemOptions.map((system, i) =>*/}
-                {/*    <option key={system} value={system}>{system}</option>*/}
-                {/*)}*/}
+                {edrsServers.map((server, i) =>
+                    <option key={i} value={server.serverBase}>{server.name}</option>
+                )}
               </select>
             </div>
             <button
@@ -104,6 +190,7 @@ export default class Connectathon extends Component {
 
           {this.state.showSearchResults ?
             <ConnectathonSearchModal
+                searchResults={searchResults}
                 onCloseButtonClick={() => {
                   this.toggleShowSearchResults(false);
                 }}/> : null
@@ -125,7 +212,32 @@ export default class Connectathon extends Component {
                             type="text"
                             required
                             placeholder="Required"
-                            value={firstName || ""}
+                            defaultValue={firstName || ""}
+                            onChange={(e) => {
+                              this.updateParameterResource("decedent.given", e)
+                            }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                    className={`field is-horizontal explorable`}>
+                  <div className="field-label is-small">
+                    <label className="label">Gender</label>
+                  </div>
+                  <div className="field-body">
+                    <div className="field is-expanded">
+                      <div className="control">
+                        <input
+                            className="input is-small"
+                            type="text"
+                            required
+                            placeholder="Required"
+                            defaultValue={gender || ""}
+                            onChange={(e) => {
+                              this.updateParameterResource("decedent.gender", e)
+                            }}
                         />
                       </div>
                     </div>
@@ -134,6 +246,21 @@ export default class Connectathon extends Component {
               </div>
             </div>
           </div>
+          Parameters<br/>
+          <textarea
+              type="textarea"
+              value={this.state.parameters}
+              rows={15}
+              cols={80}
+          />
+          <br/>
+          Response Bundle<br/>
+          <textarea
+              rows={15}
+              cols={80}
+              type="textarea"
+              value={JSON.stringify(searchResults.data, null, 2)}
+          />
         </div>
 
     );

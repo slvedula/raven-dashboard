@@ -7,24 +7,15 @@ import BouncingBalls from "../bouncing-balls";
 
 export default class ConnectathonSearchModal extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      searchResultsVisible: true,
-      showCloseButton: true,
-
-    };
-
-  }
-
   render() {
-    const {explore, handleFieldClick} = this.props;
-    const {searchResultIsVisible} = this.state;
     const {
-      isLoading,
-      isLoadError
+      connectathon: {
+        isLoading,
+        isLoadError,
+        searchResults
+      }
     } = this.props;
+
 
     // Render DOM
     return (
@@ -53,16 +44,30 @@ export default class ConnectathonSearchModal extends Component {
                     }
                     <table className="table is-fullwidth">
                       <thead>
-                      <tr>
-                        <th>Demographic</th>
-                        <th>Case #</th>
-                        <th>Time of Death</th>
-                        <th>System</th>
-                        <th>Status</th>
-                      </tr>
+                        <tr>
+                          <th>Demographic</th>
+                          <th>Case #</th>
+                          <th>Time of Death</th>
+                          <th>System</th>
+                          <th>Status</th>
+                        </tr>
                       </thead>
-                      <tbody className="no-data-message"><tr><td>No results.</td></tr></tbody>
+
+                      <tbody className="no-data-message">
+                        <tr>
+                          <td>
+                            {searchResults.data.total} results found.
+                          </td>
+                        </tr>
+                      </tbody>
+
                     </table>
+                    <textarea
+                        rows={15}
+                        cols={50}
+                        type="textarea"
+                        value={JSON.stringify(searchResults, null, 2)}
+                    />
                   </>
               )}
             </section>

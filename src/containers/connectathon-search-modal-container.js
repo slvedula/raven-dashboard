@@ -3,7 +3,7 @@ import ConnectathonSearchModal from '../components/case/connectathon-search-moda
 
 function mapStateToProps(state, ownProps) {
   return {
-    case: state.case
+    connectathon: state.connectathon
   };
 }
 
