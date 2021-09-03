@@ -23,9 +23,6 @@ export default class Connectathon extends Component {
   setParameters = (params) => {
     this.setState({parameters: params});
   };
-  setSearchResults = (searchResults) => {
-    this.setState({searchResults: searchResults})
-  };
 
   // On Button Click, search the FHIR Server for MDI Documents matching params.
   // TODO: Pass bundle result and show in result list.
@@ -79,7 +76,8 @@ export default class Connectathon extends Component {
   updateParameterResource(element, e, valueType = "valueString") {
     // Pull the value from the onChange event and trim the string.
     var value = e.target.value;
-    var value = value.trim();
+    value = value.trim();
+    this.props.updateParameterResource(element, value, valueType);
 
     // Parse the string as JSON to allow operations.
     // TODO: Remove if the state is changed to be stored as JSON instead of string representation.
@@ -139,13 +137,10 @@ export default class Connectathon extends Component {
 
 
   componentDidUpdate() {
-    console.log("Did Update");
-    console.log(this.props.connectathon);
-    console.log(this.state);
+
   }
 
   render() {
-    //const { searchResults } = this.state;
     const {
       case:
           {
@@ -162,7 +157,8 @@ export default class Connectathon extends Component {
           },
         connectathon: {
             searchResults,
-            edrsServers
+            edrsServers,
+            parameterResource
         }
     } = this.props;
 
@@ -254,7 +250,23 @@ export default class Connectathon extends Component {
               cols={80}
           />
           <br/>
+          Parameters (State)<br/>
+          <textarea
+              type="textarea"
+              value={JSON.stringify(parameterResource, null, 2)}
+              rows={15}
+              cols={80}
+          />
+          <br/>
           Response Bundle<br/>
+          <textarea
+              rows={15}
+              cols={80}
+              type="textarea"
+              value={JSON.stringify(searchResults.data, null, 2)}
+          />
+          <br/>
+          Selected Case Document<br/>
           <textarea
               rows={15}
               cols={80}

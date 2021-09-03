@@ -1,5 +1,19 @@
 import axios from "axios";
 
+
+export function updateParameterResource(name, value, valueType = "valueString") {
+  return (dispatch) => {
+    dispatch({
+      type: 'UPDATE_PARAMETER_RESOURCE',
+      data: {
+        name: name,
+        value: value,
+        valueType: valueType
+      }
+    });
+  }
+}
+
 export function searchWithParams(serverBase, parameters, basicAuth = {}) {
   return (dispatch) => {
     return new Promise(function(resolve, reject) {

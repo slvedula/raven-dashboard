@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import Connectathon from '../components/case/connectathon'
-import {searchWithParams} from '../actions/connectathon'
+import {searchWithParams, updateParameterResource } from '../actions/connectathon'
 
 function mapStateToProps(state, ownProps) {
   return {
@@ -10,6 +10,7 @@ function mapStateToProps(state, ownProps) {
 }
 
 const connectathonContainer = connect(mapStateToProps, {
+  updateParameterResource,
   searchWithParams
 })(Connectathon);
 
