@@ -6,44 +6,113 @@ const initialState = {
   isLoadError: false,
   searchResultsVisible: false,
   searchResults: {},
+  // TODO REMOVE AFTER TESTING
+  searchResultsCompact: [
+    {
+      id: "0a951eaf-f78f-4cb3-925b-08e6ab00c5fc",
+      first: "Mark",
+      last: "Markinson",
+      gender: "male",
+      deathDate: "1/1/20",
+      placeOfDeath: "FULTON"
+    },
+    {
+      id: "0a951eaf-f78f-4cb3-925b-08e6ab00c5fc",
+      first: "Bob",
+      last: "Bobinson",
+      gender: "male",
+      deathDate: "1/1/20",
+      placeOfDeath: "DEKALB"
+    }
+  ],
+  searchCompleted: false,
   parameterResource: {
     "resourceType": "Parameters",
     "parameter": []
   },
   edrsServers: [
     {
-      name: "Raven FHIR Server (Demo)",
-      serverBase: "https://apps.hdap.gatech.edu/raven-fhir-server/fhir/",
-      user: "client",
-      pass: "secret",
+      label: "BlueJay FHIR Server (Demo)",
+      header: {
+        baseURL: 'https://apps.hdap.gatech.edu/bluejay-fhir-server/fhir/',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        auth: {
+          username: 'client',
+          password: 'secret'
+        }
+      },
+      capabilityStatement: {},
+      operationDefinition: {}
     },
     {
-      name: "Georgia EDRS",
-      serverBase: "http://65.61.13.216/FHIR2021/WebApi/FHIR/r4/"
+      label: "GAVERS (Georgia EDRS)",
+      header: {
+        baseURL: 'http://65.61.13.216/FHIR2021/WebApi/FHIR/r4/',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      },
+      capabilityStatement: {},
+      operationDefinition: {}
     }
   ]
 }
 
+function createCompactResults(data){
+  // TODO CREATE COMPACT RESULTS
+  return [];
+}
+
 export function connectathonReducer(state = initialState, action) {
-  console.log(action.type);
-  console.log(action);
   if (action.type === "SEARCH_WITH_PARAMS_FULFILLED") {
     let newState = Object.assign({}, state, {
       searchResults: action.data,
       isLoading: false,
       isLoaded: true,
-      isLoadError: false
+      isLoadError: false,
+      //searchResultsCompact: createCompactResults(action.data),
+      searchCompleted: true
     });
     return newState;
   }
-  if (action.type === "UPDATE_PARAMETER_RESOURCE") {
 
+  if (action.type === "UPDATE_PARAMETER_RESOURCE") {
     let newState = Object.assign( {}, state, {
       parameterResource: updateParameterResource(state, action.data)
     });
     return newState;
   }
+
+  if (action.type === "INITIALIZE_PARAMETER_RESOURCE"){
+    let newState = Object.assign({}, state, {
+      parameterResource: initializeParameterResource(state, action.data)
+    });
+    return newState;
+  }
+
   return state;
+}
+
+// Create the initial Parameter Resource when the case is updated.
+// TODO: TEST THIS SWITCHING CASES!!!!!! Probably have to have a way to handle reset based on id.
+function initializeParameterResource(state, data) {
+  //TODO: Initialize based on case state items supported.
+  var parametersJSON = state.parameterResource;
+  var parameterList = parametersJSON["parameter"];
+  let listOfKeys = Object.keys(data.navBottom);
+  listOfKeys.map(key => {
+    if (data.navBottom[key]) {
+      let parameterDefinition = lookUpParameterFromMap(key);
+      let parameterName = parameterDefinition[0];
+      let parameterType = parameterDefinition[1];
+      if (!!parameterName) {
+        parameterList.push(mapParameterEntry(parameterName, data.navBottom[key], parameterType));
+      }
+    }
+  });
+  return parametersJSON;
 }
 
 function updateParameterResource(state, parameter) {
@@ -105,4 +174,24 @@ function mapParameterEntry(element, value, valueType = "valueString"){
   entry["name"] = element;
   entry[valueType] = value
   return entry;
+}
+
+
+// TODO: Create key map from csv field name to parameter name value(element).
+// TODO: Restructure to include types. Or add a second lookup?
+function lookUpParameterFromMap(key){
+  // TODO: Move this somewhere better for maintenance.
+  let parameterNameMap = {
+    gender: "decedent.gender",
+    firstName: "decedent.given",
+    lastName: "decedent.family",
+    dateOfDeath: "vrdr-death-date.value-date"
+  };
+  let parameterTypeMap = {
+    gender: "valueString",
+    firstName: "valueString",
+    lastName: "valueString",
+    dateOfDeath: "valueDate"
+  }
+  return [parameterNameMap[key], parameterTypeMap[key]];
 }

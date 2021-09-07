@@ -12,7 +12,9 @@ export default class ConnectathonSearchModal extends Component {
       connectathon: {
         isLoading,
         isLoadError,
-        searchResults
+        searchResults,
+        searchResultsCompact,
+        searchCompleted
       }
     } = this.props;
 
@@ -54,20 +56,25 @@ export default class ConnectathonSearchModal extends Component {
                       </thead>
 
                       <tbody className="no-data-message">
+
                         <tr>
                           <td>
                             {searchResults.data.total} results found.
                           </td>
                         </tr>
+                        <tr>
+                          <td>
+                          </td>
+                        </tr>
                       </tbody>
 
                     </table>
-                    <textarea
+                    { searchCompleted ? (<textarea
                         rows={15}
                         cols={50}
                         type="textarea"
-                        value={JSON.stringify(searchResults, null, 2)}
-                    />
+                        value={JSON.stringify(searchResultsCompact, null, 2)}
+                    />) : ("Search Not Complete")}
                   </>
               )}
             </section>
